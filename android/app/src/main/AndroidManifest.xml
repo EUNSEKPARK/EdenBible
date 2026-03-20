@@ -1,4 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 유튜브 썸네일 로드, url_launcher 등 네트워크 사용 -->
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:label="에덴 성경책"
         android:name="${applicationName}"
@@ -27,17 +30,14 @@
     </application>
 
     <queries>
-        <!-- url_launcher: 브라우저 열기 -->
         <intent>
             <action android:name="android.intent.action.VIEW"/>
             <data android:scheme="https"/>
         </intent>
-        <!-- url_launcher: 유튜브 앱 열기 -->
         <intent>
             <action android:name="android.intent.action.VIEW"/>
             <data android:scheme="youtube"/>
         </intent>
-        <!-- share_plus: 공유 -->
         <intent>
             <action android:name="android.intent.action.PROCESS_TEXT"/>
             <data android:mimeType="text/plain"/>
