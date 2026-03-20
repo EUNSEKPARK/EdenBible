@@ -192,11 +192,12 @@ class _UnifiedBottomBar extends StatelessWidget {
           return GestureDetector(onTap: () {
             if (playing) { tts.stop(); return; }
             if (hasSelection) {
-              // 선택된 절부터 읽기
+              // 선택된 절부터 끝까지 읽기 (하이라이트도 정확한 위치에 표시)
               final startIdx = verses.indexOf(selectedVerse!);
-              final texts = verses.skip(startIdx >= 0 ? startIdx : 0).map((v) => translation == 'krv' ? v.krv : v.kjv).toList();
+              final offset = startIdx >= 0 ? startIdx : 0;
+              final texts = verses.skip(offset).map((v) => translation == 'krv' ? v.krv : v.kjv).toList();
               if (texts.isEmpty) return;
-              translation == 'kjv' ? tts.setEnglish() : tts.setKorean(); tts.speakVerses(texts);
+              translation == 'kjv' ? tts.setEnglish() : tts.setKorean(); tts.speakVerses(texts, startOffset: offset);
             } else {
               final texts = verses.map((v) => translation == 'krv' ? v.krv : v.kjv).toList();
               if (texts.isEmpty) return;

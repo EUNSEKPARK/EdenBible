@@ -214,24 +214,6 @@ class _SettingsViewState extends State<SettingsView> {
             ]),
           ]),
         ),
-        const SizedBox(height: 20),
-
-        // ═══ 프리미엄 배너 ═══
-        Container(clipBehavior: Clip.antiAlias, decoration: BoxDecoration(borderRadius: BorderRadius.circular(16)),
-          child: Stack(children: [
-            Positioned.fill(child: Image.asset('assets/images/shared/premium_banner.png', fit: BoxFit.cover)),
-            Positioned.fill(child: Container(decoration: BoxDecoration(gradient: LinearGradient(colors: [EdenColors.primary.withValues(alpha: 0.85), EdenColors.secondary.withValues(alpha: 0.8)], begin: Alignment.topLeft, end: Alignment.bottomRight)))),
-            Padding(padding: const EdgeInsets.all(20), child: Row(children: [
-              Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Row(children: [const Icon(Icons.auto_awesome, size: 18, color: Colors.white), const SizedBox(width: 8), const Text('에덴 프리미엄', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: Colors.white))]),
-                const SizedBox(height: 4),
-                Text('준비 중입니다. 곧 더 많은 기능을 만나보세요.', style: TextStyle(fontSize: 13, color: Colors.white.withValues(alpha: 0.9))),
-              ])),
-              GestureDetector(onTap: () => ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('준비 중입니다'), behavior: SnackBarBehavior.floating)),
-                child: Container(padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10), decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(50)),
-                  child: Text('업그레이드', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w800, color: EdenColors.primary)))),
-            ])),
-          ])),
         const SizedBox(height: 28),
 
         // ═══ 읽기 설정 ═══
@@ -277,9 +259,6 @@ class _SettingsViewState extends State<SettingsView> {
 
         GestureDetector(onTap: _showGoalPicker,
           child: _tile(isDark: isDark, icon: Icons.flag_rounded, label: '하루 읽기 목표', subtitle: '${_settings.dailyGoalChapters}장 / 일', trailing: Icon(Icons.chevron_right, color: EdenColors.textTertiaryLight))),
-        const SizedBox(height: 10),
-
-        _tile(isDark: isDark, icon: Icons.notifications_outlined, label: '오늘의 말씀 알림', subtitle: '향후 업데이트에서 추가 예정', trailing: Icon(Icons.lock_outline_rounded, size: 18, color: EdenColors.textTertiaryLight)),
         const SizedBox(height: 28),
 
         // ═══ 데이터 관리 ═══

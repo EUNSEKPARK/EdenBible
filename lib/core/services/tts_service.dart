@@ -16,14 +16,17 @@ class TtsService extends ChangeNotifier {
   int _speedIndex = 2;
 
   // 절 단위 재생 추적
-  int _currentVerseIndex = -1;   // 현재 읽고 있는 절 인덱스 (-1 = 미재생)
-  List<String> _verseQueue = [];  // 읽을 절 목록
-  bool _verseModeActive = false;  // 절 단위 모드 활성화 여부
+  int _currentVerseIndex = -1;
+  int _startOffset = 0;          // 선택된 절부터 시작할 때 오프셋
+  List<String> _verseQueue = [];
+  bool _verseModeActive = false;
 
   bool get isPlaying => _isPlaying;
   double get speechRate => _speechRate;
   String get speedLabel => _speedLabels[_speedIndex];
-  int get currentVerseIndex => _currentVerseIndex;
+
+  /// 현재 읽고 있는 절의 실제 인덱스 (전체 목록 기준)
+  int get currentVerseIndex => _currentVerseIndex >= 0 ? _currentVerseIndex + _startOffset : -1;
 
   static const _speedValues = [0.3, 0.4, 0.5, 0.65, 0.8];
   static const _speedLabels = ['0.5x', '0.75x', '1.0x', '1.25x', '1.5x'];
@@ -37,11 +40,11 @@ class TtsService extends ChangeNotifier {
 
     _tts.setCompletionHandler(() {
       if (_verseModeActive) {
-        // 다음 절로 이동
         _playNextVerse();
       } else {
         _isPlaying = false;
         _currentVerseIndex = -1;
+        _startOffset = 0;
         notifyListeners();
       }
     });
@@ -49,6 +52,7 @@ class TtsService extends ChangeNotifier {
     _tts.setCancelHandler(() {
       _isPlaying = false;
       _currentVerseIndex = -1;
+      _startOffset = 0;
       _verseModeActive = false;
       _verseQueue = [];
       notifyListeners();
@@ -63,26 +67,28 @@ class TtsService extends ChangeNotifier {
     if (_isPlaying) { await stop(); return; }
     _verseModeActive = false;
     _currentVerseIndex = -1;
+    _startOffset = 0;
     _isPlaying = true;
     notifyListeners();
     await _tts.speak(text);
   }
 
   /// 절 단위 순차 읽기 (하이라이트 연동)
-  Future<void> speakVerses(List<String> verses) async {
+  /// [startOffset]: 전체 절 목록에서의 시작 인덱스 (0-based)
+  Future<void> speakVerses(List<String> verses, {int startOffset = 0}) async {
     await init();
     if (verses.isEmpty) return;
 
     _verseQueue = List.from(verses);
     _verseModeActive = true;
     _currentVerseIndex = 0;
+    _startOffset = startOffset;
     _isPlaying = true;
     notifyListeners();
 
     await _tts.speak(_verseQueue[0]);
   }
 
-  /// 다음 절 재생 (내부 호출)
   void _playNextVerse() {
     final nextIndex = _currentVerseIndex + 1;
     if (nextIndex < _verseQueue.length) {
@@ -90,9 +96,9 @@ class TtsService extends ChangeNotifier {
       notifyListeners();
       _tts.speak(_verseQueue[nextIndex]);
     } else {
-      // 모든 절 읽기 완료
       _isPlaying = false;
       _currentVerseIndex = -1;
+      _startOffset = 0;
       _verseModeActive = false;
       _verseQueue = [];
       notifyListeners();
@@ -102,6 +108,7 @@ class TtsService extends ChangeNotifier {
   Future<void> stop() async {
     _isPlaying = false;
     _currentVerseIndex = -1;
+    _startOffset = 0;
     _verseModeActive = false;
     _verseQueue = [];
     notifyListeners();
