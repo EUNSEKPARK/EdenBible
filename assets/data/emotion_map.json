@@ -1,0 +1,661 @@
+{
+  "meta": {
+    "version": "1.0.0",
+    "total_categories": 10,
+    "total_situations": 35,
+    "description": "에덴 버튼형 감정 매칭 AI 데이터"
+  },
+  "categories": [
+    {
+      "id": "anxiety",
+      "emoji": "😔",
+      "label": "불안",
+      "color": "#7B8FA1",
+      "icon": "psychology",
+      "situations": [
+        {
+          "id": "anxiety_future",
+          "label": "미래에 대한 걱정",
+          "icon": "hourglass_empty",
+          "response": {
+            "ai_message": "미래가 막막하게 느껴지시나요? 보이지 않는 내일이 두렵고, 어떤 선택이 옳은지 모르겠는 그 마음을 충분히 이해해요. 하지만 하나님은 당신의 내일을 이미 알고 계시고, 가장 좋은 길로 인도하실 거예요.",
+            "verses": [
+              {"ref": "예레미야 29:11", "book_id": 24, "chapter": 29, "verse": 11},
+              {"ref": "마태복음 6:34", "book_id": 40, "chapter": 6, "verse": 34}
+            ],
+            "prayer_guide": "하나님, 보이지 않는 내일이 두렵습니다. 하지만 주님이 나의 미래를 붙잡고 계심을 믿습니다. 오늘 하루도 주님께 맡기며, 주님의 인도하심을 따르겠습니다. 아멘.",
+            "youtube_curated": [
+              {"title": "불안한 마음에 평안을 주는 찬양", "video_id": "placeholder_1"},
+              {"title": "미래가 걱정될 때 듣는 설교", "video_id": "placeholder_2"}
+            ]
+          }
+        },
+        {
+          "id": "anxiety_money",
+          "label": "경제적 어려움",
+          "icon": "account_balance_wallet",
+          "response": {
+            "ai_message": "경제적인 걱정이 마음을 무겁게 하고 있군요. 돈 문제는 마음의 평안까지 흔들어 놓곤 하죠. 하나님은 공중의 새도 먹이시는 분이에요. 당신의 필요를 아시는 하나님을 신뢰해 보세요.",
+            "verses": [
+              {"ref": "빌립보서 4:19", "book_id": 50, "chapter": 4, "verse": 19},
+              {"ref": "마태복음 6:26", "book_id": 40, "chapter": 6, "verse": 26}
+            ],
+            "prayer_guide": "하나님 아버지, 경제적으로 어려운 시간을 보내고 있습니다. 주님이 모든 것을 공급하시는 분이심을 믿고 의지합니다. 필요를 채워주시고 지혜를 주세요. 아멘.",
+            "youtube_curated": [
+              {"title": "어려울 때 위로가 되는 찬양", "video_id": "placeholder_3"},
+              {"title": "경제적 어려움 속 믿음의 설교", "video_id": "placeholder_4"}
+            ]
+          }
+        },
+        {
+          "id": "anxiety_health",
+          "label": "건강 문제",
+          "icon": "health_and_safety",
+          "response": {
+            "ai_message": "건강에 대한 걱정이 크시군요. 몸이 아프면 마음도 함께 힘들어지죠. 치료하시는 하나님이 당신과 함께 하시고, 회복의 손길을 내밀고 계세요.",
+            "verses": [
+              {"ref": "시편 103:3", "book_id": 19, "chapter": 103, "verse": 3},
+              {"ref": "이사야 53:5", "book_id": 23, "chapter": 53, "verse": 5}
+            ],
+            "prayer_guide": "주님, 몸이 아파서 두렵고 힘듭니다. 치료자이신 하나님께 온전히 맡깁니다. 회복하게 해 주시고, 이 시간도 주님의 은혜로 견딜 수 있게 해 주세요. 아멘.",
+            "youtube_curated": [
+              {"title": "아플 때 위로가 되는 찬양", "video_id": "placeholder_5"},
+              {"title": "치유를 위한 기도 음악", "video_id": "placeholder_6"}
+            ]
+          }
+        },
+        {
+          "id": "anxiety_exam",
+          "label": "시험 · 진로 걱정",
+          "icon": "school",
+          "response": {
+            "ai_message": "시험이나 진로 때문에 마음이 조급하시죠? 결과가 어떻게 될지 모르는 불확실함이 가장 힘든 법이에요. 최선을 다한 뒤에는 결과를 하나님께 맡겨보세요.",
+            "verses": [
+              {"ref": "잠언 3:5-6", "book_id": 20, "chapter": 3, "verse": 5},
+              {"ref": "여호수아 1:9", "book_id": 6, "chapter": 1, "verse": 9}
+            ],
+            "prayer_guide": "하나님, 앞으로의 진로가 걱정됩니다. 제가 가야 할 길을 보여주시고, 어떤 결과든 주님의 뜻 안에서 받아들일 수 있는 믿음을 주세요. 아멘.",
+            "youtube_curated": [
+              {"title": "시험 앞에 듣는 힘이 되는 찬양", "video_id": "placeholder_7"},
+              {"title": "진로 고민에 대한 말씀", "video_id": "placeholder_8"}
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "sadness",
+      "emoji": "😢",
+      "label": "슬픔",
+      "color": "#6B7B8D",
+      "icon": "water_drop",
+      "situations": [
+        {
+          "id": "sadness_loss",
+          "label": "소중한 사람을 잃었을 때",
+          "icon": "favorite_border",
+          "response": {
+            "ai_message": "큰 슬픔 가운데 계시는군요. 사랑하는 사람을 떠나보내는 것은 세상에서 가장 힘든 일 중 하나예요. 눈물을 흘려도 괜찮아요. 하나님도 함께 우시는 분이에요.",
+            "verses": [
+              {"ref": "시편 34:18", "book_id": 19, "chapter": 34, "verse": 18},
+              {"ref": "요한복음 11:35", "book_id": 43, "chapter": 11, "verse": 35}
+            ],
+            "prayer_guide": "하나님, 너무 슬프고 마음이 찢어지는 것 같습니다. 이 아픔을 주님께 드립니다. 위로해 주시고, 다시 일어설 수 있는 힘을 주세요. 아멘.",
+            "youtube_curated": [
+              {"title": "슬픔 가운데 위로가 되는 찬양", "video_id": "placeholder_9"},
+              {"title": "상실의 아픔을 위한 설교", "video_id": "placeholder_10"}
+            ]
+          }
+        },
+        {
+          "id": "sadness_lonely",
+          "label": "외로움",
+          "icon": "person_outline",
+          "response": {
+            "ai_message": "외롭고 혼자인 것 같은 느낌이 드시나요? 아무도 나를 이해해 주지 않는 것 같은 그 막막함, 충분히 공감해요. 하지만 하나님은 절대 당신을 혼자 두지 않으세요.",
+            "verses": [
+              {"ref": "신명기 31:8", "book_id": 5, "chapter": 31, "verse": 8},
+              {"ref": "시편 23:4", "book_id": 19, "chapter": 23, "verse": 4}
+            ],
+            "prayer_guide": "하나님, 외롭습니다. 아무도 제 마음을 모르는 것 같아요. 하지만 주님은 항상 함께하신다고 약속하셨으니, 그 약속을 붙잡겠습니다. 아멘.",
+            "youtube_curated": [
+              {"title": "외로울 때 듣는 위로의 찬양", "video_id": "placeholder_11"},
+              {"title": "혼자가 아닌 당신에게", "video_id": "placeholder_12"}
+            ]
+          }
+        },
+        {
+          "id": "sadness_failure",
+          "label": "실패 · 좌절",
+          "icon": "trending_down",
+          "response": {
+            "ai_message": "열심히 했는데 결과가 따라오지 않을 때, 정말 마음이 무너지죠. 하지만 실패는 끝이 아니라 새로운 시작이에요. 하나님은 넘어진 자를 일으키시는 분이에요.",
+            "verses": [
+              {"ref": "시편 37:24", "book_id": 19, "chapter": 37, "verse": 24},
+              {"ref": "로마서 8:28", "book_id": 45, "chapter": 8, "verse": 28}
+            ],
+            "prayer_guide": "하나님, 실패해서 너무 힘듭니다. 하지만 이 경험도 주님의 계획 안에 있음을 믿습니다. 다시 일어설 수 있는 용기를 주세요. 아멘.",
+            "youtube_curated": [
+              {"title": "실패 후 다시 일어서는 힘", "video_id": "placeholder_13"},
+              {"title": "좌절 속에서 듣는 찬양", "video_id": "placeholder_14"}
+            ]
+          }
+        },
+        {
+          "id": "sadness_depression",
+          "label": "우울 · 무기력",
+          "icon": "cloud",
+          "response": {
+            "ai_message": "모든 게 무기력하고 의미 없게 느껴지시나요? 그 무거운 마음을 안고 오늘 하루를 버티고 계신 것만으로도 정말 대단해요. 주님이 당신의 마음에 빛을 비춰주실 거예요.",
+            "verses": [
+              {"ref": "시편 42:11", "book_id": 19, "chapter": 42, "verse": 11},
+              {"ref": "이사야 41:10", "book_id": 23, "chapter": 41, "verse": 10}
+            ],
+            "prayer_guide": "하나님, 마음이 너무 무겁습니다. 아무것도 하고 싶지 않고, 모든 게 의미 없게 느껴져요. 주님의 빛으로 이 어둠을 밝혀주세요. 아멘.",
+            "youtube_curated": [
+              {"title": "우울할 때 듣는 잔잔한 찬양", "video_id": "placeholder_15"},
+              {"title": "무기력할 때 힘이 되는 말씀", "video_id": "placeholder_16"}
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "relationship",
+      "emoji": "💔",
+      "label": "관계",
+      "color": "#A67B5B",
+      "icon": "people",
+      "situations": [
+        {
+          "id": "rel_family",
+          "label": "가족 갈등",
+          "icon": "family_restroom",
+          "response": {
+            "ai_message": "가장 가까운 가족과의 갈등은 더 깊이 아프죠. 서로 사랑하기 때문에 상처도 큰 법이에요. 하나님의 지혜로 화해의 길을 찾을 수 있을 거예요.",
+            "verses": [
+              {"ref": "골로새서 3:13", "book_id": 51, "chapter": 3, "verse": 13},
+              {"ref": "잠언 15:1", "book_id": 20, "chapter": 15, "verse": 1}
+            ],
+            "prayer_guide": "하나님, 가족 사이에 갈등이 있습니다. 서로를 이해하고 용서할 수 있는 마음을 주세요. 가정에 평화를 회복시켜 주세요. 아멘.",
+            "youtube_curated": [
+              {"title": "가정을 위한 기도 찬양", "video_id": "placeholder_17"},
+              {"title": "가족 갈등 회복 설교", "video_id": "placeholder_18"}
+            ]
+          }
+        },
+        {
+          "id": "rel_friend",
+          "label": "친구 · 동료 문제",
+          "icon": "people_outline",
+          "response": {
+            "ai_message": "믿었던 사람과의 관계가 틀어지면 정말 마음이 아프죠. 사람과의 관계에서 오는 상처는 시간이 걸려요. 천천히, 하나님의 시간 속에서 치유받으세요.",
+            "verses": [
+              {"ref": "잠언 17:17", "book_id": 20, "chapter": 17, "verse": 17},
+              {"ref": "로마서 12:18", "book_id": 45, "chapter": 12, "verse": 18}
+            ],
+            "prayer_guide": "하나님, 관계 때문에 마음이 아픕니다. 상대방을 이해할 수 있는 넓은 마음을 주시고, 이 관계를 회복시켜 주세요. 아멘.",
+            "youtube_curated": [
+              {"title": "관계 회복을 위한 찬양", "video_id": "placeholder_19"},
+              {"title": "인간관계 지혜 설교", "video_id": "placeholder_20"}
+            ]
+          }
+        },
+        {
+          "id": "rel_forgiveness",
+          "label": "용서가 어려울 때",
+          "icon": "handshake",
+          "response": {
+            "ai_message": "용서하고 싶은데 마음이 따라오지 않는 경험, 정말 힘들죠. 용서는 상대를 위한 것이 아니라 나 자신을 자유롭게 하는 일이에요. 하나님이 그 힘을 주실 거예요.",
+            "verses": [
+              {"ref": "에베소서 4:32", "book_id": 49, "chapter": 4, "verse": 32},
+              {"ref": "마태복음 6:14", "book_id": 40, "chapter": 6, "verse": 14}
+            ],
+            "prayer_guide": "하나님, 용서하고 싶은데 마음이 너무 아픕니다. 주님이 저를 용서해 주신 것처럼, 저도 용서할 수 있는 힘을 주세요. 아멘.",
+            "youtube_curated": [
+              {"title": "용서에 관한 감동적인 찬양", "video_id": "placeholder_21"},
+              {"title": "용서의 힘 설교", "video_id": "placeholder_22"}
+            ]
+          }
+        },
+        {
+          "id": "rel_betrayal",
+          "label": "배신당한 아픔",
+          "icon": "heart_broken",
+          "response": {
+            "ai_message": "믿었던 사람에게 배신당하면 세상 전체가 무너지는 것 같죠. 그 아픔과 분노는 당연한 감정이에요. 하나님은 상한 마음을 고쳐주시는 분이에요.",
+            "verses": [
+              {"ref": "시편 55:22", "book_id": 19, "chapter": 55, "verse": 22},
+              {"ref": "시편 147:3", "book_id": 19, "chapter": 147, "verse": 3}
+            ],
+            "prayer_guide": "하나님, 배신당해서 마음이 찢어집니다. 이 상처를 주님께 맡기고 치유받기 원합니다. 다시 사람을 믿을 수 있게 해 주세요. 아멘.",
+            "youtube_curated": [
+              {"title": "상처받은 마음을 위한 찬양", "video_id": "placeholder_23"},
+              {"title": "배신 후 회복 이야기", "video_id": "placeholder_24"}
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "gratitude",
+      "emoji": "🙏",
+      "label": "감사",
+      "color": "#C9A96E",
+      "icon": "volunteer_activism",
+      "situations": [
+        {
+          "id": "grat_daily",
+          "label": "일상의 감사",
+          "icon": "wb_sunny",
+          "response": {
+            "ai_message": "오늘 하루에 감사한 마음이 드셨군요! 작은 것에 감사할 줄 아는 당신의 마음이 참 아름다워요. 감사는 우리의 영혼을 건강하게 해주는 가장 좋은 약이에요.",
+            "verses": [
+              {"ref": "데살로니가전서 5:18", "book_id": 52, "chapter": 5, "verse": 18},
+              {"ref": "시편 118:24", "book_id": 19, "chapter": 118, "verse": 24}
+            ],
+            "prayer_guide": "하나님, 오늘도 살아있음에 감사합니다. 숨 쉴 수 있는 것, 사랑하는 사람들이 있는 것, 주님이 함께하시는 것에 감사드립니다. 아멘.",
+            "youtube_curated": [
+              {"title": "감사 찬양 모음", "video_id": "placeholder_25"},
+              {"title": "감사의 능력 설교", "video_id": "placeholder_26"}
+            ]
+          }
+        },
+        {
+          "id": "grat_answer",
+          "label": "기도 응답 감사",
+          "icon": "celebration",
+          "response": {
+            "ai_message": "기도가 응답되었군요! 하나님이 당신의 기도를 듣고 계셨다는 증거예요. 이 기쁨을 간직하고, 앞으로도 기도로 주님과 대화해 보세요.",
+            "verses": [
+              {"ref": "시편 116:1-2", "book_id": 19, "chapter": 116, "verse": 1},
+              {"ref": "요한일서 5:14", "book_id": 62, "chapter": 5, "verse": 14}
+            ],
+            "prayer_guide": "하나님, 기도를 들어주셔서 감사합니다! 주님의 신실하심을 찬양합니다. 앞으로도 모든 일에 기도로 아뢰겠습니다. 아멘.",
+            "youtube_curated": [
+              {"title": "기도 응답 감사 찬양", "video_id": "placeholder_27"},
+              {"title": "기도의 능력 간증", "video_id": "placeholder_28"}
+            ]
+          }
+        },
+        {
+          "id": "grat_hardship",
+          "label": "어려움 속 감사",
+          "icon": "emoji_events",
+          "response": {
+            "ai_message": "어려운 상황 속에서도 감사를 발견하시다니 정말 대단해요. 고난 중에도 감사할 수 있는 믿음은 가장 강한 믿음이에요. 하나님이 당신과 함께 걸어가고 계세요.",
+            "verses": [
+              {"ref": "야고보서 1:2-4", "book_id": 59, "chapter": 1, "verse": 2},
+              {"ref": "로마서 5:3-5", "book_id": 45, "chapter": 5, "verse": 3}
+            ],
+            "prayer_guide": "하나님, 힘든 상황이지만 그 안에서도 주님을 느낍니다. 이 시련을 통해 더 단단한 믿음을 갖게 해 주세요. 감사합니다. 아멘.",
+            "youtube_curated": [
+              {"title": "고난 중 감사 찬양", "video_id": "placeholder_29"},
+              {"title": "시련 속 은혜 간증", "video_id": "placeholder_30"}
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "anger",
+      "emoji": "😤",
+      "label": "분노",
+      "color": "#C97B5B",
+      "icon": "flash_on",
+      "situations": [
+        {
+          "id": "anger_injustice",
+          "label": "불공평 · 억울함",
+          "icon": "gavel",
+          "response": {
+            "ai_message": "세상이 불공평하게 느껴지고, 억울한 일을 당하셨군요. 그 분노는 정당한 감정이에요. 하나님은 공의의 하나님이시고, 모든 것을 바르게 판단하실 거예요.",
+            "verses": [
+              {"ref": "시편 37:7-8", "book_id": 19, "chapter": 37, "verse": 7},
+              {"ref": "로마서 12:19", "book_id": 45, "chapter": 12, "verse": 19}
+            ],
+            "prayer_guide": "하나님, 너무 억울하고 화가 납니다. 이 분노를 주님께 드립니다. 공의로 판단하시는 하나님을 신뢰합니다. 제 마음에 평안을 주세요. 아멘.",
+            "youtube_curated": [
+              {"title": "분노를 다스리는 찬양", "video_id": "placeholder_31"},
+              {"title": "억울할 때 듣는 설교", "video_id": "placeholder_32"}
+            ]
+          }
+        },
+        {
+          "id": "anger_hurt",
+          "label": "상처받아 화가 날 때",
+          "icon": "whatshot",
+          "response": {
+            "ai_message": "누군가에게 깊이 상처받으셨군요. 아프니까 화가 나는 거예요. 그 마음을 억지로 누르지 마세요. 다만 그 분노가 당신을 갉아먹지 않도록 하나님께 내려놓아 보세요.",
+            "verses": [
+              {"ref": "에베소서 4:26", "book_id": 49, "chapter": 4, "verse": 26},
+              {"ref": "잠언 14:29", "book_id": 20, "chapter": 14, "verse": 29}
+            ],
+            "prayer_guide": "하나님, 상처받아서 화가 납니다. 이 분노를 주님께 내려놓고, 치유받기 원합니다. 마음의 평안을 주세요. 아멘.",
+            "youtube_curated": [
+              {"title": "상처 치유 찬양", "video_id": "placeholder_33"},
+              {"title": "화를 다스리는 지혜", "video_id": "placeholder_34"}
+            ]
+          }
+        },
+        {
+          "id": "anger_self",
+          "label": "나 자신에게 화가 날 때",
+          "icon": "person_off",
+          "response": {
+            "ai_message": "자신에게 실망하고 화가 나셨군요. 완벽하지 못한 자신을 자책하고 계신 거죠. 하지만 하나님은 부족한 그대로의 당신을 사랑하세요. 자신을 용서하는 것도 은혜예요.",
+            "verses": [
+              {"ref": "시편 139:14", "book_id": 19, "chapter": 139, "verse": 14},
+              {"ref": "고린도후서 12:9", "book_id": 47, "chapter": 12, "verse": 9}
+            ],
+            "prayer_guide": "하나님, 제가 너무 부족하게 느껴집니다. 하지만 주님이 저를 있는 그대로 사랑하심을 믿습니다. 자신을 용서할 수 있게 도와주세요. 아멘.",
+            "youtube_curated": [
+              {"title": "있는 그대로 사랑받는 찬양", "video_id": "placeholder_35"},
+              {"title": "자기 용서에 관한 말씀", "video_id": "placeholder_36"}
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "tired",
+      "emoji": "😴",
+      "label": "지침",
+      "color": "#8B9D83",
+      "icon": "battery_alert",
+      "situations": [
+        {
+          "id": "tired_burnout",
+          "label": "번아웃",
+          "icon": "local_fire_department",
+          "response": {
+            "ai_message": "완전히 지쳐버린 느낌이시군요. 열심히 달려온 당신에게 쉼이 필요해요. 쉬는 것도 하나님이 주신 축복이에요. 잠시 멈추어도 괜찮아요.",
+            "verses": [
+              {"ref": "마태복음 11:28", "book_id": 40, "chapter": 11, "verse": 28},
+              {"ref": "시편 23:1-2", "book_id": 19, "chapter": 23, "verse": 1}
+            ],
+            "prayer_guide": "하나님, 너무 지쳤습니다. 모든 것을 내려놓고 주님 안에서 쉬고 싶습니다. 새 힘을 주시고 회복시켜 주세요. 아멘.",
+            "youtube_curated": [
+              {"title": "지칠 때 듣는 평안한 찬양", "video_id": "placeholder_37"},
+              {"title": "번아웃 회복 묵상 음악", "video_id": "placeholder_38"}
+            ]
+          }
+        },
+        {
+          "id": "tired_spiritual",
+          "label": "영적 메마름",
+          "icon": "water_drop",
+          "response": {
+            "ai_message": "기도해도 하나님이 멀게 느껴지고, 말씀이 와닿지 않는 시간이 있죠. 그건 믿음이 없어서가 아니에요. 메마른 계절에도 뿌리는 자라고 있어요.",
+            "verses": [
+              {"ref": "시편 63:1", "book_id": 19, "chapter": 63, "verse": 1},
+              {"ref": "이사야 40:31", "book_id": 23, "chapter": 40, "verse": 31}
+            ],
+            "prayer_guide": "하나님, 영적으로 메마르고 주님이 멀게 느껴집니다. 다시 주님을 갈급하는 마음을 주시고, 생수로 채워주세요. 아멘.",
+            "youtube_curated": [
+              {"title": "영적 회복을 위한 찬양", "video_id": "placeholder_39"},
+              {"title": "메마를 때 듣는 설교", "video_id": "placeholder_40"}
+            ]
+          }
+        },
+        {
+          "id": "tired_work",
+          "label": "직장 · 학업 스트레스",
+          "icon": "work",
+          "response": {
+            "ai_message": "일이나 공부에 지치셨군요. 매일 반복되는 무거운 짐이 어깨를 누르고 있죠. 하나님은 당신의 수고를 보고 계시고, 그 노력을 헛되게 하지 않으세요.",
+            "verses": [
+              {"ref": "갈라디아서 6:9", "book_id": 48, "chapter": 6, "verse": 9},
+              {"ref": "고린도전서 15:58", "book_id": 46, "chapter": 15, "verse": 58}
+            ],
+            "prayer_guide": "하나님, 일과 공부에 지쳤습니다. 이 수고가 헛되지 않음을 믿습니다. 새 힘과 지혜를 주세요. 아멘.",
+            "youtube_curated": [
+              {"title": "직장인을 위한 위로 찬양", "video_id": "placeholder_41"},
+              {"title": "스트레스 해소 묵상", "video_id": "placeholder_42"}
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "sleepless",
+      "emoji": "🌙",
+      "label": "잠이 안 올 때",
+      "color": "#5B6B7B",
+      "icon": "nights_stay",
+      "situations": [
+        {
+          "id": "sleep_worry",
+          "label": "걱정이 많아서",
+          "icon": "psychology",
+          "response": {
+            "ai_message": "밤이 되면 걱정이 더 커지죠. 낮에는 괜찮았는데 잠자리에 누우면 생각이 밀려오는 그 느낌, 잘 알아요. 오늘 밤 하나님께 모든 걱정을 맡기고 편안히 쉬세요.",
+            "verses": [
+              {"ref": "시편 4:8", "book_id": 19, "chapter": 4, "verse": 8},
+              {"ref": "베드로전서 5:7", "book_id": 60, "chapter": 5, "verse": 7}
+            ],
+            "prayer_guide": "하나님, 밤이 되니 걱정이 밀려옵니다. 이 모든 염려를 주님께 맡깁니다. 편안한 잠을 주시고, 내일을 위한 새 힘을 채워주세요. 아멘.",
+            "youtube_curated": [
+              {"title": "잠잘 때 듣는 평안한 찬양", "video_id": "placeholder_43"},
+              {"title": "수면을 위한 성경 듣기", "video_id": "placeholder_44"}
+            ]
+          }
+        },
+        {
+          "id": "sleep_overthink",
+          "label": "생각이 멈추지 않아서",
+          "icon": "lightbulb",
+          "response": {
+            "ai_message": "머릿속이 쉬지 않고 돌아가고 있군요. 이 생각 저 생각이 꼬리를 물고 계속되죠. 잠시 모든 생각을 내려놓고, 주님의 평안 속에 마음을 쉬게 해보세요.",
+            "verses": [
+              {"ref": "빌립보서 4:6-7", "book_id": 50, "chapter": 4, "verse": 6},
+              {"ref": "이사야 26:3", "book_id": 23, "chapter": 26, "verse": 3}
+            ],
+            "prayer_guide": "하나님, 생각이 멈추지 않습니다. 모든 복잡한 생각을 주님께 드리고, 주님의 평안으로 마음을 지켜주세요. 고요한 밤을 허락해 주세요. 아멘.",
+            "youtube_curated": [
+              {"title": "마음을 고요하게 하는 묵상 음악", "video_id": "placeholder_45"},
+              {"title": "잠들기 전 평안 찬양", "video_id": "placeholder_46"}
+            ]
+          }
+        },
+        {
+          "id": "sleep_peace",
+          "label": "그냥 평안이 필요해서",
+          "icon": "spa",
+          "response": {
+            "ai_message": "특별한 이유 없이도 마음이 불안할 때가 있죠. 오늘 밤은 아무것도 걱정하지 말고, 하나님의 품 안에서 포근하게 잠들어 보세요.",
+            "verses": [
+              {"ref": "시편 91:1-2", "book_id": 19, "chapter": 91, "verse": 1},
+              {"ref": "요한복음 14:27", "book_id": 43, "chapter": 14, "verse": 27}
+            ],
+            "prayer_guide": "하나님, 오늘 밤 평안을 주세요. 주님의 날개 아래 안전하게 쉬기 원합니다. 좋은 꿈과 깊은 잠을 허락해 주세요. 아멘.",
+            "youtube_curated": [
+              {"title": "깊은 잠을 위한 잔잔한 찬양", "video_id": "placeholder_47"},
+              {"title": "밤에 듣는 시편 낭독", "video_id": "placeholder_48"}
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "joy",
+      "emoji": "😊",
+      "label": "기쁨",
+      "color": "#D4A84B",
+      "icon": "celebration",
+      "situations": [
+        {
+          "id": "joy_good_news",
+          "label": "좋은 소식이 있을 때",
+          "icon": "stars",
+          "response": {
+            "ai_message": "좋은 소식이 있으시군요! 기쁨도 하나님과 함께 나누면 더 커져요. 이 축복을 주신 하나님께 감사의 찬양을 드려보세요.",
+            "verses": [
+              {"ref": "시편 126:3", "book_id": 19, "chapter": 126, "verse": 3},
+              {"ref": "빌립보서 4:4", "book_id": 50, "chapter": 4, "verse": 4}
+            ],
+            "prayer_guide": "하나님, 이 기쁨을 주셔서 감사합니다! 모든 좋은 것은 주님께로부터 온다는 것을 고백합니다. 이 감사를 잊지 않겠습니다. 아멘.",
+            "youtube_curated": [
+              {"title": "기쁨의 찬양 모음", "video_id": "placeholder_49"},
+              {"title": "감사 예배 찬양", "video_id": "placeholder_50"}
+            ]
+          }
+        },
+        {
+          "id": "joy_praise",
+          "label": "찬양하고 싶을 때",
+          "icon": "music_note",
+          "response": {
+            "ai_message": "찬양으로 하나님을 높이고 싶은 마음이 드시다니 참 아름다워요! 찬양은 하나님의 임재를 경험하는 가장 가까운 길이에요. 마음껏 노래해 보세요.",
+            "verses": [
+              {"ref": "시편 150:6", "book_id": 19, "chapter": 150, "verse": 6},
+              {"ref": "시편 95:1", "book_id": 19, "chapter": 95, "verse": 1}
+            ],
+            "prayer_guide": "하나님, 주님을 찬양합니다! 호흡이 있는 모든 것이 주님을 찬양하게 하소서. 제 찬양이 향기로운 제물이 되기를 원합니다. 아멘.",
+            "youtube_curated": [
+              {"title": "은혜로운 찬양 베스트", "video_id": "placeholder_51"},
+              {"title": "라이브 워십 찬양", "video_id": "placeholder_52"}
+            ]
+          }
+        },
+        {
+          "id": "joy_testimony",
+          "label": "간증 · 나눔",
+          "icon": "record_voice_over",
+          "response": {
+            "ai_message": "하나님의 은혜를 나누고 싶으신 마음이 넘치시는군요! 간증은 듣는 사람에게도 큰 힘이 되고, 나누는 사람도 더 큰 은혜를 받게 되어요.",
+            "verses": [
+              {"ref": "시편 107:2", "book_id": 19, "chapter": 107, "verse": 2},
+              {"ref": "요한일서 1:3", "book_id": 62, "chapter": 1, "verse": 3}
+            ],
+            "prayer_guide": "하나님, 주님이 하신 일을 세상에 알리고 싶습니다. 담대하게 간증할 수 있는 용기를 주세요. 제 이야기가 누군가에게 소망이 되게 해 주세요. 아멘.",
+            "youtube_curated": [
+              {"title": "감동적인 간증 모음", "video_id": "placeholder_53"},
+              {"title": "은혜 나눔 찬양", "video_id": "placeholder_54"}
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "lost",
+      "emoji": "❓",
+      "label": "방향 상실",
+      "color": "#7B8FA1",
+      "icon": "explore",
+      "situations": [
+        {
+          "id": "lost_career",
+          "label": "진로 · 직업",
+          "icon": "work_outline",
+          "response": {
+            "ai_message": "어디로 가야 할지 모르겠는 막막한 시간이시군요. 길이 보이지 않을 때가 가장 하나님을 의지해야 할 때예요. 주님이 당신의 발걸음을 인도하실 거예요.",
+            "verses": [
+              {"ref": "잠언 3:5-6", "book_id": 20, "chapter": 3, "verse": 5},
+              {"ref": "시편 32:8", "book_id": 19, "chapter": 32, "verse": 8}
+            ],
+            "prayer_guide": "하나님, 어디로 가야 할지 모르겠습니다. 제 길을 인도해 주시고, 주님의 뜻을 분별할 수 있는 지혜를 주세요. 아멘.",
+            "youtube_curated": [
+              {"title": "진로 고민 위로 찬양", "video_id": "placeholder_55"},
+              {"title": "하나님의 인도하심 설교", "video_id": "placeholder_56"}
+            ]
+          }
+        },
+        {
+          "id": "lost_faith",
+          "label": "믿음의 회의",
+          "icon": "question_mark",
+          "response": {
+            "ai_message": "믿음이 흔들리는 시간을 보내고 계시군요. 의심이 든다고 해서 믿음이 없는 게 아니에요. 오히려 의심을 통해 더 깊은 믿음으로 나아가는 과정일 수 있어요.",
+            "verses": [
+              {"ref": "마가복음 9:24", "book_id": 41, "chapter": 9, "verse": 24},
+              {"ref": "히브리서 11:1", "book_id": 58, "chapter": 11, "verse": 1}
+            ],
+            "prayer_guide": "하나님, 믿음이 흔들립니다. 믿음 없는 저를 도와주세요. 다시 주님을 신뢰할 수 있는 확신을 주세요. 아멘.",
+            "youtube_curated": [
+              {"title": "믿음이 흔들릴 때 찬양", "video_id": "placeholder_57"},
+              {"title": "의심 속 믿음 설교", "video_id": "placeholder_58"}
+            ]
+          }
+        },
+        {
+          "id": "lost_meaning",
+          "label": "삶의 의미를 모르겠을 때",
+          "icon": "self_improvement",
+          "response": {
+            "ai_message": "내가 왜 살고 있는지, 이 모든 게 무슨 의미인지 모르겠는 때가 있죠. 하나님은 당신을 목적 있게 만드셨어요. 지금은 안 보여도, 반드시 의미가 있을 거예요.",
+            "verses": [
+              {"ref": "에베소서 2:10", "book_id": 49, "chapter": 2, "verse": 10},
+              {"ref": "예레미야 1:5", "book_id": 24, "chapter": 1, "verse": 5}
+            ],
+            "prayer_guide": "하나님, 삶의 의미를 모르겠습니다. 제가 이 땅에 태어난 목적을 보여주시고, 주님의 계획 안에서 살아갈 수 있게 해 주세요. 아멘.",
+            "youtube_curated": [
+              {"title": "삶의 의미를 찾는 찬양", "video_id": "placeholder_59"},
+              {"title": "목적 있는 삶 설교", "video_id": "placeholder_60"}
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "courage",
+      "emoji": "💪",
+      "label": "용기",
+      "color": "#5B7553",
+      "icon": "shield",
+      "situations": [
+        {
+          "id": "courage_challenge",
+          "label": "새로운 도전 앞에서",
+          "icon": "flag",
+          "response": {
+            "ai_message": "새로운 도전을 앞두고 떨리고 두려우시죠? 그 긴장감은 당연한 거예요. 하나님이 당신과 함께하시니, 담대하게 나아가세요. 당신은 할 수 있어요!",
+            "verses": [
+              {"ref": "이사야 43:19", "book_id": 23, "chapter": 43, "verse": 19},
+              {"ref": "여호수아 1:9", "book_id": 6, "chapter": 1, "verse": 9}
+            ],
+            "prayer_guide": "하나님, 새로운 도전이 두렵습니다. 하지만 주님이 함께하시니 담대하겠습니다. 용기를 주시고, 이 도전을 통해 성장하게 해 주세요. 아멘.",
+            "youtube_curated": [
+              {"title": "용기를 주는 파워 찬양", "video_id": "placeholder_61"},
+              {"title": "새로운 시작 응원 설교", "video_id": "placeholder_62"}
+            ]
+          }
+        },
+        {
+          "id": "courage_decision",
+          "label": "중요한 결정을 앞두고",
+          "icon": "alt_route",
+          "response": {
+            "ai_message": "중요한 선택 앞에서 어느 길로 가야 할지 고민이 많으시죠. 완벽한 선택은 없어요. 다만 하나님께 지혜를 구하고 한 발 내딛으면, 그 길 위에서 하나님이 함께해 주실 거예요.",
+            "verses": [
+              {"ref": "야고보서 1:5", "book_id": 59, "chapter": 1, "verse": 5},
+              {"ref": "잠언 16:9", "book_id": 20, "chapter": 16, "verse": 9}
+            ],
+            "prayer_guide": "하나님, 중요한 결정 앞에 있습니다. 지혜를 주시고, 올바른 선택을 할 수 있게 인도해 주세요. 어떤 결과든 주님의 뜻 안에서 받아들이겠습니다. 아멘.",
+            "youtube_curated": [
+              {"title": "결정 앞에 듣는 찬양", "video_id": "placeholder_63"},
+              {"title": "하나님의 뜻 분별 설교", "video_id": "placeholder_64"}
+            ]
+          }
+        },
+        {
+          "id": "courage_witness",
+          "label": "말씀을 전할 용기",
+          "icon": "campaign",
+          "response": {
+            "ai_message": "주변에 복음을 전하고 싶은데 용기가 나지 않으시죠? 완벽한 말이 아니어도 괜찮아요. 당신의 진심 어린 한마디가 누군가의 인생을 바꿀 수 있어요.",
+            "verses": [
+              {"ref": "디모데후서 1:7", "book_id": 55, "chapter": 1, "verse": 7},
+              {"ref": "사도행전 1:8", "book_id": 44, "chapter": 1, "verse": 8}
+            ],
+            "prayer_guide": "하나님, 주변 사람들에게 복음을 전할 용기를 주세요. 제 입술을 열어주시고, 성령님이 함께해 주세요. 아멘.",
+            "youtube_curated": [
+              {"title": "전도의 용기 찬양", "video_id": "placeholder_65"},
+              {"title": "담대한 믿음 설교", "video_id": "placeholder_66"}
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
