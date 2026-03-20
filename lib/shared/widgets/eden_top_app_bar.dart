@@ -3,13 +3,15 @@ import '../../app/theme/colors.dart';
 import '../../features/bible_reader/views/search_view.dart';
 import '../../features/deep_study/views/study_view.dart';
 import '../../features/sleep/views/sleep_mode_view.dart';
+import '../../features/reading_plan/views/reading_plan_view.dart';
 
 class EdenTopAppBar extends StatelessWidget implements PreferredSizeWidget {
   final VoidCallback? onNavigateToBible;
   final VoidCallback? onNavigateToCounsel;
   final VoidCallback? onNavigateToSettings;
+  final void Function(int bookId, int chapter)? onNavigateToVerse;
 
-  const EdenTopAppBar({super.key, this.onNavigateToBible, this.onNavigateToCounsel, this.onNavigateToSettings});
+  const EdenTopAppBar({super.key, this.onNavigateToBible, this.onNavigateToCounsel, this.onNavigateToSettings, this.onNavigateToVerse});
 
   @override
   Size get preferredSize => const Size.fromHeight(60);
@@ -24,13 +26,20 @@ class EdenTopAppBar extends StatelessWidget implements PreferredSizeWidget {
         IconButton(onPressed: () => _showMenuSheet(context), icon: Icon(Icons.menu_rounded, color: EdenColors.primary)),
         const SizedBox(width: 4),
         Expanded(child: Text('에덴 성경책', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: EdenColors.primary, letterSpacing: 0.5), maxLines: 1, overflow: TextOverflow.ellipsis)),
-        IconButton(onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const SearchView())), icon: Icon(Icons.search_rounded, color: EdenColors.primary)),
+        IconButton(onPressed: () => _openSearch(context), icon: Icon(Icons.search_rounded, color: EdenColors.primary)),
         const SizedBox(width: 4),
         GestureDetector(onTap: () => _showProfileSheet(context), child: Container(width: 34, height: 34,
           decoration: BoxDecoration(shape: BoxShape.circle, color: isDark ? EdenColors.surfaceVariantDark : EdenColors.surfaceVariantLight, border: Border.all(color: (isDark ? Colors.white : Colors.black).withValues(alpha: 0.1))),
           child: Icon(Icons.person_rounded, size: 20, color: EdenColors.secondary))),
       ]))),
     );
+  }
+
+  Future<void> _openSearch(BuildContext context) async {
+    final result = await Navigator.push<Map<String, int>>(context, MaterialPageRoute(builder: (_) => const SearchView()));
+    if (result != null && result.containsKey('bookId')) {
+      onNavigateToVerse?.call(result['bookId']!, result['chapter']!);
+    }
   }
 
   void _showMenuSheet(BuildContext context) {
@@ -42,6 +51,9 @@ class EdenTopAppBar extends StatelessWidget implements PreferredSizeWidget {
           const SizedBox(height: 20),
           ListTile(leading: Icon(Icons.menu_book_rounded, color: EdenColors.primary), title: const Text('성경 읽기'),
             onTap: () { Navigator.pop(ctx); onNavigateToBible?.call(); }),
+          ListTile(leading: Icon(Icons.checklist_rounded, color: EdenColors.primary), title: const Text('읽기 플랜'),
+            subtitle: const Text('3개월 · 6개월 · 1년 통독표', style: TextStyle(fontSize: 12)),
+            onTap: () { Navigator.pop(ctx); Navigator.push(context, MaterialPageRoute(builder: (_) => ReadingPlanView(onNavigateToVerse: onNavigateToVerse))); }),
           ListTile(leading: Icon(Icons.favorite_rounded, color: EdenColors.accent), title: const Text('마음 힐링'),
             subtitle: const Text('감정별 맞춤 말씀 · 찬양 · 기도', style: TextStyle(fontSize: 12)),
             onTap: () { Navigator.pop(ctx); onNavigateToCounsel?.call(); }),

@@ -17,7 +17,7 @@ class YouTubeCard extends StatelessWidget {
     return GestureDetector(
       onTap: () => _openYouTube(context),
       child: Container(
-        width: 220,
+        width: 200,
         margin: const EdgeInsets.only(right: 12),
         decoration: BoxDecoration(
           color: isDark ? EdenColors.surfaceVariantDark : Colors.white,
@@ -26,9 +26,11 @@ class YouTubeCard extends StatelessWidget {
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: [
+            // 썸네일 (고정 높이)
             Container(
-              height: 124,
+              height: 112,
               decoration: BoxDecoration(
                 borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
                 color: isDark ? EdenColors.surfaceDark : const Color(0xFFF0EEE8),
@@ -46,16 +48,17 @@ class YouTubeCard extends StatelessWidget {
                 else
                   _PlaceholderThumb(isDark: isDark),
                 Center(child: Container(
-                  width: 44, height: 44,
+                  width: 40, height: 40,
                   decoration: BoxDecoration(color: Colors.black.withValues(alpha: 0.5), shape: BoxShape.circle),
-                  child: const Icon(Icons.play_arrow_rounded, color: Colors.white, size: 28),
+                  child: const Icon(Icons.play_arrow_rounded, color: Colors.white, size: 24),
                 )),
               ]),
             ),
+            // 제목 (고정 패딩, 2줄 제한)
             Padding(
-              padding: const EdgeInsets.all(12),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
               child: Text(video.title,
-                style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: isDark ? EdenColors.textPrimaryDark : EdenColors.textPrimaryLight, height: 1.4),
+                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: isDark ? EdenColors.textPrimaryDark : EdenColors.textPrimaryLight, height: 1.3),
                 maxLines: 2, overflow: TextOverflow.ellipsis),
             ),
           ],
@@ -70,7 +73,6 @@ class YouTubeCard extends StatelessWidget {
         const SnackBar(content: Text('유튜브 영상이 준비 중입니다'), behavior: SnackBarBehavior.floating));
       return;
     }
-    // 유튜브 앱 → 브라우저 순서로 시도
     final appUri = Uri.parse('youtube://www.youtube.com/watch?v=${video.videoId}');
     final webUri = Uri.parse('https://www.youtube.com/watch?v=${video.videoId}');
     try {
@@ -123,7 +125,7 @@ class YouTubeCarousel extends StatelessWidget {
       ]),
       const SizedBox(height: 14),
       SizedBox(
-        height: 180,
+        height: 164,
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
           itemCount: videos.length,

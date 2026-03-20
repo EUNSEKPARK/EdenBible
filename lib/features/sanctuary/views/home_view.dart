@@ -9,6 +9,7 @@ import '../../../shared/widgets/youtube_card.dart';
 import '../../transcription/views/transcription_view.dart';
 import '../../deep_study/views/study_view.dart';
 import '../../sleep/views/sleep_mode_view.dart';
+import '../../reading_plan/views/reading_plan_view.dart';
 
 class HomeView extends StatelessWidget {
   final VoidCallback? onNavigateToBible;
@@ -55,15 +56,10 @@ class HomeView extends StatelessWidget {
         const SizedBox(height: 24),
         _IconMenuGrid(isDark: isDark, onBible: onNavigateToBible, onCounsel: onNavigateToCounsel),
         const SizedBox(height: 28),
-
-        // ─── 오늘의 추천 (매일 3개) ───
         YouTubeCarousel(videos: ytService.getDailyRecommendations(), title: '오늘의 추천'),
         const SizedBox(height: 16),
-
-        // ─── 넷플릭스 스타일 카테고리별 캐러셀 ───
         _YouTubeSections(sections: ytService.getSections(), isDark: isDark),
         const SizedBox(height: 20),
-
         _ProgressSection(isDark: isDark, theme: theme, settings: settings, bible: bible, onNavigateToVerse: onNavigateToVerse),
         const SizedBox(height: 32),
       ]),
@@ -71,44 +67,28 @@ class HomeView extends StatelessWidget {
   }
 }
 
-// ─── 넷플릭스 스타일 카테고리별 유튜브 섹션 ───
+// ─── 넷플릭스 스타일 유튜브 섹션 ───
 class _YouTubeSections extends StatelessWidget {
-  final List<YouTubeSection> sections;
-  final bool isDark;
+  final List<YouTubeSection> sections; final bool isDark;
   const _YouTubeSections({required this.sections, required this.isDark});
-
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: sections.map((section) => Padding(
-        padding: const EdgeInsets.only(bottom: 24),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          // 섹션 헤더
-          Row(children: [
-            Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text(section.title, style: TextStyle(fontSize: 17, fontWeight: FontWeight.w700,
-                color: isDark ? EdenColors.textPrimaryDark : EdenColors.textPrimaryLight)),
-              const SizedBox(height: 2),
-              Text(section.subtitle, style: TextStyle(fontSize: 11, color: EdenColors.textTertiaryLight)),
-            ])),
-            Text('${section.videos.length}편', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: EdenColors.secondary)),
-          ]),
-          const SizedBox(height: 12),
-          // 가로 스크롤 캐러셀 (패딩 보정을 위해 Transform 사용)
-          SizedBox(
-            height: 168,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              clipBehavior: Clip.none,
-              itemCount: section.videos.length,
-              itemBuilder: (context, index) {
-                return YouTubeCard(video: section.videos[index]);
-              },
-            ),
-          ),
+    return Column(children: sections.map((section) => Padding(
+      padding: const EdgeInsets.only(bottom: 24),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Row(children: [
+          Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Text(section.title, style: TextStyle(fontSize: 17, fontWeight: FontWeight.w700, color: isDark ? EdenColors.textPrimaryDark : EdenColors.textPrimaryLight)),
+            const SizedBox(height: 2),
+            Text(section.subtitle, style: TextStyle(fontSize: 11, color: EdenColors.textTertiaryLight)),
+          ])),
+          Text('${section.videos.length}편', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: EdenColors.secondary)),
         ]),
-      )).toList(),
-    );
+        const SizedBox(height: 12),
+        SizedBox(height: 168, child: ListView.builder(scrollDirection: Axis.horizontal, clipBehavior: Clip.none, itemCount: section.videos.length,
+          itemBuilder: (context, index) => YouTubeCard(video: section.videos[index]))),
+      ]),
+    )).toList());
   }
 }
 
@@ -153,10 +133,9 @@ class _SleepModeEntry extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const SleepModeView())),
-      child: Container(
-        width: double.infinity, padding: const EdgeInsets.all(18),
+      child: Container(width: double.infinity, padding: const EdgeInsets.all(18),
         decoration: BoxDecoration(
-          gradient: LinearGradient(colors: [const Color(0xFF1A1A2E).withValues(alpha: 0.9), const Color(0xFF16213E).withValues(alpha: 0.85)], begin: Alignment.topLeft, end: Alignment.bottomRight),
+          gradient: LinearGradient(colors: [const Color(0xFF1A1A2E).withValues(alpha: 0.9), const Color(0xFF16213E).withValues(alpha: 0.85)]),
           borderRadius: BorderRadius.circular(20)),
         child: Row(children: [
           Container(width: 40, height: 40, decoration: BoxDecoration(color: Colors.white.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(12)),
@@ -168,9 +147,7 @@ class _SleepModeEntry extends StatelessWidget {
             Text('잔잔한 말씀과 함께 잠들기', style: TextStyle(fontSize: 12, color: Colors.white.withValues(alpha: 0.5))),
           ])),
           Icon(Icons.arrow_forward_ios_rounded, size: 14, color: Colors.white.withValues(alpha: 0.3)),
-        ]),
-      ),
-    );
+        ])));
   }
 }
 
@@ -186,9 +163,7 @@ class _VerseOfDayCard extends StatelessWidget {
     final verseRef = verse?.refKo ?? '시편 23:1';
     return GestureDetector(
       onTap: () { if (verse != null) onTap?.call(verse.bookId, verse.chapter); },
-      child: Container(
-        width: double.infinity, height: 360, clipBehavior: Clip.antiAlias,
-        decoration: BoxDecoration(borderRadius: BorderRadius.circular(24)),
+      child: Container(width: double.infinity, height: 360, clipBehavior: Clip.antiAlias, decoration: BoxDecoration(borderRadius: BorderRadius.circular(24)),
         child: Stack(fit: StackFit.expand, children: [
           Image.asset('assets/images/home/verse_card.png', fit: BoxFit.cover),
           Container(decoration: BoxDecoration(gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [EdenColors.primary.withValues(alpha: 0.2), EdenColors.primary.withValues(alpha: 0.85)]))),
@@ -208,9 +183,7 @@ class _VerseOfDayCard extends StatelessWidget {
                 ])),
             ]),
           ])),
-        ]),
-      ),
-    );
+        ])));
   }
 }
 
@@ -246,12 +219,11 @@ class _MenuCard extends StatelessWidget {
           const SizedBox(height: 10),
           Text(label, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: isDark ? EdenColors.textSecondaryDark : EdenColors.textSecondaryLight)),
         ]),
-      ]),
-    ));
+      ])));
   }
 }
 
-// ─── 읽기 여정 + 최근 읽은 말씀 ───
+// ─── 읽기 여정 + 읽기 플랜 + 최근 읽은 말씀 ───
 class _ProgressSection extends StatelessWidget {
   final bool isDark; final ThemeData theme; final SettingsService settings; final BibleDataService bible;
   final void Function(int bookId, int chapter)? onNavigateToVerse;
@@ -266,6 +238,7 @@ class _ProgressSection extends StatelessWidget {
     final lastVerse = bible.isLoaded ? bible.getVerse(lastBookId, lastChapter, 1) : null;
 
     return Column(children: [
+      // ─── 읽기 여정 카드 ───
       Container(width: double.infinity, clipBehavior: Clip.antiAlias, decoration: BoxDecoration(borderRadius: BorderRadius.circular(24)),
         child: Stack(children: [
           Positioned.fill(child: Image.asset('assets/images/home/progress_card.png', fit: BoxFit.cover)),
@@ -274,20 +247,35 @@ class _ProgressSection extends StatelessWidget {
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, crossAxisAlignment: CrossAxisAlignment.end, children: [
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                 Text('읽기 여정', style: theme.textTheme.headlineSmall), const SizedBox(height: 4),
-                Text('통독 플랜', style: TextStyle(fontSize: 11, color: EdenColors.textTertiaryLight, letterSpacing: 2, fontWeight: FontWeight.w600)),
+                Text(settings.hasReadingPlan ? settings.planLabel : '통독 플랜',
+                  style: TextStyle(fontSize: 11, color: EdenColors.textTertiaryLight, letterSpacing: 2, fontWeight: FontWeight.w600)),
               ]),
               Text('$progressPercent%', style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700, fontStyle: FontStyle.italic, color: EdenColors.primary)),
             ]),
             const SizedBox(height: 20),
             ClipRRect(borderRadius: BorderRadius.circular(6), child: LinearProgressIndicator(value: progress, minHeight: 10, backgroundColor: isDark ? EdenColors.surfaceVariantDark : const Color(0xFFF0EEE8), valueColor: AlwaysStoppedAnimation(EdenColors.primary))),
             const SizedBox(height: 20),
-            ElevatedButton.icon(
-              onPressed: () => onNavigateToVerse?.call(lastBookId, lastChapter),
-              icon: const Text('이어서 읽기'), label: const Icon(Icons.arrow_forward, size: 16),
-              style: ElevatedButton.styleFrom(padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12))),
+            Row(children: [
+              Expanded(child: ElevatedButton.icon(
+                onPressed: () => onNavigateToVerse?.call(lastBookId, lastChapter),
+                icon: const Text('이어서 읽기'), label: const Icon(Icons.arrow_forward, size: 16),
+                style: ElevatedButton.styleFrom(padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12)))),
+              const SizedBox(width: 10),
+              OutlinedButton(
+                onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => ReadingPlanView(onNavigateToVerse: onNavigateToVerse))),
+                style: OutlinedButton.styleFrom(foregroundColor: EdenColors.primary, side: BorderSide(color: EdenColors.primary.withValues(alpha: 0.3)),
+                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14))),
+                child: Row(mainAxisSize: MainAxisSize.min, children: [
+                  Icon(Icons.checklist_rounded, size: 16, color: EdenColors.primary), const SizedBox(width: 6),
+                  Text('통독표', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: EdenColors.primary)),
+                ]),
+              ),
+            ]),
           ])),
         ])),
       const SizedBox(height: 12),
+
+      // ─── 최근 읽은 말씀 ───
       GestureDetector(
         onTap: () => onNavigateToVerse?.call(lastBookId, lastChapter),
         child: Container(width: double.infinity, clipBehavior: Clip.antiAlias, decoration: BoxDecoration(borderRadius: BorderRadius.circular(24)),

@@ -1,5 +1,5 @@
 name: project_eden
-description: "프로젝트 에덴 - 온디바이스 AI 성경 앱"
+description: "에덴 성경책 - 성경 읽기 + 맞춤 힐링 앱"
 publish_to: 'none'
 version: 1.0.0+1
 
@@ -13,7 +13,7 @@ dependencies:
   # UI
   cupertino_icons: ^1.0.8
 
-  # TTS (오프라인 음성 읽기)
+  # TTS (음성 읽기)
   flutter_tts: ^4.2.0
 
   # Utilities

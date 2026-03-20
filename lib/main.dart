@@ -80,7 +80,7 @@ class _EdenSplashState extends State<EdenSplash> with SingleTickerProviderStateM
     try {
       setState(() => _loadingText = '성경 66권을 불러오는 중...');
       await BibleDataService().loadBibleData();
-      setState(() => _loadingText = 'AI 상담 데이터를 준비하는 중...');
+      setState(() => _loadingText = '말씀 상담 데이터를 준비하는 중...');
       await CounselService().loadPresets();
       setState(() => _loadingText = '감정 매칭 데이터를 준비하는 중...');
       await EmotionMatchService().load();
@@ -130,15 +130,12 @@ class EdenShell extends StatefulWidget {
 
 class _EdenShellState extends State<EdenShell> {
   int _currentIndex = 0;
-  // BibleView를 외부에서 특정 책/장으로 이동시키기 위한 GlobalKey
   final _bibleViewKey = GlobalKey<BibleViewState>();
 
   void _navigateTo(int index) => setState(() => _currentIndex = index);
 
-  /// 성경 특정 책/장으로 이동 (홈 카드, 북마크 등에서 호출)
   void _navigateToBibleChapter(int bookId, int chapter) {
-    setState(() => _currentIndex = 1); // 성경 탭으로 전환
-    // 약간의 딜레이 후 BibleView에 이동 명령
+    setState(() => _currentIndex = 1);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _bibleViewKey.currentState?.navigateTo(bookId, chapter);
     });
@@ -176,6 +173,7 @@ class _EdenShellState extends State<EdenShell> {
               onNavigateToBible: () => _navigateTo(1),
               onNavigateToCounsel: () => _navigateTo(2),
               onNavigateToSettings: () => _navigateTo(4),
+              onNavigateToVerse: _navigateToBibleChapter,
             ),
       body: IndexedStack(
         index: _currentIndex,
@@ -196,7 +194,7 @@ class _EdenShellState extends State<EdenShell> {
   }
 }
 
-// ───────── 북마크 (탭하면 해당 장으로 이동) ─────────
+// ───────── 북마크 ─────────
 class _BookmarksView extends StatelessWidget {
   final void Function(int bookId, int chapter)? onNavigateToVerse;
   const _BookmarksView({this.onNavigateToVerse});

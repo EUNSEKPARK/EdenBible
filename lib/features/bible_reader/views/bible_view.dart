@@ -78,6 +78,7 @@ class BibleViewState extends State<BibleView> {
     final book = _bible.books.isNotEmpty ? _bible.books.firstWhere((b) => b.id == _bookId, orElse: () => _bible.books.first) : null;
     final fontSize = _settings.fontSize;
     final activeVerse = _tts.currentVerseIndex;
+    final selectedVerse = (_selectedVerseIndex >= 0 && _selectedVerseIndex < _verses.length) ? _verses[_selectedVerseIndex] : null;
 
     return Stack(children: [
       Column(children: [
@@ -97,68 +98,126 @@ class BibleViewState extends State<BibleView> {
                   onPinchUpdate: (d) { if (d.pointerCount >= 2) { _settings.setFontSize((_pinchStartFontSize * d.scale).clamp(14.0, 32.0)); } }),
         ),
       ]),
-      if (_selectedVerseIndex >= 0 && _selectedVerseIndex < _verses.length)
-        Positioned(left: 20, right: 20, bottom: 16,
-          child: _VerseActionBar(verse: _verses[_selectedVerseIndex], chapter: _chapter, bookId: _bookId,
-            translation: _translation, isDark: isDark, settings: _settings,
-            onClose: () => setState(() => _selectedVerseIndex = -1)))
-      else
-        Positioned(left: 20, right: 20, bottom: 16,
-          child: _FloatingBar(translation: _translation, isDark: isDark, verses: _verses, onToggleTranslation: () {
-            setState(() => _translation = _translation == 'krv' ? 'kjv' : 'krv'); _settings.setTranslation(_translation);
-          })),
+      // ─── 통합 하단 바 ───
+      Positioned(left: 16, right: 16, bottom: 16,
+        child: _UnifiedBottomBar(
+          translation: _translation, isDark: isDark, verses: _verses,
+          selectedVerse: selectedVerse, bookId: _bookId, chapter: _chapter, settings: _settings,
+          onToggleTranslation: () { setState(() => _translation = _translation == 'krv' ? 'kjv' : 'krv'); _settings.setTranslation(_translation); },
+          onCloseSelection: () => setState(() => _selectedVerseIndex = -1),
+        )),
     ]);
   }
 }
 
-// ─── 절 선택 액션 바 ───
-class _VerseActionBar extends StatelessWidget {
-  final BibleVerse verse; final int chapter, bookId; final String translation;
-  final bool isDark; final SettingsService settings; final VoidCallback onClose;
-  const _VerseActionBar({required this.verse, required this.chapter, required this.bookId, required this.translation, required this.isDark, required this.settings, required this.onClose});
+// ═══════════════════════════════════════════════════
+//  통합 하단 바 (번역 토글 + TTS + 절 액션 통합)
+// ═══════════════════════════════════════════════════
+class _UnifiedBottomBar extends StatelessWidget {
+  final String translation; final bool isDark; final List<BibleVerse> verses;
+  final BibleVerse? selectedVerse; final int bookId, chapter;
+  final SettingsService settings; final VoidCallback onToggleTranslation, onCloseSelection;
+
+  const _UnifiedBottomBar({
+    required this.translation, required this.isDark, required this.verses,
+    required this.selectedVerse, required this.bookId, required this.chapter,
+    required this.settings, required this.onToggleTranslation, required this.onCloseSelection,
+  });
+
   @override
   Widget build(BuildContext context) {
-    final text = translation == 'krv' ? verse.krv : verse.kjv;
-    final ref = verse.refKo;
-    final isBookmarked = settings.isBookmarked(bookId, chapter, verse.verse);
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-      decoration: BoxDecoration(color: isDark ? EdenColors.surfaceDark : Colors.white, borderRadius: BorderRadius.circular(50),
-        boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.12), blurRadius: 24, offset: const Offset(0, 6))],
-        border: Border.all(color: EdenColors.primary.withValues(alpha: 0.15))),
+    final tts = TtsService();
+    final hasSelection = selectedVerse != null;
+    final text = hasSelection ? (translation == 'krv' ? selectedVerse!.krv : selectedVerse!.kjv) : '';
+    final ref = hasSelection ? selectedVerse!.refKo : '';
+    final isBookmarked = hasSelection ? settings.isBookmarked(bookId, chapter, selectedVerse!.verse) : false;
+
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 200),
+      padding: EdgeInsets.symmetric(horizontal: hasSelection ? 10 : 12, vertical: 8),
+      decoration: BoxDecoration(
+        color: isDark ? EdenColors.surfaceDark : Colors.white,
+        borderRadius: BorderRadius.circular(50),
+        boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.10), blurRadius: 24, offset: const Offset(0, 6))],
+        border: Border.all(color: hasSelection ? EdenColors.primary.withValues(alpha: 0.2) : (isDark ? Colors.white : Colors.black).withValues(alpha: 0.08)),
+      ),
       child: Row(children: [
-        Container(padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-          decoration: BoxDecoration(color: EdenColors.primary.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(10)),
-          child: Text('${verse.verse}절', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w800, color: EdenColors.primary))),
-        const SizedBox(width: 8),
-        _ActionIcon(icon: Icons.copy_rounded, label: '복사', onTap: () {
-          Clipboard.setData(ClipboardData(text: '$text\n- $ref'));
-          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('구절을 복사했습니다'), behavior: SnackBarBehavior.floating, duration: Duration(seconds: 1)));
-        }),
-        _ActionIcon(icon: Icons.share_outlined, label: '공유', onTap: () => showShareCardSheet(context, verseText: text, verseRef: ref)),
-        _ActionIcon(icon: isBookmarked ? Icons.bookmark_rounded : Icons.bookmark_outline_rounded, label: isBookmarked ? '해제' : '저장',
-          color: isBookmarked ? EdenColors.accent : null,
-          onTap: () { settings.toggleBookmark(bookId, chapter, verse.verse);
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(isBookmarked ? '북마크를 해제했습니다' : '북마크에 저장했습니다'), behavior: SnackBarBehavior.floating, duration: const Duration(seconds: 1)));
+        // ─── 절 선택 시: 절 번호 + 복사/공유/저장 ───
+        if (hasSelection) ...[
+          GestureDetector(
+            onTap: onCloseSelection,
+            child: Container(padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+              decoration: BoxDecoration(color: EdenColors.primary.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(10)),
+              child: Row(mainAxisSize: MainAxisSize.min, children: [
+                Text('${selectedVerse!.verse}절', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w800, color: EdenColors.primary)),
+                const SizedBox(width: 4),
+                Icon(Icons.close_rounded, size: 12, color: EdenColors.primary),
+              ])),
+          ),
+          const SizedBox(width: 4),
+          _BarIcon(icon: Icons.copy_rounded, onTap: () {
+            Clipboard.setData(ClipboardData(text: '$text\n- $ref'));
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('구절을 복사했습니다'), behavior: SnackBarBehavior.floating, duration: Duration(seconds: 1)));
           }),
+          _BarIcon(icon: Icons.share_outlined, onTap: () => showShareCardSheet(context, verseText: text, verseRef: ref)),
+          _BarIcon(icon: isBookmarked ? Icons.bookmark_rounded : Icons.bookmark_outline_rounded,
+            color: isBookmarked ? EdenColors.accent : null,
+            onTap: () { final was = isBookmarked; settings.toggleBookmark(bookId, chapter, selectedVerse!.verse);
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(was ? '북마크 해제' : '북마크 저장'), behavior: SnackBarBehavior.floating, duration: const Duration(seconds: 1)));
+            }),
+          Container(width: 1, height: 20, margin: const EdgeInsets.symmetric(horizontal: 4),
+            color: (isDark ? Colors.white : Colors.black).withValues(alpha: 0.08)),
+        ],
+
+        // ─── 절 미선택 시: 번역 토글 ───
+        if (!hasSelection)
+          GestureDetector(onTap: onToggleTranslation, child: Container(padding: const EdgeInsets.all(3),
+            decoration: BoxDecoration(color: isDark ? EdenColors.surfaceVariantDark : const Color(0xFFF5F3EE), borderRadius: BorderRadius.circular(50)),
+            child: Row(children: [_Pill(label: '개역한글', isActive: translation == 'krv'), _Pill(label: 'KJV', isActive: translation == 'kjv')]))),
+
         const Spacer(),
-        GestureDetector(onTap: onClose, child: Container(width: 32, height: 32,
-          decoration: BoxDecoration(color: EdenColors.secondary.withValues(alpha: 0.1), shape: BoxShape.circle),
-          child: Icon(Icons.close_rounded, size: 16, color: EdenColors.secondary))),
+
+        // ─── 공통: 배속 + 재생 ───
+        if (!hasSelection)
+          GestureDetector(onTap: () { if (verses.isNotEmpty) showShareCardSheet(context, verseText: verses.first.krv, verseRef: verses.first.refKo); },
+            child: Padding(padding: const EdgeInsets.symmetric(horizontal: 6), child: Icon(Icons.share_outlined, size: 20, color: EdenColors.textSecondaryLight))),
+
+        ListenableBuilder(listenable: tts, builder: (_, __) => GestureDetector(onTap: () => tts.cycleSpeed(),
+          child: Container(padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6), margin: const EdgeInsets.only(left: 2),
+            decoration: BoxDecoration(color: EdenColors.secondary.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(8)),
+            child: Text(tts.speedLabel, style: TextStyle(fontSize: 10, fontWeight: FontWeight.w800, color: EdenColors.primary))))),
+
+        ListenableBuilder(listenable: tts, builder: (_, __) {
+          final playing = tts.isPlaying;
+          return GestureDetector(onTap: () {
+            if (playing) { tts.stop(); return; }
+            if (hasSelection) {
+              // 선택된 절부터 읽기
+              final startIdx = verses.indexOf(selectedVerse!);
+              final texts = verses.skip(startIdx >= 0 ? startIdx : 0).map((v) => translation == 'krv' ? v.krv : v.kjv).toList();
+              if (texts.isEmpty) return;
+              translation == 'kjv' ? tts.setEnglish() : tts.setKorean(); tts.speakVerses(texts);
+            } else {
+              final texts = verses.map((v) => translation == 'krv' ? v.krv : v.kjv).toList();
+              if (texts.isEmpty) return;
+              translation == 'kjv' ? tts.setEnglish() : tts.setKorean(); tts.speakVerses(texts);
+            }
+          }, child: Container(width: 36, height: 36, margin: const EdgeInsets.only(left: 6),
+            decoration: BoxDecoration(color: playing ? EdenColors.primary.withValues(alpha: 0.2) : EdenColors.primaryLight.withValues(alpha: 0.2), shape: BoxShape.circle),
+            child: Icon(playing ? Icons.stop_rounded : Icons.play_arrow_rounded, color: EdenColors.primary, size: 20)));
+        }),
       ]),
     );
   }
 }
 
-class _ActionIcon extends StatelessWidget {
-  final IconData icon; final String label; final VoidCallback onTap; final Color? color;
-  const _ActionIcon({required this.icon, required this.label, required this.onTap, this.color});
+class _BarIcon extends StatelessWidget {
+  final IconData icon; final VoidCallback onTap; final Color? color;
+  const _BarIcon({required this.icon, required this.onTap, this.color});
   @override
-  Widget build(BuildContext context) => GestureDetector(onTap: onTap, child: Padding(padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-    child: Column(mainAxisSize: MainAxisSize.min, children: [
-      Icon(icon, size: 20, color: color ?? EdenColors.primary), const SizedBox(height: 2),
-      Text(label, style: TextStyle(fontSize: 8, fontWeight: FontWeight.w600, color: color ?? EdenColors.primary)),
-    ])));
+  Widget build(BuildContext context) => GestureDetector(onTap: onTap, child: Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+    child: Icon(icon, size: 20, color: color ?? EdenColors.primary)));
 }
 
 // ─── 상단 선택 바 ───
@@ -384,45 +443,6 @@ class _ChapterNav extends StatelessWidget {
         const SizedBox(height: 4), Text(next, style: TextStyle(fontSize: 16, fontStyle: FontStyle.italic, fontWeight: FontWeight.w500, color: EdenColors.primary)),
       ])) else const SizedBox(),
     ]));
-  }
-}
-
-// ─── 하단 플로팅 바 ───
-class _FloatingBar extends StatelessWidget {
-  final String translation; final bool isDark; final VoidCallback onToggleTranslation; final List<BibleVerse> verses;
-  const _FloatingBar({required this.translation, required this.isDark, required this.onToggleTranslation, required this.verses});
-  @override
-  Widget build(BuildContext context) {
-    final tts = TtsService();
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      decoration: BoxDecoration(color: isDark ? EdenColors.surfaceDark : Colors.white, borderRadius: BorderRadius.circular(50),
-        boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.08), blurRadius: 20, offset: const Offset(0, 4))],
-        border: Border.all(color: (isDark ? Colors.white : Colors.black).withValues(alpha: 0.08))),
-      child: Row(children: [
-        GestureDetector(onTap: onToggleTranslation, child: Container(padding: const EdgeInsets.all(3),
-          decoration: BoxDecoration(color: isDark ? EdenColors.surfaceVariantDark : const Color(0xFFF5F3EE), borderRadius: BorderRadius.circular(50)),
-          child: Row(children: [_Pill(label: '개역한글', isActive: translation == 'krv'), _Pill(label: 'KJV', isActive: translation == 'kjv')]))),
-        const Spacer(),
-        GestureDetector(onTap: () { if (verses.isNotEmpty) showShareCardSheet(context, verseText: verses.first.krv, verseRef: verses.first.refKo); },
-          child: Padding(padding: const EdgeInsets.symmetric(horizontal: 6), child: Icon(Icons.share_outlined, size: 20, color: EdenColors.textSecondaryLight))),
-        ListenableBuilder(listenable: tts, builder: (_, __) => GestureDetector(onTap: () => tts.cycleSpeed(),
-          child: Container(padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6), margin: const EdgeInsets.only(left: 2),
-            decoration: BoxDecoration(color: EdenColors.secondary.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(8)),
-            child: Text(tts.speedLabel, style: TextStyle(fontSize: 10, fontWeight: FontWeight.w800, color: EdenColors.primary))))),
-        ListenableBuilder(listenable: tts, builder: (_, __) {
-          final playing = tts.isPlaying;
-          return GestureDetector(onTap: () {
-            if (playing) { tts.stop(); return; }
-            final texts = verses.map((v) => translation == 'krv' ? v.krv : v.kjv).toList();
-            if (texts.isEmpty) return;
-            translation == 'kjv' ? tts.setEnglish() : tts.setKorean(); tts.speakVerses(texts);
-          }, child: Container(width: 36, height: 36, margin: const EdgeInsets.only(left: 6),
-            decoration: BoxDecoration(color: playing ? EdenColors.primary.withValues(alpha: 0.2) : EdenColors.primaryLight.withValues(alpha: 0.2), shape: BoxShape.circle),
-            child: Icon(playing ? Icons.stop_rounded : Icons.play_arrow_rounded, color: EdenColors.primary, size: 20)));
-        }),
-      ]),
-    );
   }
 }
 
