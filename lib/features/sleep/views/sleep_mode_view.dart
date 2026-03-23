@@ -9,17 +9,18 @@ import '../../../core/services/tts_service.dart';
 
 /// P3-01: 수면 묵상 모드 — 다크 UI + 자동 넘김 + 타이머 + TTS
 class SleepModeView extends StatefulWidget {
-  const SleepModeView({super.key});
+  final VoidCallback? onToggleFullscreen;
+  final VoidCallback? onClose;
+  const SleepModeView({super.key, this.onToggleFullscreen, this.onClose});
   @override
   State<SleepModeView> createState() => _SleepModeViewState();
 }
 
-class _SleepModeViewState extends State<SleepModeView> with SingleTickerProviderStateMixin {
+class _SleepModeViewState extends State<SleepModeView> with TickerProviderStateMixin {
   final _bible = BibleDataService();
   final _settings = SettingsService();
   final _tts = TtsService();
 
-  late PageController _pageController;
   late AnimationController _fadeController;
   Timer? _autoTimer;
   Timer? _sleepTimer;
@@ -46,14 +47,10 @@ class _SleepModeViewState extends State<SleepModeView> with SingleTickerProvider
   @override
   void initState() {
     super.initState();
-    _pageController = PageController();
-    _fadeController = AnimationController(vsync: this, duration: const Duration(milliseconds: 600));
-    _fadeController.forward();
+    _fadeController = AnimationController(vsync: this, duration: const Duration(milliseconds: 800), value: 1.0);
     _selectedMinutes = _settings.sleepTimerMinutes;
+    _showControls = false;  // 시작 시 컨트롤 숨김 (전체화면)
     _loadVerses();
-
-    // 시스템 UI 숨기기 (몰입 모드)
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
   }
 
   @override
@@ -62,10 +59,20 @@ class _SleepModeViewState extends State<SleepModeView> with SingleTickerProvider
     _sleepTimer?.cancel();
     _tts.stop();
     _fadeController.dispose();
-    _pageController.dispose();
-    // 시스템 UI 복원
+    // 시스템 UI 복원 (독립 실행된 경우를 위해)
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
     super.dispose();
+  }
+
+  /// 페이드 아웃 → 인덱스 변경 → 페이드 인 (화면 전환 없이 부드럽게)
+  void _goToVerse(int index) {
+    if (index < 0 || index >= _verses.length || index == _currentPage) return;
+    _fadeController.reverse().then((_) {
+      if (!mounted) return;
+      setState(() => _currentPage = index);
+      _fadeController.forward();
+      if (_ttsEnabled) _tts.speak(_verses[index].krv);
+    });
   }
 
   void _loadVerses() {
@@ -85,7 +92,9 @@ class _SleepModeViewState extends State<SleepModeView> with SingleTickerProvider
         timer.cancel();
         _tts.stop();
         _autoTimer?.cancel();
-        if (mounted) Navigator.pop(context);
+        if (mounted) {
+          if (widget.onClose != null) { widget.onClose!(); } else { Navigator.pop(context); }
+        }
         return;
       }
       setState(() => _remainingSeconds--);
@@ -97,14 +106,8 @@ class _SleepModeViewState extends State<SleepModeView> with SingleTickerProvider
     if (_autoPlay) {
       _startTimer();
       _autoTimer = Timer.periodic(const Duration(seconds: 8), (_) {
-        if (_currentPage < _verses.length - 1) {
-          _pageController.nextPage(duration: const Duration(milliseconds: 800), curve: Curves.easeInOut);
-          if (_ttsEnabled && _currentPage + 1 < _verses.length) {
-            _tts.speak(_verses[_currentPage + 1].krv);
-          }
-        } else {
-          _pageController.animateToPage(0, duration: const Duration(milliseconds: 800), curve: Curves.easeInOut);
-        }
+        final next = (_currentPage + 1) % _verses.length;
+        _goToVerse(next);
       });
     } else {
       _autoTimer?.cancel();
@@ -125,7 +128,10 @@ class _SleepModeViewState extends State<SleepModeView> with SingleTickerProvider
     return Scaffold(
       backgroundColor: const Color(0xFF0D0D12),
       body: GestureDetector(
-        onTap: () => setState(() => _showControls = !_showControls),
+        onTap: () {
+          setState(() => _showControls = !_showControls);
+          widget.onToggleFullscreen?.call();
+        },
         child: Stack(
           children: [
             // 배경 그라디언트
@@ -141,41 +147,33 @@ class _SleepModeViewState extends State<SleepModeView> with SingleTickerProvider
             // 별 장식
             ..._buildStars(),
 
-            // 말씀 카드 (PageView)
+            // 말씀 카드 (단일 화면, 페이드 전환)
             if (_verses.isNotEmpty)
-              PageView.builder(
-                controller: _pageController,
-                itemCount: _verses.length,
-                onPageChanged: (i) {
-                  setState(() => _currentPage = i);
-                  if (_ttsEnabled && !_autoPlay) _tts.speak(_verses[i].krv);
-                },
-                itemBuilder: (_, index) {
-                  final verse = _verses[index];
-                  return Center(child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 36),
-                    child: Column(mainAxisSize: MainAxisSize.min, children: [
-                      // 달 아이콘
-                      Icon(Icons.nightlight_round, size: 28, color: Colors.white.withValues(alpha: 0.15)),
-                      const SizedBox(height: 32),
-                      // 말씀 본문
-                      Text(
-                        '"${verse.krv}"',
-                        style: TextStyle(
-                          fontSize: 22, fontWeight: FontWeight.w300, color: Colors.white.withValues(alpha: 0.85),
-                          height: 2.0, letterSpacing: 0.5,
-                        ),
-                        textAlign: TextAlign.center,
+              FadeTransition(
+                opacity: _fadeController,
+                child: Center(child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 36),
+                  child: Column(mainAxisSize: MainAxisSize.min, children: [
+                    // 달 아이콘
+                    Icon(Icons.nightlight_round, size: 28, color: Colors.white.withValues(alpha: 0.15)),
+                    const SizedBox(height: 32),
+                    // 말씀 본문
+                    Text(
+                      '"${_verses[_currentPage].krv}"',
+                      style: TextStyle(
+                        fontSize: 22, fontWeight: FontWeight.w300, color: Colors.white.withValues(alpha: 0.85),
+                        height: 2.0, letterSpacing: 0.5,
                       ),
-                      const SizedBox(height: 24),
-                      // 참조
-                      Text(
-                        verse.refKo,
-                        style: TextStyle(fontSize: 13, color: Colors.white.withValues(alpha: 0.4), letterSpacing: 2, fontWeight: FontWeight.w500),
-                      ),
-                    ]),
-                  ));
-                },
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 24),
+                    // 참조
+                    Text(
+                      _verses[_currentPage].refKo,
+                      style: TextStyle(fontSize: 13, color: Colors.white.withValues(alpha: 0.4), letterSpacing: 2, fontWeight: FontWeight.w500),
+                    ),
+                  ]),
+                )),
               ),
 
             // 상단 컨트롤 (탭하면 토글)
@@ -186,7 +184,13 @@ class _SleepModeViewState extends State<SleepModeView> with SingleTickerProvider
                 child: Row(
                   children: [
                     GestureDetector(
-                      onTap: () => Navigator.pop(context),
+                      onTap: () {
+                        if (widget.onClose != null) {
+                          widget.onClose!();
+                        } else {
+                          Navigator.pop(context);
+                        }
+                      },
                       child: Container(
                         padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(color: Colors.white.withValues(alpha: 0.08), shape: BoxShape.circle),

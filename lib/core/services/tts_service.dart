@@ -21,12 +21,20 @@ class TtsService extends ChangeNotifier {
   List<String> _verseQueue = [];
   bool _verseModeActive = false;
 
+  // 단어 단위 하이라이트 추적
+  int _wordStart = 0;
+  int _wordEnd = 0;
+
   bool get isPlaying => _isPlaying;
   double get speechRate => _speechRate;
   String get speedLabel => _speedLabels[_speedIndex];
 
   /// 현재 읽고 있는 절의 실제 인덱스 (전체 목록 기준)
   int get currentVerseIndex => _currentVerseIndex >= 0 ? _currentVerseIndex + _startOffset : -1;
+
+  /// 현재 읽고 있는 단어의 시작/끝 위치 (절 텍스트 내)
+  int get wordStart => _wordStart;
+  int get wordEnd => _wordEnd;
 
   static const _speedValues = [0.3, 0.4, 0.5, 0.65, 0.8];
   static const _speedLabels = ['0.5x', '0.75x', '1.0x', '1.25x', '1.5x'];
@@ -53,8 +61,17 @@ class TtsService extends ChangeNotifier {
       _isPlaying = false;
       _currentVerseIndex = -1;
       _startOffset = 0;
+      _wordStart = 0;
+      _wordEnd = 0;
       _verseModeActive = false;
       _verseQueue = [];
+      notifyListeners();
+    });
+
+    // 단어 단위 진행 추적 (Android/iOS)
+    _tts.setProgressHandler((String text, int start, int end, String word) {
+      _wordStart = start;
+      _wordEnd = end;
       notifyListeners();
     });
 
@@ -68,6 +85,8 @@ class TtsService extends ChangeNotifier {
     _verseModeActive = false;
     _currentVerseIndex = -1;
     _startOffset = 0;
+    _wordStart = 0;
+    _wordEnd = 0;
     _isPlaying = true;
     notifyListeners();
     await _tts.speak(text);
@@ -83,6 +102,8 @@ class TtsService extends ChangeNotifier {
     _verseModeActive = true;
     _currentVerseIndex = 0;
     _startOffset = startOffset;
+    _wordStart = 0;
+    _wordEnd = 0;
     _isPlaying = true;
     notifyListeners();
 
@@ -93,12 +114,16 @@ class TtsService extends ChangeNotifier {
     final nextIndex = _currentVerseIndex + 1;
     if (nextIndex < _verseQueue.length) {
       _currentVerseIndex = nextIndex;
+      _wordStart = 0;
+      _wordEnd = 0;
       notifyListeners();
       _tts.speak(_verseQueue[nextIndex]);
     } else {
       _isPlaying = false;
       _currentVerseIndex = -1;
       _startOffset = 0;
+      _wordStart = 0;
+      _wordEnd = 0;
       _verseModeActive = false;
       _verseQueue = [];
       notifyListeners();
@@ -109,6 +134,8 @@ class TtsService extends ChangeNotifier {
     _isPlaying = false;
     _currentVerseIndex = -1;
     _startOffset = 0;
+    _wordStart = 0;
+    _wordEnd = 0;
     _verseModeActive = false;
     _verseQueue = [];
     notifyListeners();

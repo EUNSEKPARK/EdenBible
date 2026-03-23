@@ -8,7 +8,9 @@ import 'features/sanctuary/views/home_view.dart';
 import 'features/bible_reader/views/bible_view.dart';
 import 'features/healing/views/emotion_category_view.dart';
 import 'features/divine_counsel/views/counsel_view.dart';
+import 'features/sleep/views/sleep_mode_view.dart';
 import 'features/settings/views/settings_view.dart';
+import 'features/tutorial/views/tutorial_view.dart';
 import 'core/services/bible_data_service.dart';
 import 'core/services/counsel_service.dart';
 import 'core/services/settings_service.dart';
@@ -92,7 +94,13 @@ class _EdenSplashState extends State<EdenSplash> with SingleTickerProviderStateM
 
   @override
   Widget build(BuildContext context) {
-    if (!_loading) return const EdenShell();
+    if (!_loading) {
+      final settings = SettingsService();
+      if (!settings.hasSeenTutorial) {
+        return TutorialView(onComplete: () { if (mounted) setState(() {}); });
+      }
+      return const EdenShell();
+    }
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
@@ -131,8 +139,14 @@ class EdenShell extends StatefulWidget {
 class _EdenShellState extends State<EdenShell> {
   int _currentIndex = 0;
   final _bibleViewKey = GlobalKey<BibleViewState>();
+  bool _sleepBarsHidden = true;  // 수면 모드 진입 시 바 숨김
 
-  void _navigateTo(int index) => setState(() => _currentIndex = index);
+  void _navigateTo(int index) {
+    setState(() {
+      _currentIndex = index;
+      if (index == 4) _sleepBarsHidden = true;  // 수면 모드 진입 시 자동 전체화면
+    });
+  }
 
   void _navigateToBibleChapter(int bookId, int chapter) {
     setState(() => _currentIndex = 1);
@@ -141,40 +155,57 @@ class _EdenShellState extends State<EdenShell> {
     });
   }
 
+  void _toggleSleepBars() => setState(() => _sleepBarsHidden = !_sleepBarsHidden);
+
+  void _exitSleepMode() {
+    setState(() { _sleepBarsHidden = false; _currentIndex = 0; });
+  }
+
   @override
   Widget build(BuildContext context) {
     final bool isHealingView = _currentIndex == 2;
+    final bool isSleepView = _currentIndex == 4;
+    final bool hideBars = isSleepView && _sleepBarsHidden;
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
+    // 수면 모드 전체화면: AppBar와 BottomNav 숨김
+    PreferredSizeWidget? appBar;
+    if (hideBars) {
+      appBar = null;
+    } else if (isHealingView || isSleepView) {
+      appBar = AppBar(
+        backgroundColor: isDark ? EdenColors.backgroundDark : EdenColors.backgroundLight,
+        elevation: 0, centerTitle: true,
+        leading: IconButton(icon: const Icon(Icons.arrow_back_ios_new_rounded, size: 20), onPressed: () => _navigateTo(0)),
+        title: Row(mainAxisSize: MainAxisSize.min, children: [
+          Icon(isHealingView ? Icons.favorite_rounded : Icons.nightlight_round, size: 18, color: isHealingView ? EdenColors.accent : Colors.amber),
+          const SizedBox(width: 8),
+          Text(isHealingView ? '마음 힐링' : '수면 묵상'),
+        ]),
+        actions: isHealingView ? [
+          IconButton(
+            icon: Icon(Icons.chat_bubble_outline_rounded, size: 20, color: EdenColors.secondary),
+            onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => Scaffold(
+              appBar: AppBar(title: const Text('채팅 상담'), centerTitle: true),
+              body: const CounselView(),
+            ))),
+            tooltip: '채팅 상담',
+          ),
+        ] : null,
+      );
+    } else {
+      appBar = EdenTopAppBar(
+        onNavigateToBible: () => _navigateTo(1),
+        onNavigateToCounsel: () => _navigateTo(2),
+        onNavigateToSettings: () => _navigateTo(5),
+        onNavigateToVerse: _navigateToBibleChapter,
+      );
+    }
+
     return Scaffold(
-      extendBody: false,
-      appBar: isHealingView
-          ? AppBar(
-              backgroundColor: isDark ? EdenColors.backgroundDark : EdenColors.backgroundLight,
-              elevation: 0, centerTitle: true,
-              leading: IconButton(icon: const Icon(Icons.arrow_back_ios_new_rounded, size: 20), onPressed: () => _navigateTo(0)),
-              title: Row(mainAxisSize: MainAxisSize.min, children: [
-                Icon(Icons.favorite_rounded, size: 18, color: EdenColors.accent),
-                const SizedBox(width: 8),
-                const Text('마음 힐링'),
-              ]),
-              actions: [
-                IconButton(
-                  icon: Icon(Icons.chat_bubble_outline_rounded, size: 20, color: EdenColors.secondary),
-                  onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => Scaffold(
-                    appBar: AppBar(title: const Text('채팅 상담'), centerTitle: true),
-                    body: const CounselView(),
-                  ))),
-                  tooltip: '채팅 상담',
-                ),
-              ],
-            )
-          : EdenTopAppBar(
-              onNavigateToBible: () => _navigateTo(1),
-              onNavigateToCounsel: () => _navigateTo(2),
-              onNavigateToSettings: () => _navigateTo(4),
-              onNavigateToVerse: _navigateToBibleChapter,
-            ),
+      extendBody: hideBars,
+      extendBodyBehindAppBar: hideBars,
+      appBar: appBar,
       body: IndexedStack(
         index: _currentIndex,
         children: [
@@ -186,10 +217,14 @@ class _EdenShellState extends State<EdenShell> {
           BibleView(key: _bibleViewKey),
           const EmotionCategoryView(),
           _BookmarksView(onNavigateToVerse: _navigateToBibleChapter),
+          SleepModeView(
+            onToggleFullscreen: _toggleSleepBars,
+            onClose: _exitSleepMode,
+          ),
           const SettingsView(),
         ],
       ),
-      bottomNavigationBar: EdenBottomNav(currentIndex: _currentIndex, onTap: _navigateTo),
+      bottomNavigationBar: hideBars ? null : EdenBottomNav(currentIndex: _currentIndex, onTap: _navigateTo),
     );
   }
 }
@@ -224,6 +259,7 @@ class _BookmarksView extends StatelessWidget {
         final bm = bookmarks[index];
         final verse = bible.getVerse(bm[0], bm[1], bm[2]);
         if (verse == null) return const SizedBox();
+        final verseText = verse.krv.isNotEmpty ? verse.krv : verse.kjv;
         return GestureDetector(
           onTap: () => onNavigateToVerse?.call(bm[0], bm[1]),
           child: Container(
@@ -238,7 +274,7 @@ class _BookmarksView extends StatelessWidget {
                 Icon(Icons.arrow_forward_ios_rounded, size: 12, color: EdenColors.textTertiaryLight),
               ]),
               const SizedBox(height: 8),
-              Text(verse.krv, style: const TextStyle(fontSize: 15, height: 1.6), maxLines: 3, overflow: TextOverflow.ellipsis),
+              Text(verseText, style: const TextStyle(fontSize: 15, height: 1.6), maxLines: 3, overflow: TextOverflow.ellipsis),
             ]),
           ),
         );

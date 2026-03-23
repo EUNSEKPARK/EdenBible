@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'dart:ui' as ui;
-import 'dart:typed_data';
+import 'dart:io';
 import 'package:share_plus/share_plus.dart';
 import 'package:path_provider/path_provider.dart';
-import 'dart:io';
 import '../../app/theme/colors.dart';
 
 /// SNS 공유용 성경 구절 카드 위젯
@@ -133,6 +133,8 @@ class ShareVerseCard extends StatelessWidget {
 
 /// 공유 카드를 이미지로 캡처하고 공유하는 유틸리티
 class ShareCardHelper {
+  static const MethodChannel _kakaoChannel = MethodChannel('com.edenbible.app/kakao_share');
+
   /// 카드 위젯을 이미지로 캡처
   static Future<Uint8List?> captureCard(GlobalKey key) async {
     try {
@@ -160,6 +162,102 @@ class ShareCardHelper {
     await Share.shareXFiles(
       [XFile(file.path)],
       text: text ?? '에덴 - AI 성경책에서 공유합니다',
+    );
+  }
+
+  /// 카카오톡으로 이미지 공유. Android는 카카오톡 앱으로 직접 전달, 미설치 시 시스템 공유로 폴백.
+  /// iOS는 앱 지정 공유가 불가하여 시스템 공유 시트를 사용합니다.
+  static Future<void> shareCardToKakao(
+    GlobalKey key, {
+    required String caption,
+  }) async {
+    final imageBytes = await captureCard(key);
+    if (imageBytes == null) return;
+
+    final dir = await getTemporaryDirectory();
+    final file = File('${dir.path}/eden_verse_kakao_${DateTime.now().millisecondsSinceEpoch}.png');
+    await file.writeAsBytes(imageBytes);
+    final xFile = XFile(file.path);
+
+    if (Platform.isAndroid) {
+      try {
+        final opened = await _kakaoChannel.invokeMethod<bool>('shareImageToKakao', {
+          'path': file.path,
+          'text': caption,
+        });
+        if (opened == true) return;
+      } on PlatformException catch (e) {
+        debugPrint('카카오톡 공유 채널 오류: $e');
+      }
+    }
+
+    await Share.shareXFiles([xFile], text: caption);
+  }
+}
+
+/// 시스템 공유 시트 상단 앱 아이콘 줄과 비슷한 터치 타일
+class _ShareIconTile extends StatelessWidget {
+  final String label;
+  final Color backgroundColor;
+  final Color iconColor;
+  final IconData icon;
+  final VoidCallback onTap;
+
+  const _ShareIconTile({
+    required this.label,
+    required this.backgroundColor,
+    required this.iconColor,
+    required this.icon,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(20),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                width: 58,
+                height: 58,
+                decoration: BoxDecoration(
+                  color: backgroundColor,
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.06),
+                      blurRadius: 8,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
+                ),
+                child: Icon(icon, color: iconColor, size: 26),
+              ),
+              const SizedBox(height: 8),
+              SizedBox(
+                width: 76,
+                child: Text(
+                  label,
+                  textAlign: TextAlign.center,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                    color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.85),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
@@ -200,26 +298,56 @@ void showShareCardSheet(BuildContext context, {
                 repaintKey: cardKey,
               ),
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: 20),
 
-            // 공유 버튼
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton.icon(
-                onPressed: () async {
-                  await ShareCardHelper.shareCard(cardKey, text: '$verseRef - 에덴 AI 성경책');
-                },
-                icon: const Icon(Icons.share_rounded, size: 18),
-                label: const Text('이미지로 공유하기'),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: EdenColors.primary,
-                  foregroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(vertical: 14),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-                ),
+            // OS 공유 시트에는 앱에서 아이콘을 끼워 넣을 수 없어, 같은 패턴의 아이콘 줄을 바텀시트에 둡니다.
+            Text(
+              '이미지 공유',
+              style: TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w600,
+                color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.65),
               ),
             ),
             const SizedBox(height: 12),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                _ShareIconTile(
+                  label: '카카오톡',
+                  backgroundColor: const Color(0xFFFEE500),
+                  iconColor: const Color(0xFF191919),
+                  icon: Icons.chat_bubble_rounded,
+                  onTap: () async {
+                    await ShareCardHelper.shareCardToKakao(
+                      cardKey,
+                      caption: '$verseRef - 에덴 AI 성경책',
+                    );
+                  },
+                ),
+                const SizedBox(width: 28),
+                _ShareIconTile(
+                  label: '다른 앱',
+                  backgroundColor: EdenColors.primary.withValues(alpha: 0.18),
+                  iconColor: EdenColors.primary,
+                  icon: Icons.share_rounded,
+                  onTap: () async {
+                    await ShareCardHelper.shareCard(cardKey, text: '$verseRef - 에덴 AI 성경책');
+                  },
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
+            Text(
+              '「다른 앱」에서 인스타그램·메시지 등 시스템 공유 목록이 열립니다.',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 11,
+                height: 1.35,
+                color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.45),
+              ),
+            ),
+            const SizedBox(height: 16),
 
             // 텍스트 공유
             SizedBox(

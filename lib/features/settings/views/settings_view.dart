@@ -5,6 +5,7 @@ import 'package:path_provider/path_provider.dart';
 import '../../../app/theme/colors.dart';
 import '../../../core/services/settings_service.dart';
 import '../../../core/services/tts_service.dart';
+import '../../tutorial/views/tutorial_view.dart';
 
 class SettingsView extends StatefulWidget {
   const SettingsView({super.key});
@@ -275,6 +276,12 @@ class _SettingsViewState extends State<SettingsView> {
         // ═══ 앱 정보 ═══
         _SectionTitle(label: '앱 정보'),
         const SizedBox(height: 16),
+
+        GestureDetector(
+          onTap: () => Navigator.push(context, MaterialPageRoute(
+            builder: (_) => TutorialView(onComplete: () => Navigator.pop(context)))),
+          child: _tile(isDark: isDark, icon: Icons.help_outline_rounded, label: '사용법 튜토리얼', subtitle: '앱 사용 설명을 다시 볼 수 있어요', trailing: Icon(Icons.chevron_right, color: EdenColors.textTertiaryLight))),
+        const SizedBox(height: 10),
 
         _tile(isDark: isDark, icon: Icons.info_outline, label: '버전', subtitle: '1.0.0 (Build 1)', trailing: const SizedBox()),
         const SizedBox(height: 10),

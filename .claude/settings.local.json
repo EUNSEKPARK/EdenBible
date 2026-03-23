@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//Users/pes/Desktop/Github/PDFAsk/doc/**)",
+      "Read(//Users/pes/Desktop/Github/PDFAsk/**)",
+      "Read(//Users/pes/Desktop/개인문서관련/MyDev/**)",
+      "Bash(chmod +x \"/Users/pes/Desktop/개인문서관련/MyDev/PDFAsk-Web/backend/run.sh\")",
+      "Bash(chmod +x \"/Users/pes/Desktop/개인문서관련/MyDev/PDFAsk-Web/frontend/server.py\")"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

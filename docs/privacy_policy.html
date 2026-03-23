@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>에덴 성경책 — 개인정보 처리방침</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans KR', sans-serif;
+      background: #FFFDF7; color: #1C1C1E; line-height: 1.8; padding: 0;
+    }
+    .header {
+      background: linear-gradient(135deg, #5B7553, #3D5238);
+      color: white; padding: 48px 24px 40px; text-align: center;
+    }
+    .header h1 { font-size: 24px; font-weight: 700; letter-spacing: 1px; margin-bottom: 8px; }
+    .header p { font-size: 14px; opacity: 0.85; }
+    .container { max-width: 720px; margin: 0 auto; padding: 32px 24px 80px; }
+    .lang-switch {
+      display: flex; justify-content: center; gap: 8px; margin-bottom: 32px;
+    }
+    .lang-switch button {
+      padding: 8px 20px; border: 2px solid #5B7553; border-radius: 24px;
+      background: transparent; color: #5B7553; font-size: 13px; font-weight: 600;
+      cursor: pointer; transition: all 0.2s;
+    }
+    .lang-switch button.active {
+      background: #5B7553; color: white;
+    }
+    .section { margin-bottom: 28px; }
+    .section h2 {
+      font-size: 17px; font-weight: 700; color: #5B7553;
+      margin-bottom: 12px; padding-bottom: 8px;
+      border-bottom: 2px solid #E8E5DE;
+    }
+    .section p, .section li { font-size: 15px; color: #333; margin-bottom: 8px; }
+    .section ul { padding-left: 20px; }
+    .section li { margin-bottom: 6px; }
+    .highlight {
+      background: #F5F3ED; border-radius: 12px; padding: 16px 20px;
+      margin: 12px 0; border-left: 4px solid #5B7553;
+    }
+    .highlight p { margin: 0; font-weight: 500; }
+    table {
+      width: 100%; border-collapse: collapse; margin: 12px 0;
+      font-size: 14px; border-radius: 12px; overflow: hidden;
+    }
+    th { background: #5B7553; color: white; padding: 10px 14px; text-align: left; font-weight: 600; }
+    td { padding: 10px 14px; border-bottom: 1px solid #E8E5DE; }
+    tr:nth-child(even) td { background: #FAFAF5; }
+    .contact {
+      background: #F5F3ED; border-radius: 16px; padding: 24px;
+      text-align: center; margin-top: 32px;
+    }
+    .contact p { font-size: 14px; color: #666; margin-bottom: 4px; }
+    .contact a { color: #5B7553; font-weight: 600; text-decoration: none; }
+    .date { text-align: center; font-size: 12px; color: #999; margin-top: 32px; }
+    .lang-content { display: none; }
+    .lang-content.active { display: block; }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <h1>에덴 성경책</h1>
+  <p>개인정보 처리방침 / Privacy Policy</p>
+</div>
+
+<div class="container">
+  <div class="lang-switch">
+    <button class="active" onclick="switchLang('ko')">한국어</button>
+    <button onclick="switchLang('en')">English</button>
+  </div>
+
+  <!-- ═══ 한국어 ═══ -->
+  <div id="lang-ko" class="lang-content active">
+
+    <div class="section">
+      <h2>1. 개인정보의 수집 및 이용 목적</h2>
+      <p>"에덴 성경책" (이하 "본 앱")은 사용자의 개인정보를 다음의 목적을 위해 처리합니다.</p>
+      <ul>
+        <li>앱 서비스 제공 및 개선</li>
+        <li>사용자 읽기 기록, 북마크, 설정값 저장</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h2>2. 수집하는 개인정보 항목</h2>
+      <div class="highlight">
+        <p>본 앱은 서버에 어떠한 개인정보도 전송하지 않습니다.<br>모든 데이터는 사용자의 기기(단말기) 내부에만 저장됩니다.</p>
+      </div>
+      <table>
+        <tr><th>수집 항목</th><th>저장 위치</th><th>목적</th></tr>
+        <tr><td>성경 읽기 기록</td><td>기기 내부</td><td>이어 읽기 기능</td></tr>
+        <tr><td>북마크 데이터</td><td>기기 내부</td><td>구절 저장 기능</td></tr>
+        <tr><td>앱 설정</td><td>기기 내부</td><td>개인화 설정</td></tr>
+        <tr><td>감정 선택 이력</td><td>기기 내부</td><td>자주 찾는 위로 추천</td></tr>
+        <tr><td>연속 읽기 일수</td><td>기기 내부</td><td>읽기 동기부여</td></tr>
+        <tr><td>닉네임</td><td>기기 내부</td><td>프로필 표시</td></tr>
+        <tr><td>프로필 사진</td><td>기기 로컬 저장소</td><td>프로필 표시</td></tr>
+      </table>
+    </div>
+
+    <div class="section">
+      <h2>3. 카메라/갤러리 접근</h2>
+      <p>본 앱은 프로필 사진 설정을 위해 카메라 또는 갤러리 접근 권한을 요청할 수 있습니다. 촬영되거나 선택된 사진은 기기 내부에만 저장되며, 외부 서버로 전송되지 않습니다.</p>
+    </div>
+
+    <div class="section">
+      <h2>4. 개인정보의 제3자 제공</h2>
+      <div class="highlight">
+        <p>본 앱은 사용자의 개인정보를 제3자에게 제공하지 않습니다.</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>5. 개인정보의 보유 및 파기</h2>
+      <ul>
+        <li>모든 데이터는 사용자의 기기 내부에만 저장됩니다.</li>
+        <li>앱을 삭제하면 모든 데이터가 자동으로 삭제됩니다.</li>
+        <li>앱 내 설정에서 "데이터 초기화" 기능으로 직접 삭제할 수 있습니다.</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h2>6. 인터넷 사용</h2>
+      <p>본 앱의 핵심 기능(성경 읽기, 말씀 상담, 수면 묵상)은 인터넷 없이 동작합니다.</p>
+      <ul>
+        <li>성경 데이터 (66권 27,121절)는 앱에 내장되어 있습니다.</li>
+        <li>말씀 상담 기능은 사전 작성된 프리셋 데이터를 기반으로 기기 내부에서 처리됩니다.</li>
+        <li>TTS (음성 읽기)는 기기 내장 엔진을 사용합니다.</li>
+        <li>유튜브 추천 영상의 썸네일 표시 및 영상 재생 시에는 인터넷 연결이 필요합니다.</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h2>7. 아동의 개인정보 보호</h2>
+      <p>본 앱은 만 14세 미만 아동의 개인정보를 별도로 수집하지 않으며, 모든 연령이 사용할 수 있는 종교/교육 목적의 앱입니다.</p>
+    </div>
+
+    <div class="section">
+      <h2>8. 개인정보 처리방침의 변경</h2>
+      <p>본 개인정보 처리방침은 법령, 정책, 또는 보안 기술의 변경에 따라 내용이 추가, 삭제 및 수정될 수 있습니다.</p>
+    </div>
+  </div>
+
+  <!-- ═══ English ═══ -->
+  <div id="lang-en" class="lang-content">
+
+    <div class="section">
+      <h2>1. Data Collection</h2>
+      <div class="highlight">
+        <p>Eden Bible does NOT collect, transmit, or store any personal data on external servers. All user data is stored exclusively on the user's device.</p>
+      </div>
+      <table>
+        <tr><th>Data Item</th><th>Storage</th><th>Purpose</th></tr>
+        <tr><td>Reading history</td><td>Device only</td><td>Resume reading</td></tr>
+        <tr><td>Bookmarks</td><td>Device only</td><td>Save verses</td></tr>
+        <tr><td>App settings</td><td>Device only</td><td>Personalization</td></tr>
+        <tr><td>Emotion selection history</td><td>Device only</td><td>Comfort recommendations</td></tr>
+        <tr><td>Reading streak</td><td>Device only</td><td>Motivation tracking</td></tr>
+        <tr><td>Nickname</td><td>Device only</td><td>Profile display</td></tr>
+        <tr><td>Profile photo</td><td>Device local storage</td><td>Profile display</td></tr>
+      </table>
+    </div>
+
+    <div class="section">
+      <h2>2. Camera/Gallery Access</h2>
+      <p>The app may request camera or gallery access for setting a profile photo. Photos are stored locally on the device only and are never transmitted to external servers.</p>
+    </div>
+
+    <div class="section">
+      <h2>3. Third-Party Data Sharing</h2>
+      <div class="highlight">
+        <p>This app does NOT share any user data with third parties.</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>4. Internet Usage</h2>
+      <p>Core app features (Bible reading, counseling, sleep meditation) operate entirely offline.</p>
+      <ul>
+        <li>Bible data (66 books, 27,121 verses) is embedded within the app.</li>
+        <li>Counseling uses pre-built preset data processed on-device.</li>
+        <li>Text-to-speech uses the device's built-in engine.</li>
+        <li>Internet is required only for YouTube video thumbnails and playback.</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h2>5. Third-Party Services</h2>
+      <ul>
+        <li><strong>YouTube:</strong> When users tap a recommended video, the YouTube app or browser opens externally. We do not control YouTube's data practices.</li>
+        <li><strong>TTS:</strong> Text-to-speech uses the device's built-in engine. No data is sent externally.</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h2>6. Children's Privacy</h2>
+      <p>This app does not specifically collect personal information from children under 14. It is a religious/educational app suitable for all ages.</p>
+    </div>
+
+    <div class="section">
+      <h2>7. Data Deletion</h2>
+      <p>All data is deleted when the app is uninstalled. Users can also reset data within the app's Settings page.</p>
+    </div>
+
+    <div class="section">
+      <h2>8. Changes to This Policy</h2>
+      <p>This privacy policy may be updated to reflect changes in legal requirements, policies, or technology.</p>
+    </div>
+  </div>
+
+  <!-- ═══ 공통 ═══ -->
+  <div class="contact">
+    <p><strong>에덴 성경책</strong> / Eden Bible</p>
+    <p>개발자: 은혜의반석 (Rock of Grace)</p>
+    <p><a href="mailto:edenbible.app@gmail.com">edenbible.app@gmail.com</a></p>
+  </div>
+
+  <p class="date">시행일: 2026년 4월 1일 | 최종 수정일: 2026년 3월 23일</p>
+</div>
+
+<script>
+function switchLang(lang) {
+  document.querySelectorAll('.lang-content').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.lang-switch button').forEach(el => el.classList.remove('active'));
+  document.getElementById('lang-' + lang).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>
+
+</body>
+</html>

@@ -174,6 +174,11 @@ class SettingsService extends ChangeNotifier {
 
   List<String> get emotionHistory => _prefs?.getStringList('emotionHistory') ?? [];
 
+  // ─── 튜토리얼 ───
+  bool get hasSeenTutorial => _prefs?.getBool('hasSeenTutorial') ?? false;
+  Future<void> completeTutorial() async { await _prefs?.setBool('hasSeenTutorial', true); notifyListeners(); }
+  Future<void> resetTutorial() async { await _prefs?.setBool('hasSeenTutorial', false); notifyListeners(); }
+
   // ─── 수면 모드 ───
   int get sleepTimerMinutes => _prefs?.getInt('sleepTimerMinutes') ?? 30;
   Future<void> setSleepTimerMinutes(int minutes) async { await _prefs?.setInt('sleepTimerMinutes', minutes); notifyListeners(); }

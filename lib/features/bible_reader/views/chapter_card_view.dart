@@ -79,7 +79,11 @@ class ChapterCardView extends StatelessWidget {
                 (context, index) {
                   final chapter = index + 1;
                   final firstVerse = bible.getVerse(book.id, chapter, 1);
-                  final preview = firstVerse?.krv ?? '';
+                  final preview = (firstVerse?.krv.isNotEmpty == true)
+                      ? firstVerse!.krv
+                      : (firstVerse?.kjv.isNotEmpty == true
+                          ? '${firstVerse!.kjv} (한글 구절 준비 중)'
+                          : '');
                   final verseCount = bible.getVerseCount(book.id, chapter);
 
                   return GestureDetector(

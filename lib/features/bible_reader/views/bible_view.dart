@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:share_plus/share_plus.dart';
 import '../../../app/theme/colors.dart';
 import '../../../core/models/bible_verse.dart';
 import '../../../core/services/bible_data_service.dart';
 import '../../../core/services/settings_service.dart';
 import '../../../core/services/tts_service.dart';
 import '../../../shared/widgets/share_verse_card.dart';
-import 'visual_book_grid.dart';
+import 'visual_book_grid.dart'; // getBookThumbnail 포함
 
 class BibleView extends StatefulWidget {
   const BibleView({super.key});
@@ -88,11 +87,12 @@ class BibleViewState extends State<BibleView> {
         Expanded(
           child: _cardMode
               ? _CardSwipeView(verses: _verses, book: book, chapter: _chapter, translation: _translation,
-                  fontSize: fontSize, isDark: isDark, settings: _settings, onNext: _nextChapter, onPrev: _prevChapter, activeVerseIndex: activeVerse)
+                  fontSize: fontSize, isDark: isDark, settings: _settings, onNext: _nextChapter, onPrev: _prevChapter, activeVerseIndex: activeVerse, bookId: _bookId, wordStart: _tts.wordStart, wordEnd: _tts.wordEnd)
               : _ListReadView(verses: _verses, book: book, chapter: _chapter, translation: _translation,
                   fontSize: fontSize, isDark: isDark, bible: _bible, bookId: _bookId,
                   settings: _settings, onNext: _nextChapter, onPrev: _prevChapter,
                   activeVerseIndex: activeVerse, selectedVerseIndex: _selectedVerseIndex,
+                  wordStart: _tts.wordStart, wordEnd: _tts.wordEnd,
                   onVerseTap: _onVerseTap,
                   onPinchStart: (d) { if (d.pointerCount >= 2) _pinchStartFontSize = _settings.fontSize; },
                   onPinchUpdate: (d) { if (d.pointerCount >= 2) { _settings.setFontSize((_pinchStartFontSize * d.scale).clamp(14.0, 32.0)); } }),
@@ -128,7 +128,14 @@ class _UnifiedBottomBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final tts = TtsService();
     final hasSelection = selectedVerse != null;
-    final text = hasSelection ? (translation == 'krv' ? selectedVerse!.krv : selectedVerse!.kjv) : '';
+    String text = '';
+    if (hasSelection) {
+      if (translation == 'krv') {
+        text = selectedVerse!.krv.isNotEmpty ? selectedVerse!.krv : selectedVerse!.kjv;
+      } else {
+        text = selectedVerse!.kjv;
+      }
+    }
     final ref = hasSelection ? selectedVerse!.refKo : '';
     final isBookmarked = hasSelection ? settings.isBookmarked(bookId, chapter, selectedVerse!.verse) : false;
 
@@ -179,8 +186,12 @@ class _UnifiedBottomBar extends StatelessWidget {
 
         // ─── 공통: 배속 + 재생 ───
         if (!hasSelection)
-          GestureDetector(onTap: () { if (verses.isNotEmpty) showShareCardSheet(context, verseText: verses.first.krv, verseRef: verses.first.refKo); },
-            child: Padding(padding: const EdgeInsets.symmetric(horizontal: 6), child: Icon(Icons.share_outlined, size: 20, color: EdenColors.textSecondaryLight))),
+          GestureDetector(onTap: () {
+            if (verses.isNotEmpty) {
+              final firstVerseText = verses.first.krv.isNotEmpty ? verses.first.krv : verses.first.kjv;
+              showShareCardSheet(context, verseText: firstVerseText, verseRef: verses.first.refKo);
+            }
+          }, child: Padding(padding: const EdgeInsets.symmetric(horizontal: 6), child: Icon(Icons.share_outlined, size: 20, color: EdenColors.textSecondaryLight))),
 
         ListenableBuilder(listenable: tts, builder: (_, __) => GestureDetector(onTap: () => tts.cycleSpeed(),
           child: Container(padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6), margin: const EdgeInsets.only(left: 2),
@@ -195,11 +206,23 @@ class _UnifiedBottomBar extends StatelessWidget {
               // 선택된 절부터 끝까지 읽기 (하이라이트도 정확한 위치에 표시)
               final startIdx = verses.indexOf(selectedVerse!);
               final offset = startIdx >= 0 ? startIdx : 0;
-              final texts = verses.skip(offset).map((v) => translation == 'krv' ? v.krv : v.kjv).toList();
+              final texts = verses.skip(offset).map((v) {
+                if (translation == 'krv') {
+                  return v.krv.isNotEmpty ? v.krv : v.kjv;
+                } else {
+                  return v.kjv;
+                }
+              }).toList();
               if (texts.isEmpty) return;
               translation == 'kjv' ? tts.setEnglish() : tts.setKorean(); tts.speakVerses(texts, startOffset: offset);
             } else {
-              final texts = verses.map((v) => translation == 'krv' ? v.krv : v.kjv).toList();
+              final texts = verses.map((v) {
+                if (translation == 'krv') {
+                  return v.krv.isNotEmpty ? v.krv : v.kjv;
+                } else {
+                  return v.kjv;
+                }
+              }).toList();
               if (texts.isEmpty) return;
               translation == 'kjv' ? tts.setEnglish() : tts.setKorean(); tts.speakVerses(texts);
             }
@@ -261,9 +284,9 @@ class _CircleBtn extends StatelessWidget {
 // ─── 카드 스와이프 ───
 class _CardSwipeView extends StatefulWidget {
   final List<BibleVerse> verses; final BibleBook? book; final int chapter; final String translation;
-  final double fontSize; final bool isDark; final SettingsService settings; final VoidCallback onNext, onPrev; final int activeVerseIndex;
+  final double fontSize; final bool isDark; final SettingsService settings; final VoidCallback onNext, onPrev; final int activeVerseIndex; final int bookId; final int wordStart; final int wordEnd;
   const _CardSwipeView({required this.verses, required this.book, required this.chapter, required this.translation,
-    required this.fontSize, required this.isDark, required this.settings, required this.onNext, required this.onPrev, required this.activeVerseIndex});
+    required this.fontSize, required this.isDark, required this.settings, required this.onNext, required this.onPrev, required this.activeVerseIndex, required this.bookId, required this.wordStart, required this.wordEnd});
   @override
   State<_CardSwipeView> createState() => _CardSwipeViewState();
 }
@@ -282,54 +305,112 @@ class _CardSwipeViewState extends State<_CardSwipeView> {
   }
   @override
   void dispose() { _pageController.dispose(); super.dispose(); }
+
+  TextSpan _buildCardHighlightedText(String text, int start, int end, TextStyle baseStyle, bool isDark) {
+    final safeStart = start.clamp(0, text.length);
+    final safeEnd = end.clamp(safeStart, text.length);
+    return TextSpan(children: [
+      if (safeStart > 0) TextSpan(text: text.substring(0, safeStart), style: baseStyle),
+      TextSpan(text: text.substring(safeStart, safeEnd), style: baseStyle.copyWith(
+        backgroundColor: isDark ? const Color(0xFF64B5F6).withValues(alpha: 0.35) : const Color(0xFF42A5F5).withValues(alpha: 0.3),
+        color: isDark ? Colors.white : const Color(0xFF0D47A1), fontWeight: FontWeight.w700)),
+      if (safeEnd < text.length) TextSpan(text: text.substring(safeEnd), style: baseStyle),
+    ]);
+  }
+
   @override
   Widget build(BuildContext context) {
     if (widget.verses.isEmpty) return const Center(child: CircularProgressIndicator());
-    return Column(children: [
-      Padding(padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4), child: Row(children: [
-        Text('${_currentPage + 1} / ${widget.verses.length}절', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: EdenColors.secondary)),
-        const Spacer(),
-        if (widget.activeVerseIndex >= 0)
-          Row(children: [Container(width: 6, height: 6, decoration: BoxDecoration(color: EdenColors.accent, shape: BoxShape.circle)), const SizedBox(width: 4),
-            Text('읽는 중', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: EdenColors.accent))])
-        else Text('← 스와이프 →', style: TextStyle(fontSize: 10, color: EdenColors.textTertiaryLight)),
-      ])),
-      Padding(padding: const EdgeInsets.symmetric(horizontal: 20), child: ClipRRect(borderRadius: BorderRadius.circular(3),
-        child: LinearProgressIndicator(value: (_currentPage + 1) / widget.verses.length, minHeight: 3,
-          backgroundColor: widget.isDark ? EdenColors.surfaceVariantDark : const Color(0xFFF0EEE8), valueColor: AlwaysStoppedAnimation(EdenColors.primary)))),
-      const SizedBox(height: 8),
-      Expanded(child: PageView.builder(
-        controller: _pageController, itemCount: widget.verses.length,
-        onPageChanged: (i) => setState(() => _currentPage = i),
-        itemBuilder: (context, index) {
-          final verse = widget.verses[index]; final text = widget.translation == 'krv' ? verse.krv : verse.kjv;
-          final isBookmarked = widget.settings.isBookmarked(verse.bookId, widget.chapter, verse.verse);
-          final isActive = widget.activeVerseIndex == index;
-          return Padding(padding: const EdgeInsets.fromLTRB(20, 8, 20, 80), child: AnimatedContainer(
-            duration: const Duration(milliseconds: 300), padding: const EdgeInsets.all(28),
-            decoration: BoxDecoration(color: widget.isDark ? EdenColors.surfaceDark : Colors.white, borderRadius: BorderRadius.circular(28),
-              boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.05), blurRadius: 20, offset: const Offset(0, 8))],
-              border: isActive ? Border.all(color: const Color(0xFFE8C547), width: 2.5) : isBookmarked ? Border.all(color: EdenColors.accent.withValues(alpha: 0.4), width: 2) : Border.all(color: (widget.isDark ? Colors.white : Colors.black).withValues(alpha: 0.05))),
-            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Row(children: [
-                Container(padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                  decoration: BoxDecoration(color: isActive ? const Color(0xFFE8C547).withValues(alpha: 0.2) : EdenColors.primary.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(10)),
-                  child: Text('${verse.verse}절', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w800, color: isActive ? const Color(0xFFB8960A) : EdenColors.primary))),
-                const SizedBox(width: 10), Text(verse.shortRef, style: TextStyle(fontSize: 12, color: EdenColors.textTertiaryLight, fontWeight: FontWeight.w500)),
-                const Spacer(),
-                if (isActive) Icon(Icons.volume_up_rounded, size: 16, color: const Color(0xFFE8C547)),
-                if (isBookmarked) ...[const SizedBox(width: 4), Icon(Icons.bookmark_rounded, size: 18, color: EdenColors.accent)],
-              ]),
-              const SizedBox(height: 24),
-              Expanded(child: Center(child: SingleChildScrollView(child: Text(text,
-                style: TextStyle(fontSize: widget.fontSize + 2, fontWeight: isActive ? FontWeight.w500 : FontWeight.w400,
-                  color: widget.isDark ? EdenColors.textPrimaryDark : EdenColors.textPrimaryLight,
-                  height: widget.settings.lineHeight, letterSpacing: 0.3),
-                textAlign: TextAlign.center)))),
-              const SizedBox(height: 16),
-              Center(child: Text('${widget.book?.nameKo ?? ""} ${widget.chapter}장', style: TextStyle(fontSize: 11, color: EdenColors.textTertiaryLight, letterSpacing: 2))),
-            ])));
-        })),
+    final thumbPath = getBookThumbnail(widget.bookId);
+    return Stack(children: [
+      // 배경 썸네일 (opacity 높여서 잘 보이게)
+      Positioned.fill(child: Opacity(opacity: widget.isDark ? 0.25 : 0.18,
+        child: Image.asset(thumbPath, fit: BoxFit.cover, errorBuilder: (_, __, ___) => const SizedBox()))),
+      // 배경 위 그라데이션 오버레이
+      Positioned.fill(child: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter,
+            colors: [
+              (widget.isDark ? EdenColors.backgroundDark : EdenColors.backgroundLight).withValues(alpha: 0.5),
+              (widget.isDark ? EdenColors.backgroundDark : EdenColors.backgroundLight).withValues(alpha: 0.85),
+            ])))),
+      // 본문 콘텐츠
+      Column(children: [
+        Padding(padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4), child: Row(children: [
+          Text('${_currentPage + 1} / ${widget.verses.length}절', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: EdenColors.secondary)),
+          const Spacer(),
+          if (widget.activeVerseIndex >= 0)
+            Row(children: [Container(width: 6, height: 6, decoration: BoxDecoration(color: const Color(0xFF42A5F5), shape: BoxShape.circle)), const SizedBox(width: 4),
+              Text('읽는 중', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: const Color(0xFF42A5F5)))])
+          else Text('← 스와이프 →', style: TextStyle(fontSize: 10, color: EdenColors.textTertiaryLight)),
+        ])),
+        Padding(padding: const EdgeInsets.symmetric(horizontal: 20), child: ClipRRect(borderRadius: BorderRadius.circular(3),
+          child: LinearProgressIndicator(value: (_currentPage + 1) / widget.verses.length, minHeight: 3,
+            backgroundColor: widget.isDark ? EdenColors.surfaceVariantDark : const Color(0xFFF0EEE8), valueColor: AlwaysStoppedAnimation(EdenColors.primary)))),
+        const SizedBox(height: 8),
+        Expanded(child: PageView.builder(
+          controller: _pageController, itemCount: widget.verses.length,
+          onPageChanged: (i) => setState(() => _currentPage = i),
+          itemBuilder: (context, index) {
+            final verse = widget.verses[index];
+            String text;
+            if (widget.translation == 'krv') {
+              text = verse.krv.isNotEmpty ? verse.krv : '${verse.kjv}\n(한글 구절 준비 중)';
+            } else {
+              text = verse.kjv;
+            }
+            final isBookmarked = widget.settings.isBookmarked(verse.bookId, widget.chapter, verse.verse);
+            final isActive = widget.activeVerseIndex == index;
+            return Padding(padding: const EdgeInsets.fromLTRB(20, 8, 20, 80), child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(28),
+                boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.08), blurRadius: 20, offset: const Offset(0, 8))],
+                border: isActive ? Border.all(color: const Color(0xFF64B5F6), width: 2.5) : isBookmarked ? Border.all(color: EdenColors.accent.withValues(alpha: 0.4), width: 2) : Border.all(color: (widget.isDark ? Colors.white : Colors.black).withValues(alpha: 0.05))),
+              child: ClipRRect(borderRadius: BorderRadius.circular(28),
+              child: Stack(children: [
+                // ── 카드 전체 배경: 썸네일 이미지 ──
+                Positioned.fill(child: Image.asset(thumbPath, fit: BoxFit.cover, errorBuilder: (_, __, ___) => Container(color: widget.isDark ? EdenColors.surfaceDark : Colors.white))),
+                // ── 하단 그라데이션 오버레이 (텍스트 가독성) ──
+                Positioned.fill(child: Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter,
+                      stops: const [0.0, 0.35, 1.0],
+                      colors: [
+                        (widget.isDark ? const Color(0xFF1A1A2E) : Colors.white).withValues(alpha: 0.3),
+                        (widget.isDark ? const Color(0xFF1A1A2E) : Colors.white).withValues(alpha: 0.75),
+                        (widget.isDark ? const Color(0xFF1A1A2E) : Colors.white).withValues(alpha: 0.92),
+                      ])))),
+                // ── 카드 콘텐츠 ──
+                Padding(padding: const EdgeInsets.all(28),
+                child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                  Row(children: [
+                    Container(padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                      decoration: BoxDecoration(color: (isActive ? const Color(0xFF42A5F5) : EdenColors.primary).withValues(alpha: widget.isDark ? 0.3 : 0.15), borderRadius: BorderRadius.circular(10)),
+                      child: Text('${verse.verse}절', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w800, color: isActive ? const Color(0xFF1565C0) : EdenColors.primary))),
+                    const SizedBox(width: 10), Text(verse.shortRef, style: TextStyle(fontSize: 12, color: widget.isDark ? Colors.white70 : EdenColors.textTertiaryLight, fontWeight: FontWeight.w500)),
+                    const Spacer(),
+                    if (isActive) Icon(Icons.volume_up_rounded, size: 16, color: const Color(0xFF42A5F5)),
+                    if (isBookmarked) ...[const SizedBox(width: 4), Icon(Icons.bookmark_rounded, size: 18, color: EdenColors.accent)],
+                  ]),
+                  const SizedBox(height: 24),
+                  Expanded(child: Center(child: SingleChildScrollView(
+                    child: RichText(textAlign: TextAlign.center, text: isActive && widget.wordEnd > widget.wordStart
+                      ? _buildCardHighlightedText(
+                          text, widget.wordStart, widget.wordEnd,
+                          TextStyle(fontSize: widget.fontSize + 2, fontWeight: FontWeight.w500,
+                            color: widget.isDark ? EdenColors.textPrimaryDark : EdenColors.textPrimaryLight,
+                            height: widget.settings.lineHeight, letterSpacing: 0.3),
+                          widget.isDark)
+                      : TextSpan(text: text, style: TextStyle(fontSize: widget.fontSize + 2,
+                          fontWeight: isActive ? FontWeight.w500 : FontWeight.w400,
+                          color: widget.isDark ? EdenColors.textPrimaryDark : EdenColors.textPrimaryLight,
+                          height: widget.settings.lineHeight, letterSpacing: 0.3)))))),
+                  const SizedBox(height: 16),
+                  Center(child: Text('${widget.book?.nameKo ?? ""} ${widget.chapter}장', style: TextStyle(fontSize: 11, color: widget.isDark ? Colors.white54 : EdenColors.textTertiaryLight, letterSpacing: 2))),
+                ])),
+              ]))));  // Stack, ClipRRect, Container, Padding
+          })),
+      ]),
     ]);
   }
 }
@@ -339,12 +420,14 @@ class _ListReadView extends StatefulWidget {
   final List<BibleVerse> verses; final BibleBook? book; final int chapter; final String translation;
   final double fontSize; final bool isDark; final BibleDataService bible; final int bookId;
   final SettingsService settings; final VoidCallback onNext, onPrev;
-  final int activeVerseIndex; final int selectedVerseIndex; final void Function(int) onVerseTap;
+  final int activeVerseIndex; final int selectedVerseIndex; final int wordStart; final int wordEnd;
+  final void Function(int) onVerseTap;
   final void Function(ScaleStartDetails) onPinchStart; final void Function(ScaleUpdateDetails) onPinchUpdate;
   const _ListReadView({required this.verses, required this.book, required this.chapter, required this.translation,
     required this.fontSize, required this.isDark, required this.bible, required this.bookId,
     required this.settings, required this.onNext, required this.onPrev, required this.activeVerseIndex,
-    required this.selectedVerseIndex, required this.onVerseTap, required this.onPinchStart, required this.onPinchUpdate});
+    required this.selectedVerseIndex, required this.wordStart, required this.wordEnd,
+    required this.onVerseTap, required this.onPinchStart, required this.onPinchUpdate});
   @override
   State<_ListReadView> createState() => _ListReadViewState();
 }
@@ -352,6 +435,8 @@ class _ListReadView extends StatefulWidget {
 class _ListReadViewState extends State<_ListReadView> {
   final _scrollController = ScrollController();
   final _itemKeys = <int, GlobalKey>{};
+  bool _isPinching = false;
+  int _pointerCount = 0;
 
   @override
   void didUpdateWidget(covariant _ListReadView old) {
@@ -367,12 +452,41 @@ class _ListReadViewState extends State<_ListReadView> {
   @override
   void dispose() { _scrollController.dispose(); super.dispose(); }
 
+  /// TTS 진행 중 단어 하이라이트 RichText 생성 (하늘색 하이라이트)
+  TextSpan _buildHighlightedText(String text, int start, int end, TextStyle baseStyle, bool isDark) {
+    final safeStart = start.clamp(0, text.length);
+    final safeEnd = end.clamp(safeStart, text.length);
+    return TextSpan(children: [
+      if (safeStart > 0)
+        TextSpan(text: text.substring(0, safeStart), style: baseStyle),
+      TextSpan(
+        text: text.substring(safeStart, safeEnd),
+        style: baseStyle.copyWith(
+          backgroundColor: isDark ? const Color(0xFF64B5F6).withValues(alpha: 0.35) : const Color(0xFF42A5F5).withValues(alpha: 0.3),
+          color: isDark ? Colors.white : const Color(0xFF0D47A1),
+          fontWeight: FontWeight.w700,
+        ),
+      ),
+      if (safeEnd < text.length)
+        TextSpan(text: text.substring(safeEnd), style: baseStyle),
+    ]);
+  }
+
   @override
   Widget build(BuildContext context) {
     final lineH = widget.settings.lineHeight;
-    return GestureDetector(onScaleStart: widget.onPinchStart, onScaleUpdate: widget.onPinchUpdate,
+    return Listener(
+      onPointerDown: (_) { _pointerCount++; if (_pointerCount >= 2) setState(() => _isPinching = true); },
+      onPointerUp: (_) { _pointerCount--; if (_pointerCount < 2) { Future.delayed(const Duration(milliseconds: 100), () { if (mounted && _pointerCount < 2) setState(() => _isPinching = false); }); } },
+      onPointerCancel: (_) { _pointerCount--; if (_pointerCount < 2) setState(() => _isPinching = false); },
+      child: GestureDetector(
+        onScaleStart: (d) { if (_pointerCount >= 2) widget.onPinchStart(d); },
+        onScaleUpdate: (d) { if (_pointerCount >= 2) widget.onPinchUpdate(d); },
+        onScaleEnd: (_) { if (_pointerCount < 2) setState(() => _isPinching = false); },
       child: widget.verses.isEmpty ? const Center(child: CircularProgressIndicator())
-          : ListView.builder(controller: _scrollController,
+          : IgnorePointer(
+              ignoring: _isPinching,
+              child: ListView.builder(controller: _scrollController,
               padding: const EdgeInsets.fromLTRB(20, 16, 20, 120), itemCount: widget.verses.length + 2,
               itemBuilder: (context, index) {
                 if (index == 0) return Padding(padding: const EdgeInsets.only(bottom: 24), child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -385,7 +499,13 @@ class _ListReadViewState extends State<_ListReadView> {
                 if (index == widget.verses.length + 1) return _ChapterNav(bible: widget.bible, bookId: widget.bookId, chapter: widget.chapter, isDark: widget.isDark, onPrev: widget.onPrev, onNext: widget.onNext);
 
                 final vi = index - 1;
-                final verse = widget.verses[vi]; final text = widget.translation == 'krv' ? verse.krv : verse.kjv;
+                final verse = widget.verses[vi];
+                String text;
+                if (widget.translation == 'krv') {
+                  text = verse.krv.isNotEmpty ? verse.krv : '${verse.kjv} (한글 구절 준비 중)';
+                } else {
+                  text = verse.kjv;
+                }
                 final isBookmarked = widget.settings.isBookmarked(widget.bookId, widget.chapter, verse.verse);
                 final isActive = widget.activeVerseIndex == vi;
                 final isSelected = widget.selectedVerseIndex == vi;
@@ -396,32 +516,42 @@ class _ListReadViewState extends State<_ListReadView> {
                   onLongPress: () { final was = isBookmarked; widget.settings.toggleBookmark(widget.bookId, widget.chapter, verse.verse);
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(was ? '북마크를 해제했습니다' : '북마크에 저장했습니다'), behavior: SnackBarBehavior.floating, duration: const Duration(seconds: 2)));
                   },
-                  child: AnimatedContainer(duration: const Duration(milliseconds: 250),
+                  child: AnimatedContainer(duration: const Duration(milliseconds: 450), curve: Curves.easeInOut,
                     margin: const EdgeInsets.only(bottom: 4),
                     padding: EdgeInsets.fromLTRB(32, isActive || isSelected ? 12 : 8, 12, isActive || isSelected ? 12 : 8),
                     decoration: BoxDecoration(
                       color: isActive ? const Color(0xFFFFF8DC).withValues(alpha: widget.isDark ? 0.15 : 1.0)
                           : isSelected ? EdenColors.primary.withValues(alpha: widget.isDark ? 0.12 : 0.06) : Colors.transparent,
                       borderRadius: BorderRadius.circular(isActive || isSelected ? 14 : 0),
-                      border: isActive ? Border.all(color: const Color(0xFFE8C547).withValues(alpha: 0.4))
+                      border: isActive ? Border.all(color: const Color(0xFF64B5F6).withValues(alpha: 0.4))
                           : isSelected ? Border.all(color: EdenColors.primary.withValues(alpha: 0.2)) : null),
                     child: Stack(clipBehavior: Clip.none, children: [
                       Positioned(left: -28, top: isActive || isSelected ? 6 : 4, child: Text(verse.verse.toString(),
                         style: TextStyle(fontSize: isActive || isSelected ? 11 : 10, fontWeight: FontWeight.w700,
-                          color: isActive ? const Color(0xFFB8960A) : isSelected ? EdenColors.primary : EdenColors.secondary.withValues(alpha: 0.5)))),
+                          color: isActive ? const Color(0xFF1565C0) : isSelected ? EdenColors.primary : EdenColors.secondary.withValues(alpha: 0.5)))),
                       if (isBookmarked && !isActive && !isSelected)
                         Positioned(left: -32, top: 0, child: Container(width: 3, height: widget.fontSize * 1.5, decoration: BoxDecoration(color: EdenColors.accent, borderRadius: BorderRadius.circular(2)))),
-                      if (isActive) Positioned(left: -32, top: 2, child: Icon(Icons.volume_up_rounded, size: 12, color: const Color(0xFFE8C547))),
+                      if (isActive) Positioned(left: -32, top: 2, child: Icon(Icons.volume_up_rounded, size: 12, color: const Color(0xFF42A5F5))),
                       if (isSelected && !isActive) Positioned(left: -32, top: 2, child: Icon(Icons.check_circle, size: 12, color: EdenColors.primary)),
-                      Text(text, style: TextStyle(
-                        fontSize: isActive ? widget.fontSize + 1.5 : isSelected ? widget.fontSize + 0.5 : widget.fontSize,
-                        fontWeight: isActive || isSelected ? FontWeight.w500 : FontWeight.w400,
-                        color: isActive ? (widget.isDark ? const Color(0xFFFFF3C4) : const Color(0xFF4A3F1B))
-                            : isSelected ? (widget.isDark ? EdenColors.textPrimaryDark : EdenColors.primary)
-                            : (widget.isDark ? EdenColors.textPrimaryDark : EdenColors.textPrimaryLight),
-                        height: lineH)),
+                      // 활성 절: 단어 단위 하이라이트 (항상 RichText로 위젯 트리 안정화)
+                      isActive
+                        ? RichText(text: widget.wordEnd > widget.wordStart
+                            ? _buildHighlightedText(
+                                text, widget.wordStart, widget.wordEnd,
+                                TextStyle(fontSize: widget.fontSize + 1.5, fontWeight: FontWeight.w500,
+                                  color: widget.isDark ? const Color(0xFFFFF3C4) : const Color(0xFF4A3F1B), height: lineH),
+                                widget.isDark)
+                            : TextSpan(text: text, style: TextStyle(fontSize: widget.fontSize + 1.5, fontWeight: FontWeight.w500,
+                                color: widget.isDark ? const Color(0xFFFFF3C4) : const Color(0xFF4A3F1B), height: lineH)))
+                        : Text(text, style: TextStyle(
+                          fontSize: isSelected ? widget.fontSize + 0.5 : widget.fontSize,
+                          fontWeight: isSelected ? FontWeight.w500 : FontWeight.w400,
+                          color: isSelected ? (widget.isDark ? EdenColors.textPrimaryDark : EdenColors.primary)
+                              : (widget.isDark ? EdenColors.textPrimaryDark : EdenColors.textPrimaryLight),
+                          height: lineH)),
                     ])));
-              }));
+              }))),
+    );
   }
 }
 

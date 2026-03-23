@@ -6,8 +6,6 @@ import '../../../core/services/settings_service.dart';
 import '../../../core/services/emotion_match_service.dart';
 import '../../../core/services/youtube_curation_service.dart';
 import '../../../shared/widgets/youtube_card.dart';
-import '../../transcription/views/transcription_view.dart';
-import '../../deep_study/views/study_view.dart';
 import '../../sleep/views/sleep_mode_view.dart';
 import '../../reading_plan/views/reading_plan_view.dart';
 
@@ -159,7 +157,12 @@ class _VerseOfDayCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final verse = bible.getDailyVerse();
-    final verseText = verse?.krv ?? '여호와는 나의 목자시니 내게 부족함이 없으리로다';
+    String verseText;
+    if (verse != null) {
+      verseText = verse.krv.isNotEmpty ? verse.krv : verse.kjv;
+    } else {
+      verseText = '여호와는 나의 목자시니 내게 부족함이 없으리로다';
+    }
     final verseRef = verse?.refKo ?? '시편 23:1';
     return GestureDetector(
       onTap: () { if (verse != null) onTap?.call(verse.bookId, verse.chapter); },
@@ -197,8 +200,6 @@ class _IconMenuGrid extends StatelessWidget {
       mainAxisSpacing: 12, crossAxisSpacing: 12, childAspectRatio: 1.6, children: [
       _MenuCard(image: 'assets/images/home/menu_bible.png', icon: Icons.menu_book_rounded, label: '성경 읽기', color: EdenColors.primary, isDark: isDark, onTap: onBible),
       _MenuCard(image: 'assets/images/home/menu_counsel.png', icon: Icons.favorite_rounded, label: '마음 힐링', color: EdenColors.accent, isDark: isDark, onTap: onCounsel),
-      _MenuCard(image: 'assets/images/home/menu_study.png', icon: Icons.school_rounded, label: '성경 연구', color: EdenColors.secondary, isDark: isDark, onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const StudyView()))),
-      _MenuCard(image: 'assets/images/home/menu_transcription.png', icon: Icons.edit_note_rounded, label: '필사', color: EdenColors.textSecondaryLight, isDark: isDark, onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const TranscriptionView()))),
     ]);
   }
 }
