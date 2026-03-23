@@ -25,7 +25,7 @@ String getBookThumbnail(int bookId) {
     61: '61_2peter', 62: '62_1john', 63: '63_2john', 64: '64_3john',
     65: '65_jude', 66: '66_revelation',
   };
-  return 'assets/images/books/${map[bookId] ?? '01_genesis'}.png';
+  return 'assets/images/books/${map[bookId] ?? '01_genesis'}.jpg';
 }
 
 /// P1-02: 비주얼 책 선택기 — 66권 Midjourney 썸네일 그리드

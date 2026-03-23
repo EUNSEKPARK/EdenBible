@@ -112,7 +112,7 @@ class _EdenSplashState extends State<EdenSplash> with SingleTickerProviderStateM
           Container(
             width: 160, height: 160,
             decoration: BoxDecoration(shape: BoxShape.circle, boxShadow: [BoxShadow(color: EdenColors.primary.withValues(alpha: 0.15), blurRadius: 40, offset: const Offset(0, 16))]),
-            child: ClipOval(child: Image.asset('assets/images/icon.png', fit: BoxFit.cover)),
+            child: ClipOval(child: Image.asset('assets/images/icon.jpg', fit: BoxFit.cover)),
           ),
           const SizedBox(height: 32),
           Text('에덴', style: TextStyle(fontSize: 36, fontWeight: FontWeight.w700, color: EdenColors.primary, letterSpacing: 2)),
@@ -243,7 +243,7 @@ class _BookmarksView extends StatelessWidget {
 
     if (bookmarks.isEmpty) {
       return Center(child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-        Image.asset('assets/images/shared/empty_bookmark.png', width: 120, height: 120, fit: BoxFit.contain,
+        Image.asset('assets/images/shared/empty_bookmark.jpg', width: 120, height: 120, fit: BoxFit.contain,
           errorBuilder: (_, __, ___) => Icon(Icons.bookmark_outline_rounded, size: 80, color: EdenColors.textTertiaryLight)),
         const SizedBox(height: 16),
         Text('북마크가 비어 있습니다', style: TextStyle(fontSize: 14, color: EdenColors.textTertiaryLight, letterSpacing: 2)),

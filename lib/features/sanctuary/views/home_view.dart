@@ -168,7 +168,7 @@ class _VerseOfDayCard extends StatelessWidget {
       onTap: () { if (verse != null) onTap?.call(verse.bookId, verse.chapter); },
       child: Container(width: double.infinity, height: 360, clipBehavior: Clip.antiAlias, decoration: BoxDecoration(borderRadius: BorderRadius.circular(24)),
         child: Stack(fit: StackFit.expand, children: [
-          Image.asset('assets/images/home/verse_card.png', fit: BoxFit.cover),
+          Image.asset('assets/images/home/verse_card.jpg', fit: BoxFit.cover),
           Container(decoration: BoxDecoration(gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [EdenColors.primary.withValues(alpha: 0.2), EdenColors.primary.withValues(alpha: 0.85)]))),
           Padding(padding: const EdgeInsets.all(28), child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.end, children: [
             Row(children: [Container(width: 32, height: 1, color: Colors.white.withValues(alpha: 0.6)), const SizedBox(width: 12),
@@ -198,8 +198,8 @@ class _IconMenuGrid extends StatelessWidget {
   Widget build(BuildContext context) {
     return GridView.count(crossAxisCount: 2, shrinkWrap: true, physics: const NeverScrollableScrollPhysics(),
       mainAxisSpacing: 12, crossAxisSpacing: 12, childAspectRatio: 1.6, children: [
-      _MenuCard(image: 'assets/images/home/menu_bible.png', icon: Icons.menu_book_rounded, label: '성경 읽기', color: EdenColors.primary, isDark: isDark, onTap: onBible),
-      _MenuCard(image: 'assets/images/home/menu_counsel.png', icon: Icons.favorite_rounded, label: '마음 힐링', color: EdenColors.accent, isDark: isDark, onTap: onCounsel),
+      _MenuCard(image: 'assets/images/home/menu_bible.jpg', icon: Icons.menu_book_rounded, label: '성경 읽기', color: EdenColors.primary, isDark: isDark, onTap: onBible),
+      _MenuCard(image: 'assets/images/home/menu_counsel.jpg', icon: Icons.favorite_rounded, label: '마음 힐링', color: EdenColors.accent, isDark: isDark, onTap: onCounsel),
     ]);
   }
 }
@@ -242,7 +242,7 @@ class _ProgressSection extends StatelessWidget {
       // ─── 읽기 여정 카드 ───
       Container(width: double.infinity, clipBehavior: Clip.antiAlias, decoration: BoxDecoration(borderRadius: BorderRadius.circular(24)),
         child: Stack(children: [
-          Positioned.fill(child: Image.asset('assets/images/home/progress_card.png', fit: BoxFit.cover)),
+          Positioned.fill(child: Image.asset('assets/images/home/progress_card.jpg', fit: BoxFit.cover)),
           Positioned.fill(child: Container(color: (isDark ? Colors.black : Colors.white).withValues(alpha: isDark ? 0.7 : 0.88))),
           Padding(padding: const EdgeInsets.all(24), child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, crossAxisAlignment: CrossAxisAlignment.end, children: [
@@ -281,7 +281,7 @@ class _ProgressSection extends StatelessWidget {
         onTap: () => onNavigateToVerse?.call(lastBookId, lastChapter),
         child: Container(width: double.infinity, clipBehavior: Clip.antiAlias, decoration: BoxDecoration(borderRadius: BorderRadius.circular(24)),
           child: Stack(children: [
-            Positioned.fill(child: Image.asset('assets/images/home/recent_verse_card.png', fit: BoxFit.cover)),
+            Positioned.fill(child: Image.asset('assets/images/home/recent_verse_card.jpg', fit: BoxFit.cover)),
             Positioned.fill(child: Container(color: const Color(0xFFD9E7CB).withValues(alpha: 0.85))),
             Padding(padding: const EdgeInsets.all(24), child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Row(children: [
