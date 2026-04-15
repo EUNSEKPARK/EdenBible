@@ -42,6 +42,8 @@ class YouTubeCard extends StatelessWidget {
                     child: Image.network(
                       'https://img.youtube.com/vi/${video.videoId}/mqdefault.jpg',
                       fit: BoxFit.cover,
+                      cacheWidth: 400,
+                      cacheHeight: 224,
                       errorBuilder: (_, __, ___) => _PlaceholderThumb(isDark: isDark),
                     ),
                   )

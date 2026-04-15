@@ -226,9 +226,9 @@ class _UnifiedBottomBar extends StatelessWidget {
               if (texts.isEmpty) return;
               translation == 'kjv' ? tts.setEnglish() : tts.setKorean(); tts.speakVerses(texts);
             }
-          }, child: Container(width: 36, height: 36, margin: const EdgeInsets.only(left: 6),
+          }, child: Container(width: 42, height: 42, margin: const EdgeInsets.only(left: 6),
             decoration: BoxDecoration(color: playing ? EdenColors.primary.withValues(alpha: 0.2) : EdenColors.primaryLight.withValues(alpha: 0.2), shape: BoxShape.circle),
-            child: Icon(playing ? Icons.stop_rounded : Icons.play_arrow_rounded, color: EdenColors.primary, size: 20)));
+            child: Icon(playing ? Icons.stop_rounded : Icons.play_arrow_rounded, color: EdenColors.primary, size: 22)));
         }),
       ]),
     );
@@ -239,9 +239,9 @@ class _BarIcon extends StatelessWidget {
   final IconData icon; final VoidCallback onTap; final Color? color;
   const _BarIcon({required this.icon, required this.onTap, this.color});
   @override
-  Widget build(BuildContext context) => GestureDetector(onTap: onTap, child: Padding(
-    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-    child: Icon(icon, size: 20, color: color ?? EdenColors.primary)));
+  Widget build(BuildContext context) => GestureDetector(onTap: onTap, child: Container(
+    width: 44, height: 44, alignment: Alignment.center,
+    child: Icon(icon, size: 22, color: color ?? EdenColors.primary)));
 }
 
 // ─── 상단 선택 바 ───
@@ -276,9 +276,10 @@ class _CircleBtn extends StatelessWidget {
   final IconData icon; final bool isDark; final VoidCallback onTap;
   const _CircleBtn({required this.icon, required this.isDark, required this.onTap});
   @override
-  Widget build(BuildContext context) => GestureDetector(onTap: onTap, child: Container(padding: const EdgeInsets.all(6),
+  Widget build(BuildContext context) => GestureDetector(onTap: onTap, child: Container(
+    width: 44, height: 44, alignment: Alignment.center,
     decoration: BoxDecoration(color: isDark ? EdenColors.surfaceVariantDark : const Color(0xFFF0EEE8), shape: BoxShape.circle),
-    child: Icon(icon, size: 20, color: EdenColors.primary)));
+    child: Icon(icon, size: 22, color: EdenColors.primary)));
 }
 
 // ─── 카드 스와이프 ───

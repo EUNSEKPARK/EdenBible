@@ -115,7 +115,7 @@ class _EmotionCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.all(14),
+        padding: const EdgeInsets.all(18),
         decoration: BoxDecoration(
           color: isDark ? cardColor.withValues(alpha: 0.15) : cardColor.withValues(alpha: 0.08),
           borderRadius: BorderRadius.circular(20),
@@ -124,10 +124,10 @@ class _EmotionCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(category.emoji, style: const TextStyle(fontSize: 26)),
+            Text(category.emoji, style: const TextStyle(fontSize: 28)),
             const SizedBox(height: 10),
             Text(category.label,
-              style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700,
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700,
                 color: isDark ? EdenColors.textPrimaryDark : EdenColors.textPrimaryLight),
               overflow: TextOverflow.ellipsis),
             const SizedBox(height: 2),

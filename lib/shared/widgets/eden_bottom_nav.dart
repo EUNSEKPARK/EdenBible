@@ -55,7 +55,8 @@ class _NavItem extends StatelessWidget {
       onTap: () => onTap(index),
       behavior: HitTestBehavior.opaque,
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: isActive ? 16 : 12, vertical: 6),
+        constraints: const BoxConstraints(minWidth: 48, minHeight: 48),
+        padding: EdgeInsets.symmetric(horizontal: isActive ? 16 : 12, vertical: 8),
         decoration: BoxDecoration(
           color: isActive ? EdenColors.primary.withValues(alpha: 0.1) : Colors.transparent,
           borderRadius: BorderRadius.circular(14),
@@ -63,9 +64,9 @@ class _NavItem extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(isActive ? filledIcon : icon, size: 24, color: isActive ? EdenColors.primary : EdenColors.secondary.withValues(alpha: 0.7)),
+            Icon(isActive ? filledIcon : icon, size: 26, color: isActive ? EdenColors.primary : EdenColors.secondary.withValues(alpha: 0.7)),
             const SizedBox(height: 4),
-            Text(label, style: TextStyle(fontSize: 10, fontWeight: isActive ? FontWeight.w700 : FontWeight.w400, color: isActive ? EdenColors.primary : EdenColors.secondary.withValues(alpha: 0.7))),
+            Text(label, style: TextStyle(fontSize: 11, fontWeight: isActive ? FontWeight.w700 : FontWeight.w400, color: isActive ? EdenColors.primary : EdenColors.secondary.withValues(alpha: 0.7))),
           ],
         ),
       ),

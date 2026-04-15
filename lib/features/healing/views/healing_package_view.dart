@@ -200,11 +200,11 @@ class _ActionChip extends StatelessWidget {
   const _ActionChip({required this.icon, required this.label, required this.onTap});
   @override
   Widget build(BuildContext context) => GestureDetector(onTap: onTap, child: Container(
-    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
     decoration: BoxDecoration(color: EdenColors.primary.withValues(alpha: 0.08), borderRadius: BorderRadius.circular(20)),
     child: Row(mainAxisSize: MainAxisSize.min, children: [
-      Icon(icon, size: 14, color: EdenColors.primary), const SizedBox(width: 4),
-      Text(label, style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: EdenColors.primary)),
+      Icon(icon, size: 16, color: EdenColors.primary), const SizedBox(width: 6),
+      Text(label, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: EdenColors.primary)),
     ]),
   ));
 }

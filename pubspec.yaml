@@ -1,7 +1,7 @@
 name: project_eden
 description: "에덴 성경책 - 성경 읽기 + 맞춤 힐링 앱"
 publish_to: 'none'
-version: 1.0.1+2
+version: 1.0.2+3
 
 environment:
   sdk: ^3.5.0

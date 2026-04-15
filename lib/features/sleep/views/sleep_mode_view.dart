@@ -86,8 +86,10 @@ class _SleepModeViewState extends State<SleepModeView> with TickerProviderStateM
 
   void _startTimer() {
     _sleepTimer?.cancel();
-    setState(() => _remainingSeconds = _selectedMinutes * 60);
+    _remainingSeconds = _selectedMinutes * 60;
+    setState(() {});
     _sleepTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      _remainingSeconds--;
       if (_remainingSeconds <= 0) {
         timer.cancel();
         _tts.stop();
@@ -97,7 +99,8 @@ class _SleepModeViewState extends State<SleepModeView> with TickerProviderStateM
         }
         return;
       }
-      setState(() => _remainingSeconds--);
+      // UI 갱신은 컨트롤이 보일 때만 (성능 최적화)
+      if (_showControls && mounted) setState(() {});
     });
   }
 
@@ -144,8 +147,8 @@ class _SleepModeViewState extends State<SleepModeView> with TickerProviderStateM
               ),
             ),
 
-            // 별 장식
-            ..._buildStars(),
+            // 별 장식 (RepaintBoundary로 감싸 불필요한 재렌더링 방지)
+            RepaintBoundary(child: Stack(children: _buildStars())),
 
             // 말씀 카드 (단일 화면, 페이드 전환)
             if (_verses.isNotEmpty)
@@ -192,9 +195,9 @@ class _SleepModeViewState extends State<SleepModeView> with TickerProviderStateM
                         }
                       },
                       child: Container(
-                        padding: const EdgeInsets.all(10),
+                        width: 44, height: 44, alignment: Alignment.center,
                         decoration: BoxDecoration(color: Colors.white.withValues(alpha: 0.08), shape: BoxShape.circle),
-                        child: Icon(Icons.close_rounded, size: 20, color: Colors.white.withValues(alpha: 0.6)),
+                        child: Icon(Icons.close_rounded, size: 22, color: Colors.white.withValues(alpha: 0.6)),
                       ),
                     ),
                     const Spacer(),
@@ -244,7 +247,7 @@ class _SleepModeViewState extends State<SleepModeView> with TickerProviderStateM
                     GestureDetector(
                       onTap: () => setState(() => _ttsEnabled = !_ttsEnabled),
                       child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
                         decoration: BoxDecoration(
                           color: _ttsEnabled ? Colors.white.withValues(alpha: 0.15) : Colors.white.withValues(alpha: 0.05),
                           borderRadius: BorderRadius.circular(50),
@@ -261,7 +264,7 @@ class _SleepModeViewState extends State<SleepModeView> with TickerProviderStateM
                     GestureDetector(
                       onTap: _toggleAutoPlay,
                       child: Container(
-                        width: 56, height: 56,
+                        width: 62, height: 62,
                         decoration: BoxDecoration(
                           color: _autoPlay ? Colors.white.withValues(alpha: 0.2) : Colors.white.withValues(alpha: 0.08),
                           shape: BoxShape.circle,
@@ -308,7 +311,7 @@ class _SleepChip extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(onTap: onTap, child: Container(
       margin: const EdgeInsets.symmetric(horizontal: 4),
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       decoration: BoxDecoration(
         color: isActive ? Colors.white.withValues(alpha: 0.15) : Colors.white.withValues(alpha: 0.05),
         borderRadius: BorderRadius.circular(20),

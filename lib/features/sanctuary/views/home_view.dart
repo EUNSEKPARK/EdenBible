@@ -3,6 +3,7 @@ import '../../../app/theme/colors.dart';
 import '../../../core/models/bible_verse.dart';
 import '../../../core/services/bible_data_service.dart';
 import '../../../core/services/settings_service.dart';
+import '../../../core/models/emotion_models.dart';
 import '../../../core/services/emotion_match_service.dart';
 import '../../../core/services/youtube_curation_service.dart';
 import '../../../shared/widgets/youtube_card.dart';
@@ -28,7 +29,7 @@ class HomeView extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         const SizedBox(height: 16),
-        _VerseOfDayCard(isDark: isDark, bible: bible, onTap: onNavigateToVerse),
+        RepaintBoundary(child: _VerseOfDayCard(isDark: isDark, bible: bible, onTap: onNavigateToVerse)),
         ListenableBuilder(
           listenable: settings,
           builder: (_, __) {
@@ -54,11 +55,11 @@ class HomeView extends StatelessWidget {
         const SizedBox(height: 24),
         _IconMenuGrid(isDark: isDark, onBible: onNavigateToBible, onCounsel: onNavigateToCounsel),
         const SizedBox(height: 28),
-        YouTubeCarousel(videos: ytService.getDailyRecommendations(), title: '오늘의 추천'),
+        RepaintBoundary(child: YouTubeCarousel(videos: ytService.getDailyRecommendations(), title: '오늘의 추천')),
         const SizedBox(height: 16),
-        _YouTubeSections(sections: ytService.getSections(), isDark: isDark),
+        RepaintBoundary(child: _YouTubeSections(sections: ytService.getSections(), isDark: isDark)),
         const SizedBox(height: 20),
-        _ProgressSection(isDark: isDark, theme: theme, settings: settings, bible: bible, onNavigateToVerse: onNavigateToVerse),
+        RepaintBoundary(child: _ProgressSection(isDark: isDark, theme: theme, settings: settings, bible: bible, onNavigateToVerse: onNavigateToVerse)),
         const SizedBox(height: 32),
       ]),
     );
@@ -94,10 +95,23 @@ class _YouTubeSections extends StatelessWidget {
 class _HealingQuickEntry extends StatelessWidget {
   final bool isDark; final VoidCallback? onTap;
   const _HealingQuickEntry({required this.isDark, this.onTap});
+
+  /// 날짜 기반 고정 미리보기 (빌드마다 shuffle 방지)
+  static List<EmotionCategory>? _cachedPreview;
+  static int _cachedDay = -1;
+  static List<EmotionCategory> _getPreview(List<EmotionCategory> emotions) {
+    final today = DateTime.now().day;
+    if (_cachedPreview != null && _cachedDay == today) return _cachedPreview!;
+    final list = emotions.toList()..shuffle();
+    _cachedPreview = list.take(3).toList();
+    _cachedDay = today;
+    return _cachedPreview!;
+  }
+
   @override
   Widget build(BuildContext context) {
     final emotions = EmotionMatchService().categories;
-    final preview = (emotions.toList()..shuffle()).take(3).toList();
+    final preview = _getPreview(emotions);
     return GestureDetector(onTap: onTap, child: Container(
       width: double.infinity, padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -168,7 +182,7 @@ class _VerseOfDayCard extends StatelessWidget {
       onTap: () { if (verse != null) onTap?.call(verse.bookId, verse.chapter); },
       child: Container(width: double.infinity, height: 360, clipBehavior: Clip.antiAlias, decoration: BoxDecoration(borderRadius: BorderRadius.circular(24)),
         child: Stack(fit: StackFit.expand, children: [
-          Image.asset('assets/images/home/verse_card.jpg', fit: BoxFit.cover),
+          Image.asset('assets/images/home/verse_card.jpg', fit: BoxFit.cover, cacheWidth: 720),
           Container(decoration: BoxDecoration(gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [EdenColors.primary.withValues(alpha: 0.2), EdenColors.primary.withValues(alpha: 0.85)]))),
           Padding(padding: const EdgeInsets.all(28), child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.end, children: [
             Row(children: [Container(width: 32, height: 1, color: Colors.white.withValues(alpha: 0.6)), const SizedBox(width: 12),
@@ -179,10 +193,10 @@ class _VerseOfDayCard extends StatelessWidget {
             Row(children: [
               Text('$verseRef • 개역한글', style: TextStyle(fontSize: 13, color: EdenColors.accentLight, fontWeight: FontWeight.w500, letterSpacing: 1.5)),
               const Spacer(),
-              Container(padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5), decoration: BoxDecoration(color: Colors.white.withValues(alpha: 0.15), borderRadius: BorderRadius.circular(20)),
+              Container(padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8), decoration: BoxDecoration(color: Colors.white.withValues(alpha: 0.15), borderRadius: BorderRadius.circular(20)),
                 child: Row(mainAxisSize: MainAxisSize.min, children: [
-                  Text('읽으러 가기', style: TextStyle(fontSize: 10, color: Colors.white.withValues(alpha: 0.8), fontWeight: FontWeight.w600)),
-                  const SizedBox(width: 4), Icon(Icons.arrow_forward_rounded, size: 12, color: Colors.white.withValues(alpha: 0.8)),
+                  Text('읽으러 가기', style: TextStyle(fontSize: 12, color: Colors.white.withValues(alpha: 0.8), fontWeight: FontWeight.w600)),
+                  const SizedBox(width: 4), Icon(Icons.arrow_forward_rounded, size: 14, color: Colors.white.withValues(alpha: 0.8)),
                 ])),
             ]),
           ])),
@@ -212,7 +226,7 @@ class _MenuCard extends StatelessWidget {
     return GestureDetector(onTap: onTap, child: Container(clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(borderRadius: BorderRadius.circular(24)),
       child: Stack(fit: StackFit.expand, children: [
-        Image.asset(image, fit: BoxFit.cover),
+        Image.asset(image, fit: BoxFit.cover, cacheWidth: 400),
         Container(color: (isDark ? Colors.black : Colors.white).withValues(alpha: isDark ? 0.6 : 0.75)),
         Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           Container(width: 52, height: 52, decoration: BoxDecoration(color: (isDark ? EdenColors.surfaceDark : Colors.white).withValues(alpha: 0.9), borderRadius: BorderRadius.circular(16)),
@@ -242,7 +256,7 @@ class _ProgressSection extends StatelessWidget {
       // ─── 읽기 여정 카드 ───
       Container(width: double.infinity, clipBehavior: Clip.antiAlias, decoration: BoxDecoration(borderRadius: BorderRadius.circular(24)),
         child: Stack(children: [
-          Positioned.fill(child: Image.asset('assets/images/home/progress_card.jpg', fit: BoxFit.cover)),
+          Positioned.fill(child: Image.asset('assets/images/home/progress_card.jpg', fit: BoxFit.cover, cacheWidth: 720)),
           Positioned.fill(child: Container(color: (isDark ? Colors.black : Colors.white).withValues(alpha: isDark ? 0.7 : 0.88))),
           Padding(padding: const EdgeInsets.all(24), child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, crossAxisAlignment: CrossAxisAlignment.end, children: [
@@ -259,16 +273,16 @@ class _ProgressSection extends StatelessWidget {
             Row(children: [
               Expanded(child: ElevatedButton.icon(
                 onPressed: () => onNavigateToVerse?.call(lastBookId, lastChapter),
-                icon: const Text('이어서 읽기'), label: const Icon(Icons.arrow_forward, size: 16),
-                style: ElevatedButton.styleFrom(padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12)))),
+                icon: const Text('이어서 읽기'), label: const Icon(Icons.arrow_forward, size: 18),
+                style: ElevatedButton.styleFrom(padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14)))),
               const SizedBox(width: 10),
               OutlinedButton(
                 onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => ReadingPlanView(onNavigateToVerse: onNavigateToVerse))),
                 style: OutlinedButton.styleFrom(foregroundColor: EdenColors.primary, side: BorderSide(color: EdenColors.primary.withValues(alpha: 0.3)),
-                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14))),
+                  padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14))),
                 child: Row(mainAxisSize: MainAxisSize.min, children: [
-                  Icon(Icons.checklist_rounded, size: 16, color: EdenColors.primary), const SizedBox(width: 6),
-                  Text('통독표', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: EdenColors.primary)),
+                  Icon(Icons.checklist_rounded, size: 18, color: EdenColors.primary), const SizedBox(width: 6),
+                  Text('통독표', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: EdenColors.primary)),
                 ]),
               ),
             ]),
@@ -281,7 +295,7 @@ class _ProgressSection extends StatelessWidget {
         onTap: () => onNavigateToVerse?.call(lastBookId, lastChapter),
         child: Container(width: double.infinity, clipBehavior: Clip.antiAlias, decoration: BoxDecoration(borderRadius: BorderRadius.circular(24)),
           child: Stack(children: [
-            Positioned.fill(child: Image.asset('assets/images/home/recent_verse_card.jpg', fit: BoxFit.cover)),
+            Positioned.fill(child: Image.asset('assets/images/home/recent_verse_card.jpg', fit: BoxFit.cover, cacheWidth: 720)),
             Positioned.fill(child: Container(color: const Color(0xFFD9E7CB).withValues(alpha: 0.85))),
             Padding(padding: const EdgeInsets.all(24), child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Row(children: [
