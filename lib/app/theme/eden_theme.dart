@@ -35,7 +35,7 @@ class EdenTheme {
         systemOverlayStyle: SystemUiOverlayStyle.dark,
         titleTextStyle: TextStyle(
           fontFamily: 'Pretendard',
-          fontSize: 18,
+          fontSize: 20,
           fontWeight: FontWeight.w600,
           color: EdenColors.textPrimaryLight,
         ),
@@ -60,12 +60,12 @@ class EdenTheme {
         elevation: 8,
         selectedLabelStyle: TextStyle(
           fontFamily: 'Pretendard',
-          fontSize: 11,
+          fontSize: 13,
           fontWeight: FontWeight.w600,
         ),
         unselectedLabelStyle: TextStyle(
           fontFamily: 'Pretendard',
-          fontSize: 11,
+          fontSize: 13,
           fontWeight: FontWeight.w400,
         ),
       ),
@@ -86,7 +86,7 @@ class EdenTheme {
           ),
           textStyle: const TextStyle(
             fontFamily: 'Pretendard',
-            fontSize: 16,
+            fontSize: 18,
             fontWeight: FontWeight.w600,
           ),
         ),
@@ -102,7 +102,7 @@ class EdenTheme {
           ),
           textStyle: const TextStyle(
             fontFamily: 'Pretendard',
-            fontSize: 14,
+            fontSize: 16,
             fontWeight: FontWeight.w600,
           ),
         ),
@@ -115,7 +115,7 @@ class EdenTheme {
           minimumSize: const Size(0, 44),
           textStyle: const TextStyle(
             fontFamily: 'Pretendard',
-            fontSize: 14,
+            fontSize: 16,
             fontWeight: FontWeight.w600,
           ),
         ),
@@ -141,7 +141,7 @@ class EdenTheme {
         hintStyle: const TextStyle(
           color: EdenColors.textTertiaryLight,
           fontFamily: 'Pretendard',
-          fontSize: 15,
+          fontSize: 17,
         ),
       ),
 
@@ -157,7 +157,7 @@ class EdenTheme {
         selectedColor: EdenColors.primary.withValues(alpha:0.15),
         labelStyle: const TextStyle(
           fontFamily: 'Pretendard',
-          fontSize: 13,
+          fontSize: 15,
           fontWeight: FontWeight.w500,
         ),
         shape: RoundedRectangleBorder(
@@ -197,7 +197,7 @@ class EdenTheme {
         systemOverlayStyle: SystemUiOverlayStyle.light,
         titleTextStyle: TextStyle(
           fontFamily: 'Pretendard',
-          fontSize: 18,
+          fontSize: 20,
           fontWeight: FontWeight.w600,
           color: EdenColors.textPrimaryDark,
         ),
@@ -221,12 +221,12 @@ class EdenTheme {
         elevation: 8,
         selectedLabelStyle: TextStyle(
           fontFamily: 'Pretendard',
-          fontSize: 11,
+          fontSize: 13,
           fontWeight: FontWeight.w600,
         ),
         unselectedLabelStyle: TextStyle(
           fontFamily: 'Pretendard',
-          fontSize: 11,
+          fontSize: 13,
           fontWeight: FontWeight.w400,
         ),
       ),
@@ -247,7 +247,7 @@ class EdenTheme {
           ),
           textStyle: const TextStyle(
             fontFamily: 'Pretendard',
-            fontSize: 16,
+            fontSize: 18,
             fontWeight: FontWeight.w600,
           ),
         ),
@@ -263,7 +263,7 @@ class EdenTheme {
           ),
           textStyle: const TextStyle(
             fontFamily: 'Pretendard',
-            fontSize: 14,
+            fontSize: 16,
             fontWeight: FontWeight.w600,
           ),
         ),
@@ -276,7 +276,7 @@ class EdenTheme {
           minimumSize: const Size(0, 44),
           textStyle: const TextStyle(
             fontFamily: 'Pretendard',
-            fontSize: 14,
+            fontSize: 16,
             fontWeight: FontWeight.w600,
           ),
         ),
@@ -302,7 +302,7 @@ class EdenTheme {
         hintStyle: const TextStyle(
           color: EdenColors.textTertiaryDark,
           fontFamily: 'Pretendard',
-          fontSize: 15,
+          fontSize: 17,
         ),
       ),
 
@@ -318,7 +318,7 @@ class EdenTheme {
         selectedColor: EdenColors.primaryLight.withValues(alpha:0.2),
         labelStyle: const TextStyle(
           fontFamily: 'Pretendard',
-          fontSize: 13,
+          fontSize: 15,
           fontWeight: FontWeight.w500,
         ),
         shape: RoundedRectangleBorder(
@@ -337,29 +337,29 @@ class EdenTheme {
 
     return TextTheme(
       // Display
-      displayLarge: TextStyle(fontSize: 32, fontWeight: FontWeight.w700, color: primary, height: 1.3),
-      displayMedium: TextStyle(fontSize: 28, fontWeight: FontWeight.w700, color: primary, height: 1.3),
-      displaySmall: TextStyle(fontSize: 24, fontWeight: FontWeight.w600, color: primary, height: 1.3),
+      displayLarge: TextStyle(fontSize: 34, fontWeight: FontWeight.w700, color: primary, height: 1.3),
+      displayMedium: TextStyle(fontSize: 30, fontWeight: FontWeight.w700, color: primary, height: 1.3),
+      displaySmall: TextStyle(fontSize: 26, fontWeight: FontWeight.w600, color: primary, height: 1.3),
 
       // Headline
-      headlineLarge: TextStyle(fontSize: 22, fontWeight: FontWeight.w600, color: primary, height: 1.4),
-      headlineMedium: TextStyle(fontSize: 20, fontWeight: FontWeight.w600, color: primary, height: 1.4),
-      headlineSmall: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: primary, height: 1.4),
+      headlineLarge: TextStyle(fontSize: 24, fontWeight: FontWeight.w600, color: primary, height: 1.4),
+      headlineMedium: TextStyle(fontSize: 22, fontWeight: FontWeight.w600, color: primary, height: 1.4),
+      headlineSmall: TextStyle(fontSize: 20, fontWeight: FontWeight.w600, color: primary, height: 1.4),
 
       // Title
-      titleLarge: TextStyle(fontSize: 17, fontWeight: FontWeight.w600, color: primary, height: 1.4),
-      titleMedium: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: primary, height: 1.4),
-      titleSmall: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: primary, height: 1.4),
+      titleLarge: TextStyle(fontSize: 19, fontWeight: FontWeight.w600, color: primary, height: 1.4),
+      titleMedium: TextStyle(fontSize: 17, fontWeight: FontWeight.w600, color: primary, height: 1.4),
+      titleSmall: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: primary, height: 1.4),
 
       // Body (성경 본문에 최적화)
-      bodyLarge: TextStyle(fontSize: 17, fontWeight: FontWeight.w400, color: primary, height: 1.8, letterSpacing: 0.3),
-      bodyMedium: TextStyle(fontSize: 15, fontWeight: FontWeight.w400, color: primary, height: 1.7),
-      bodySmall: TextStyle(fontSize: 13, fontWeight: FontWeight.w400, color: secondary, height: 1.6),
+      bodyLarge: TextStyle(fontSize: 19, fontWeight: FontWeight.w400, color: primary, height: 1.8, letterSpacing: 0.3),
+      bodyMedium: TextStyle(fontSize: 17, fontWeight: FontWeight.w400, color: primary, height: 1.7),
+      bodySmall: TextStyle(fontSize: 15, fontWeight: FontWeight.w400, color: secondary, height: 1.6),
 
       // Label
-      labelLarge: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: primary),
-      labelMedium: TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: secondary),
-      labelSmall: TextStyle(fontSize: 11, fontWeight: FontWeight.w400, color: secondary),
+      labelLarge: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: primary),
+      labelMedium: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: secondary),
+      labelSmall: TextStyle(fontSize: 13, fontWeight: FontWeight.w400, color: secondary),
     );
   }
 }

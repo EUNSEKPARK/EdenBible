@@ -115,13 +115,13 @@ class _EdenSplashState extends State<EdenSplash> with SingleTickerProviderStateM
             child: ClipOval(child: Image.asset('assets/images/icon.jpg', fit: BoxFit.cover)),
           ),
           const SizedBox(height: 32),
-          Text('에덴', style: TextStyle(fontSize: 36, fontWeight: FontWeight.w700, color: EdenColors.primary, letterSpacing: 2)),
+          Text('에덴', style: TextStyle(fontSize: 38, fontWeight: FontWeight.w700, color: EdenColors.primary, letterSpacing: 2)),
           const SizedBox(height: 8),
-          Text('당신을 천국으로 이끄는 성경책', style: TextStyle(fontSize: 14, color: isDark ? EdenColors.secondaryLight : EdenColors.secondary, letterSpacing: 1.5)),
+          Text('당신을 천국으로 이끄는 성경책', style: TextStyle(fontSize: 16, color: isDark ? EdenColors.secondaryLight : EdenColors.secondary, letterSpacing: 1.5)),
           const Spacer(flex: 2),
           SizedBox(width: 24, height: 24, child: CircularProgressIndicator(strokeWidth: 2, valueColor: AlwaysStoppedAnimation(EdenColors.primaryLight))),
           const SizedBox(height: 14),
-          Text(_loadingText, style: TextStyle(fontSize: 12, color: isDark ? EdenColors.textTertiaryDark : EdenColors.textTertiaryLight)),
+          Text(_loadingText, style: TextStyle(fontSize: 14, color: isDark ? EdenColors.textTertiaryDark : EdenColors.textTertiaryLight)),
           const Spacer(flex: 1),
         ])),
       ),
@@ -246,9 +246,9 @@ class _BookmarksView extends StatelessWidget {
         Image.asset('assets/images/shared/empty_bookmark.jpg', width: 120, height: 120, fit: BoxFit.contain,
           errorBuilder: (_, __, ___) => Icon(Icons.bookmark_outline_rounded, size: 80, color: EdenColors.textTertiaryLight)),
         const SizedBox(height: 16),
-        Text('북마크가 비어 있습니다', style: TextStyle(fontSize: 14, color: EdenColors.textTertiaryLight, letterSpacing: 2)),
+        Text('북마크가 비어 있습니다', style: TextStyle(fontSize: 16, color: EdenColors.textTertiaryLight, letterSpacing: 2)),
         const SizedBox(height: 8),
-        Text('성경 읽기에서 구절을 길게 누르면 저장됩니다', style: TextStyle(fontSize: 12, color: EdenColors.textTertiaryLight)),
+        Text('성경 읽기에서 구절을 길게 누르면 저장됩니다', style: TextStyle(fontSize: 14, color: EdenColors.textTertiaryLight)),
       ]));
     }
 
@@ -269,12 +269,12 @@ class _BookmarksView extends StatelessWidget {
               Row(children: [
                 Icon(Icons.bookmark_rounded, size: 16, color: EdenColors.accent),
                 const SizedBox(width: 8),
-                Text(verse.refKo, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: EdenColors.primary)),
+                Text(verse.refKo, style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: EdenColors.primary)),
                 const Spacer(),
                 Icon(Icons.arrow_forward_ios_rounded, size: 12, color: EdenColors.textTertiaryLight),
               ]),
               const SizedBox(height: 8),
-              Text(verseText, style: const TextStyle(fontSize: 15, height: 1.6), maxLines: 3, overflow: TextOverflow.ellipsis),
+              Text(verseText, style: const TextStyle(fontSize: 17, height: 1.6), maxLines: 3, overflow: TextOverflow.ellipsis),
             ]),
           ),
         );

@@ -95,7 +95,7 @@ class BibleViewState extends State<BibleView> {
                   wordStart: _tts.wordStart, wordEnd: _tts.wordEnd,
                   onVerseTap: _onVerseTap,
                   onPinchStart: (d) { if (d.pointerCount >= 2) _pinchStartFontSize = _settings.fontSize; },
-                  onPinchUpdate: (d) { if (d.pointerCount >= 2) { _settings.setFontSize((_pinchStartFontSize * d.scale).clamp(14.0, 32.0)); } }),
+                  onPinchUpdate: (d) { if (d.pointerCount >= 2) { _settings.setFontSize((_pinchStartFontSize * d.scale).clamp(14.0, 48.0)); } }),
         ),
       ]),
       // ─── 통합 하단 바 ───
@@ -156,7 +156,7 @@ class _UnifiedBottomBar extends StatelessWidget {
             child: Container(padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
               decoration: BoxDecoration(color: EdenColors.primary.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(10)),
               child: Row(mainAxisSize: MainAxisSize.min, children: [
-                Text('${selectedVerse!.verse}절', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w800, color: EdenColors.primary)),
+                Text('${selectedVerse!.verse}절', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w800, color: EdenColors.primary)),
                 const SizedBox(width: 4),
                 Icon(Icons.close_rounded, size: 12, color: EdenColors.primary),
               ])),
@@ -196,7 +196,7 @@ class _UnifiedBottomBar extends StatelessWidget {
         ListenableBuilder(listenable: tts, builder: (_, __) => GestureDetector(onTap: () => tts.cycleSpeed(),
           child: Container(padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6), margin: const EdgeInsets.only(left: 2),
             decoration: BoxDecoration(color: EdenColors.secondary.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(8)),
-            child: Text(tts.speedLabel, style: TextStyle(fontSize: 10, fontWeight: FontWeight.w800, color: EdenColors.primary))))),
+            child: Text(tts.speedLabel, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w800, color: EdenColors.primary))))),
 
         ListenableBuilder(listenable: tts, builder: (_, __) {
           final playing = tts.isPlaying;
@@ -257,8 +257,8 @@ class _TopSelector extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
         decoration: BoxDecoration(color: isDark ? EdenColors.surfaceVariantDark : const Color(0xFFF0EEE8), borderRadius: BorderRadius.circular(50)),
         child: Row(children: [
-          Text(book?.nameKo ?? '창세기', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: EdenColors.primary)),
-          const SizedBox(width: 4), Text('$chapter장', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: EdenColors.primary)),
+          Text(book?.nameKo ?? '창세기', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: EdenColors.primary)),
+          const SizedBox(width: 4), Text('$chapter장', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: EdenColors.primary)),
           const SizedBox(width: 4), Icon(Icons.grid_view_rounded, size: 16, color: EdenColors.primary),
         ]))),
       const Spacer(),
@@ -338,12 +338,12 @@ class _CardSwipeViewState extends State<_CardSwipeView> {
       // 본문 콘텐츠
       Column(children: [
         Padding(padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4), child: Row(children: [
-          Text('${_currentPage + 1} / ${widget.verses.length}절', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: EdenColors.secondary)),
+          Text('${_currentPage + 1} / ${widget.verses.length}절', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: EdenColors.secondary)),
           const Spacer(),
           if (widget.activeVerseIndex >= 0)
             Row(children: [Container(width: 6, height: 6, decoration: BoxDecoration(color: const Color(0xFF42A5F5), shape: BoxShape.circle)), const SizedBox(width: 4),
-              Text('읽는 중', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: const Color(0xFF42A5F5)))])
-          else Text('← 스와이프 →', style: TextStyle(fontSize: 10, color: EdenColors.textTertiaryLight)),
+              Text('읽는 중', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: const Color(0xFF42A5F5)))])
+          else Text('← 스와이프 →', style: TextStyle(fontSize: 12, color: EdenColors.textTertiaryLight)),
         ])),
         Padding(padding: const EdgeInsets.symmetric(horizontal: 20), child: ClipRRect(borderRadius: BorderRadius.circular(3),
           child: LinearProgressIndicator(value: (_currentPage + 1) / widget.verses.length, minHeight: 3,
@@ -387,8 +387,8 @@ class _CardSwipeViewState extends State<_CardSwipeView> {
                   Row(children: [
                     Container(padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                       decoration: BoxDecoration(color: (isActive ? const Color(0xFF42A5F5) : EdenColors.primary).withValues(alpha: widget.isDark ? 0.3 : 0.15), borderRadius: BorderRadius.circular(10)),
-                      child: Text('${verse.verse}절', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w800, color: isActive ? const Color(0xFF1565C0) : EdenColors.primary))),
-                    const SizedBox(width: 10), Text(verse.shortRef, style: TextStyle(fontSize: 12, color: widget.isDark ? Colors.white70 : EdenColors.textTertiaryLight, fontWeight: FontWeight.w500)),
+                      child: Text('${verse.verse}절', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800, color: isActive ? const Color(0xFF1565C0) : EdenColors.primary))),
+                    const SizedBox(width: 10), Text(verse.shortRef, style: TextStyle(fontSize: 14, color: widget.isDark ? Colors.white70 : EdenColors.textTertiaryLight, fontWeight: FontWeight.w500)),
                     const Spacer(),
                     if (isActive) Icon(Icons.volume_up_rounded, size: 16, color: const Color(0xFF42A5F5)),
                     if (isBookmarked) ...[const SizedBox(width: 4), Icon(Icons.bookmark_rounded, size: 18, color: EdenColors.accent)],
@@ -407,7 +407,7 @@ class _CardSwipeViewState extends State<_CardSwipeView> {
                           color: widget.isDark ? EdenColors.textPrimaryDark : EdenColors.textPrimaryLight,
                           height: widget.settings.lineHeight, letterSpacing: 0.3)))))),
                   const SizedBox(height: 16),
-                  Center(child: Text('${widget.book?.nameKo ?? ""} ${widget.chapter}장', style: TextStyle(fontSize: 11, color: widget.isDark ? Colors.white54 : EdenColors.textTertiaryLight, letterSpacing: 2))),
+                  Center(child: Text('${widget.book?.nameKo ?? ""} ${widget.chapter}장', style: TextStyle(fontSize: 13, color: widget.isDark ? Colors.white54 : EdenColors.textTertiaryLight, letterSpacing: 2))),
                 ])),
               ]))));  // Stack, ClipRRect, Container, Padding
           })),
@@ -491,9 +491,9 @@ class _ListReadViewState extends State<_ListReadView> {
               padding: const EdgeInsets.fromLTRB(20, 16, 20, 120), itemCount: widget.verses.length + 2,
               itemBuilder: (context, index) {
                 if (index == 0) return Padding(padding: const EdgeInsets.only(bottom: 24), child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  Text(widget.book?.category ?? '', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: EdenColors.secondary, letterSpacing: 3)),
+                  Text(widget.book?.category ?? '', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: EdenColors.secondary, letterSpacing: 3)),
                   const SizedBox(height: 8),
-                  Text('${widget.book?.nameKo ?? ''} ${widget.chapter}장', style: const TextStyle(fontSize: 36, fontWeight: FontWeight.w700, letterSpacing: -1.5)),
+                  Text('${widget.book?.nameKo ?? ''} ${widget.chapter}장', style: const TextStyle(fontSize: 38, fontWeight: FontWeight.w700, letterSpacing: -1.5)),
                   const SizedBox(height: 12),
                   Container(width: 48, height: 2, color: EdenColors.primaryLight.withValues(alpha: 0.4)),
                 ]));
@@ -567,12 +567,12 @@ class _ChapterNav extends StatelessWidget {
     final next = chapter < maxCh ? '${book.nameKo} ${chapter + 1}장' : (bookId < 66 ? '${bible.books[bookId].nameKo} 1장' : '');
     return Padding(padding: const EdgeInsets.symmetric(vertical: 32), child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
       if (prev.isNotEmpty) GestureDetector(onTap: onPrev, child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Text('이전', style: TextStyle(fontSize: 10, color: EdenColors.secondary.withValues(alpha: 0.6), letterSpacing: 2, fontWeight: FontWeight.w600)),
-        const SizedBox(height: 4), Text(prev, style: TextStyle(fontSize: 16, fontStyle: FontStyle.italic, fontWeight: FontWeight.w500, color: EdenColors.primary)),
+        Text('이전', style: TextStyle(fontSize: 12, color: EdenColors.secondary.withValues(alpha: 0.6), letterSpacing: 2, fontWeight: FontWeight.w600)),
+        const SizedBox(height: 4), Text(prev, style: TextStyle(fontSize: 18, fontStyle: FontStyle.italic, fontWeight: FontWeight.w500, color: EdenColors.primary)),
       ])) else const SizedBox(),
       if (next.isNotEmpty) GestureDetector(onTap: onNext, child: Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
-        Text('다음', style: TextStyle(fontSize: 10, color: EdenColors.secondary.withValues(alpha: 0.6), letterSpacing: 2, fontWeight: FontWeight.w600)),
-        const SizedBox(height: 4), Text(next, style: TextStyle(fontSize: 16, fontStyle: FontStyle.italic, fontWeight: FontWeight.w500, color: EdenColors.primary)),
+        Text('다음', style: TextStyle(fontSize: 12, color: EdenColors.secondary.withValues(alpha: 0.6), letterSpacing: 2, fontWeight: FontWeight.w600)),
+        const SizedBox(height: 4), Text(next, style: TextStyle(fontSize: 18, fontStyle: FontStyle.italic, fontWeight: FontWeight.w500, color: EdenColors.primary)),
       ])) else const SizedBox(),
     ]));
   }
@@ -584,5 +584,5 @@ class _Pill extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Container(padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
     decoration: BoxDecoration(color: isActive ? EdenColors.primary : Colors.transparent, borderRadius: BorderRadius.circular(50)),
-    child: Text(label, style: TextStyle(fontSize: 10, fontWeight: FontWeight.w800, color: isActive ? Colors.white : EdenColors.textSecondaryLight)));
+    child: Text(label, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w800, color: isActive ? Colors.white : EdenColors.textSecondaryLight)));
 }

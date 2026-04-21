@@ -31,7 +31,7 @@ class _StudyViewState extends State<StudyView> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('심층 연구 모드', style: TextStyle(fontSize: 11, color: EdenColors.secondary, letterSpacing: 3, fontWeight: FontWeight.w700)),
+            Text('심층 연구 모드', style: TextStyle(fontSize: 13, color: EdenColors.secondary, letterSpacing: 3, fontWeight: FontWeight.w700)),
             const SizedBox(height: 8),
 
             // 책/장 선택
@@ -43,7 +43,7 @@ class _StudyViewState extends State<StudyView> {
                     padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
                     decoration: BoxDecoration(color: isDark ? EdenColors.surfaceVariantDark : const Color(0xFFF0EEE8), borderRadius: BorderRadius.circular(12)),
                     child: Row(children: [
-                      Text(book?.nameKo ?? '창세기', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: EdenColors.primary)),
+                      Text(book?.nameKo ?? '창세기', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: EdenColors.primary)),
                       const SizedBox(width: 4),
                       Icon(Icons.expand_more, size: 20, color: EdenColors.primary),
                     ]),
@@ -57,7 +57,7 @@ class _StudyViewState extends State<StudyView> {
                   padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
                   decoration: BoxDecoration(color: isDark ? EdenColors.surfaceVariantDark : const Color(0xFFF0EEE8), borderRadius: BorderRadius.circular(12)),
                   child: Row(children: [
-                    Text('$_chapter장', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: EdenColors.primary)),
+                    Text('$_chapter장', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: EdenColors.primary)),
                     const SizedBox(width: 4),
                     Icon(Icons.expand_more, size: 20, color: EdenColors.primary),
                   ]),
@@ -82,17 +82,17 @@ class _StudyViewState extends State<StudyView> {
                   width: double.infinity, padding: const EdgeInsets.all(24),
                   decoration: BoxDecoration(color: isDark ? EdenColors.surfaceDark : Colors.white, borderRadius: const BorderRadius.vertical(top: Radius.circular(24))),
                   child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                    Text('개역한글', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w800, color: EdenColors.secondary.withValues(alpha: 0.6), letterSpacing: 2)),
+                    Text('개역한글', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w800, color: EdenColors.secondary.withValues(alpha: 0.6), letterSpacing: 2)),
                     const SizedBox(height: 16),
                     if (displayVerses.isEmpty)
-                      Text('구절을 불러올 수 없습니다.', style: TextStyle(fontSize: 14, color: EdenColors.textTertiaryLight))
+                      Text('구절을 불러올 수 없습니다.', style: TextStyle(fontSize: 16, color: EdenColors.textTertiaryLight))
                     else
                       ...displayVerses.map((v) => Padding(
                         padding: const EdgeInsets.only(bottom: 16),
                         child: RichText(text: TextSpan(
-                          style: TextStyle(fontSize: 17, height: 1.8, color: isDark ? EdenColors.textPrimaryDark : EdenColors.textPrimaryLight),
+                          style: TextStyle(fontSize: 19, height: 1.8, color: isDark ? EdenColors.textPrimaryDark : EdenColors.textPrimaryLight),
                           children: [
-                            TextSpan(text: '${v.verse} ', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w700, color: EdenColors.secondary)),
+                            TextSpan(text: '${v.verse} ', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: EdenColors.secondary)),
                             TextSpan(text: v.krv),
                           ],
                         )),
@@ -106,19 +106,19 @@ class _StudyViewState extends State<StudyView> {
                   decoration: BoxDecoration(color: isDark ? EdenColors.surfaceVariantDark : const Color(0xFFF5F3EE), borderRadius: const BorderRadius.vertical(bottom: Radius.circular(24))),
                   child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                     Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                      Text('KJV', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w800, color: EdenColors.secondary.withValues(alpha: 0.6), letterSpacing: 2)),
+                      Text('KJV', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w800, color: EdenColors.secondary.withValues(alpha: 0.6), letterSpacing: 2)),
                       Icon(Icons.compare_arrows, size: 18, color: EdenColors.secondary.withValues(alpha: 0.4)),
                     ]),
                     const SizedBox(height: 16),
                     if (displayVerses.isEmpty)
-                      Text('No verses loaded.', style: TextStyle(fontSize: 14, color: EdenColors.textTertiaryLight))
+                      Text('No verses loaded.', style: TextStyle(fontSize: 16, color: EdenColors.textTertiaryLight))
                     else
                       ...displayVerses.map((v) => Padding(
                         padding: const EdgeInsets.only(bottom: 16),
                         child: RichText(text: TextSpan(
-                          style: TextStyle(fontSize: 17, height: 1.8, color: (isDark ? EdenColors.textPrimaryDark : EdenColors.textPrimaryLight).withValues(alpha: 0.7), fontStyle: FontStyle.italic),
+                          style: TextStyle(fontSize: 19, height: 1.8, color: (isDark ? EdenColors.textPrimaryDark : EdenColors.textPrimaryLight).withValues(alpha: 0.7), fontStyle: FontStyle.italic),
                           children: [
-                            TextSpan(text: '${v.verse} ', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w700, color: EdenColors.secondary.withValues(alpha: 0.5), fontStyle: FontStyle.normal)),
+                            TextSpan(text: '${v.verse} ', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: EdenColors.secondary.withValues(alpha: 0.5), fontStyle: FontStyle.normal)),
                             TextSpan(text: v.kjv),
                           ],
                         )),
@@ -141,7 +141,7 @@ class _StudyViewState extends State<StudyView> {
                     child: Icon(Icons.auto_stories, size: 22, color: EdenColors.primary),
                   ),
                   const SizedBox(width: 12),
-                  const Text('주석 및 통찰', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700)),
+                  const Text('주석 및 통찰', style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700)),
                 ]),
                 const SizedBox(height: 20),
                 Container(
@@ -151,12 +151,12 @@ class _StudyViewState extends State<StudyView> {
                     Row(children: [
                       Icon(Icons.auto_awesome, size: 14, color: EdenColors.primary),
                       const SizedBox(width: 6),
-                      Text('AI 강해', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w800, color: EdenColors.primaryDark, letterSpacing: 2)),
+                      Text('AI 강해', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w800, color: EdenColors.primaryDark, letterSpacing: 2)),
                     ]),
                     const SizedBox(height: 10),
                     Text(
                       '${book?.nameKo ?? ""} $_chapter장의 대조 보기입니다. 개역한글과 KJV를 비교하며 원문의 뉘앙스를 살펴보세요. 향후 업데이트에서 원어 해석, 교차 참조, AI 강해가 추가될 예정입니다.',
-                      style: TextStyle(fontSize: 14, height: 1.7, color: isDark ? EdenColors.textPrimaryDark : EdenColors.textPrimaryLight),
+                      style: TextStyle(fontSize: 16, height: 1.7, color: isDark ? EdenColors.textPrimaryDark : EdenColors.textPrimaryLight),
                     ),
                   ]),
                 ),
@@ -178,7 +178,7 @@ class _StudyViewState extends State<StudyView> {
           const SizedBox(height: 12),
           Container(width: 40, height: 4, decoration: BoxDecoration(color: Colors.grey.shade300, borderRadius: BorderRadius.circular(2))),
           const SizedBox(height: 16),
-          const Text('성경 선택', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700)),
+          const Text('성경 선택', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700)),
           const SizedBox(height: 12),
           Expanded(child: ListView.builder(
             controller: sc, itemCount: _bible.books.length,
@@ -186,9 +186,9 @@ class _StudyViewState extends State<StudyView> {
               final b = _bible.books[i];
               final sel = b.id == _bookId;
               return ListTile(
-                leading: Text('${b.id}', style: TextStyle(fontSize: 12, color: EdenColors.secondary)),
+                leading: Text('${b.id}', style: TextStyle(fontSize: 14, color: EdenColors.secondary)),
                 title: Text(b.nameKo, style: TextStyle(fontWeight: sel ? FontWeight.w700 : FontWeight.w400, color: sel ? EdenColors.primary : null)),
-                subtitle: Text('${b.nameEn} • ${b.chapterCount}장', style: const TextStyle(fontSize: 12)),
+                subtitle: Text('${b.nameEn} • ${b.chapterCount}장', style: const TextStyle(fontSize: 14)),
                 trailing: sel ? Icon(Icons.check_circle, color: EdenColors.primary, size: 20) : null,
                 onTap: () { Navigator.pop(ctx); setState(() { _bookId = b.id; _chapter = 1; }); },
               );
@@ -209,7 +209,7 @@ class _StudyViewState extends State<StudyView> {
         child: Column(children: [
           Container(width: 40, height: 4, decoration: BoxDecoration(color: Colors.grey.shade300, borderRadius: BorderRadius.circular(2))),
           const SizedBox(height: 16),
-          const Text('장 선택', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700)),
+          const Text('장 선택', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700)),
           const SizedBox(height: 16),
           Expanded(child: GridView.builder(
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 6, mainAxisSpacing: 8, crossAxisSpacing: 8),
@@ -242,9 +242,9 @@ class _TranslationChip extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
       decoration: BoxDecoration(color: isDark ? EdenColors.surfaceVariantDark : const Color(0xFFF0EEE8), borderRadius: BorderRadius.circular(50)),
       child: Row(children: [
-        Text(label, style: TextStyle(fontSize: 12, color: EdenColors.textSecondaryLight)),
+        Text(label, style: TextStyle(fontSize: 14, color: EdenColors.textSecondaryLight)),
         const SizedBox(width: 4),
-        Text(value, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: EdenColors.primary)),
+        Text(value, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: EdenColors.primary)),
       ]),
     );
   }

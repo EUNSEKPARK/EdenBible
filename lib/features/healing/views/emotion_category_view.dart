@@ -50,12 +50,12 @@ class EmotionCategoryView extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(20, 16, 20, 40),
       children: [
         Text('지금 마음이\n어떠세요?',
-          style: TextStyle(fontSize: 28, fontWeight: FontWeight.w700,
+          style: TextStyle(fontSize: 30, fontWeight: FontWeight.w700,
             color: isDark ? EdenColors.textPrimaryDark : EdenColors.textPrimaryLight,
             height: 1.4, letterSpacing: -0.5)),
         const SizedBox(height: 8),
         Text('감정을 선택하면 당신을 위한 말씀을 준비해 드릴게요',
-          style: TextStyle(fontSize: 14, color: EdenColors.textTertiaryLight, height: 1.5)),
+          style: TextStyle(fontSize: 16, color: EdenColors.textTertiaryLight, height: 1.5)),
 
         // 자주 찾는 위로
         if (topCategories.length >= 2) ...[
@@ -63,7 +63,7 @@ class EmotionCategoryView extends StatelessWidget {
           Row(children: [
             Icon(Icons.history_rounded, size: 14, color: EdenColors.accent),
             const SizedBox(width: 6),
-            Text('자주 찾는 위로', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: EdenColors.accent, letterSpacing: 2)),
+            Text('자주 찾는 위로', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: EdenColors.accent, letterSpacing: 2)),
           ]),
           const SizedBox(height: 10),
           Row(children: topCategories.asMap().entries.map((entry) {
@@ -83,9 +83,9 @@ class EmotionCategoryView extends StatelessWidget {
                   border: Border.all(color: EdenColors.accent.withValues(alpha: 0.15)),
                 ),
                 child: Column(children: [
-                  Text(cat.emoji, style: const TextStyle(fontSize: 24)),
+                  Text(cat.emoji, style: const TextStyle(fontSize: 26)),
                   const SizedBox(height: 6),
-                  Text(cat.label, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600,
+                  Text(cat.label, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600,
                     color: isDark ? EdenColors.textPrimaryDark : EdenColors.textPrimaryLight),
                     overflow: TextOverflow.ellipsis),
                 ]),
@@ -124,15 +124,15 @@ class _EmotionCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(category.emoji, style: const TextStyle(fontSize: 28)),
+            Text(category.emoji, style: const TextStyle(fontSize: 30)),
             const SizedBox(height: 10),
             Text(category.label,
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700,
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700,
                 color: isDark ? EdenColors.textPrimaryDark : EdenColors.textPrimaryLight),
               overflow: TextOverflow.ellipsis),
             const SizedBox(height: 2),
             Text('${category.situations.length}개 상황',
-              style: TextStyle(fontSize: 11, color: cardColor.withValues(alpha: 0.8))),
+              style: TextStyle(fontSize: 13, color: cardColor.withValues(alpha: 0.8))),
           ],
         ),
       ),

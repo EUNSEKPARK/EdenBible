@@ -59,8 +59,8 @@ class _VisualBookGridState extends State<VisualBookGrid> with SingleTickerProvid
           controller: _tabController,
           indicatorColor: EdenColors.primary, indicatorWeight: 2.5,
           labelColor: EdenColors.primary, unselectedLabelColor: EdenColors.textTertiaryLight,
-          labelStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
-          unselectedLabelStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+          labelStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+          unselectedLabelStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
           tabs: [Tab(text: '구약 (${_bible.oldTestamentBooks.length}권)'), Tab(text: '신약 (${_bible.newTestamentBooks.length}권)')],
         ),
       ),
@@ -102,9 +102,9 @@ class _BookGrid extends StatelessWidget {
           Padding(padding: const EdgeInsets.only(left: 4, bottom: 12), child: Row(children: [
             Container(width: 3, height: 14, decoration: BoxDecoration(color: color, borderRadius: BorderRadius.circular(2))),
             const SizedBox(width: 8),
-            Text(category, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: color, letterSpacing: 2)),
+            Text(category, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: color, letterSpacing: 2)),
             const SizedBox(width: 8),
-            Text('${categoryBooks.length}권', style: TextStyle(fontSize: 11, color: EdenColors.textTertiaryLight)),
+            Text('${categoryBooks.length}권', style: TextStyle(fontSize: 13, color: EdenColors.textTertiaryLight)),
           ])),
           GridView.builder(
             shrinkWrap: true, physics: const NeverScrollableScrollPhysics(),
@@ -163,16 +163,16 @@ class _BookCard extends StatelessWidget {
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3),
                 decoration: BoxDecoration(color: Colors.black.withValues(alpha: 0.45), borderRadius: BorderRadius.circular(6)),
-                child: Text(book.abbrKo, style: const TextStyle(fontSize: 9, fontWeight: FontWeight.w800, color: Colors.white)),
+                child: Text(book.abbrKo, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w800, color: Colors.white)),
               ),
             ),
             // 하단 텍스트
             Positioned(
               bottom: 10, left: 10, right: 10,
               child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Text(book.nameKo, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Colors.white, height: 1.2), maxLines: 1, overflow: TextOverflow.ellipsis),
+                Text(book.nameKo, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Colors.white, height: 1.2), maxLines: 1, overflow: TextOverflow.ellipsis),
                 const SizedBox(height: 2),
-                Text('${book.chapterCount}장', style: TextStyle(fontSize: 10, color: Colors.white.withValues(alpha: 0.7))),
+                Text('${book.chapterCount}장', style: TextStyle(fontSize: 12, color: Colors.white.withValues(alpha: 0.7))),
               ]),
             ),
           ],

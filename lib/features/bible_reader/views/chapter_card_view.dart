@@ -36,7 +36,7 @@ class ChapterCardView extends StatelessWidget {
               onPressed: () => Navigator.pop(context),
             ),
             flexibleSpace: FlexibleSpaceBar(
-              title: Text(book.nameKo, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: Colors.white, shadows: [Shadow(blurRadius: 8, color: Colors.black54)])),
+              title: Text(book.nameKo, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w700, color: Colors.white, shadows: [Shadow(blurRadius: 8, color: Colors.black54)])),
               centerTitle: true,
               background: Stack(
                 fit: StackFit.expand,
@@ -59,11 +59,11 @@ class ChapterCardView extends StatelessWidget {
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                         decoration: BoxDecoration(color: Colors.white.withValues(alpha: 0.2), borderRadius: BorderRadius.circular(8)),
-                        child: Text(book.abbrKo, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w800, color: Colors.white)),
+                        child: Text(book.abbrKo, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w800, color: Colors.white)),
                       ),
                       const SizedBox(width: 10),
                       Text('${book.chapterCount}장 • ${book.testament == "old" ? "구약" : "신약"} • ${book.category}',
-                        style: TextStyle(fontSize: 12, color: Colors.white.withValues(alpha: 0.8))),
+                        style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: 0.8))),
                     ]),
                   ),
                 ],
@@ -101,18 +101,18 @@ class ChapterCardView extends StatelessWidget {
                         Container(
                           width: 44, height: 44, alignment: Alignment.center,
                           decoration: BoxDecoration(color: color.withValues(alpha: isDark ? 0.2 : 0.1), borderRadius: BorderRadius.circular(14)),
-                          child: Text('$chapter', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800, color: color)),
+                          child: Text('$chapter', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800, color: color)),
                         ),
                         const SizedBox(width: 14),
                         Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                           Row(children: [
-                            Text('$chapter장', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: isDark ? EdenColors.textPrimaryDark : EdenColors.textPrimaryLight)),
+                            Text('$chapter장', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w700, color: isDark ? EdenColors.textPrimaryDark : EdenColors.textPrimaryLight)),
                             const Spacer(),
-                            Text('$verseCount절', style: TextStyle(fontSize: 11, color: EdenColors.textTertiaryLight)),
+                            Text('$verseCount절', style: TextStyle(fontSize: 13, color: EdenColors.textTertiaryLight)),
                           ]),
                           if (preview.isNotEmpty) ...[
                             const SizedBox(height: 6),
-                            Text(preview, style: TextStyle(fontSize: 13, color: (isDark ? EdenColors.textPrimaryDark : EdenColors.textPrimaryLight).withValues(alpha: 0.6), height: 1.5),
+                            Text(preview, style: TextStyle(fontSize: 15, color: (isDark ? EdenColors.textPrimaryDark : EdenColors.textPrimaryLight).withValues(alpha: 0.6), height: 1.5),
                               maxLines: 2, overflow: TextOverflow.ellipsis),
                           ],
                         ])),

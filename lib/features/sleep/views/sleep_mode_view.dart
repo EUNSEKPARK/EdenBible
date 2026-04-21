@@ -164,7 +164,7 @@ class _SleepModeViewState extends State<SleepModeView> with TickerProviderStateM
                     Text(
                       '"${_verses[_currentPage].krv}"',
                       style: TextStyle(
-                        fontSize: 22, fontWeight: FontWeight.w300, color: Colors.white.withValues(alpha: 0.85),
+                        fontSize: 24, fontWeight: FontWeight.w300, color: Colors.white.withValues(alpha: 0.85),
                         height: 2.0, letterSpacing: 0.5,
                       ),
                       textAlign: TextAlign.center,
@@ -173,7 +173,7 @@ class _SleepModeViewState extends State<SleepModeView> with TickerProviderStateM
                     // 참조
                     Text(
                       _verses[_currentPage].refKo,
-                      style: TextStyle(fontSize: 13, color: Colors.white.withValues(alpha: 0.4), letterSpacing: 2, fontWeight: FontWeight.w500),
+                      style: TextStyle(fontSize: 15, color: Colors.white.withValues(alpha: 0.4), letterSpacing: 2, fontWeight: FontWeight.w500),
                     ),
                   ]),
                 )),
@@ -208,7 +208,7 @@ class _SleepModeViewState extends State<SleepModeView> with TickerProviderStateM
                         child: Row(children: [
                           Icon(Icons.timer_outlined, size: 14, color: Colors.white.withValues(alpha: 0.5)),
                           const SizedBox(width: 6),
-                          Text(_formatTime(_remainingSeconds), style: TextStyle(fontSize: 13, color: Colors.white.withValues(alpha: 0.6), fontFeatures: const [FontFeature.tabularFigures()])),
+                          Text(_formatTime(_remainingSeconds), style: TextStyle(fontSize: 15, color: Colors.white.withValues(alpha: 0.6), fontFeatures: const [FontFeature.tabularFigures()])),
                         ]),
                       ),
                   ],
@@ -255,7 +255,7 @@ class _SleepModeViewState extends State<SleepModeView> with TickerProviderStateM
                         child: Row(mainAxisSize: MainAxisSize.min, children: [
                           Icon(_ttsEnabled ? Icons.volume_up_rounded : Icons.volume_off_rounded, size: 16, color: Colors.white.withValues(alpha: 0.6)),
                           const SizedBox(width: 6),
-                          Text('음성', style: TextStyle(fontSize: 12, color: Colors.white.withValues(alpha: 0.6))),
+                          Text('음성', style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: 0.6))),
                         ]),
                       ),
                     ),
@@ -317,7 +317,7 @@ class _SleepChip extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
         border: isActive ? Border.all(color: Colors.white.withValues(alpha: 0.2)) : null,
       ),
-      child: Text(label, style: TextStyle(fontSize: 12, color: Colors.white.withValues(alpha: isActive ? 0.8 : 0.4), fontWeight: isActive ? FontWeight.w600 : FontWeight.w400)),
+      child: Text(label, style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: isActive ? 0.8 : 0.4), fontWeight: isActive ? FontWeight.w600 : FontWeight.w400)),
     ));
   }
 }

@@ -129,7 +129,7 @@ class _TutorialViewState extends State<TutorialView> {
                   onTap: _finish,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                    child: Text('건너뛰기', style: TextStyle(fontSize: 13, color: EdenColors.textTertiaryLight, fontWeight: FontWeight.w500)),
+                    child: Text('건너뛰기', style: TextStyle(fontSize: 15, color: EdenColors.textTertiaryLight, fontWeight: FontWeight.w500)),
                   ),
                 ),
             ]),
@@ -179,7 +179,7 @@ class _TutorialViewState extends State<TutorialView> {
                   ),
                   child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                     Text(isLast ? '시작하기' : '다음',
-                      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700, letterSpacing: 1)),
+                      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w700, letterSpacing: 1)),
                     if (!isLast) ...[
                       const SizedBox(width: 8),
                       const Icon(Icons.arrow_forward_rounded, size: 20),
@@ -251,10 +251,10 @@ class _TutorialPage extends StatelessWidget {
 
         // 타이틀
         Text(data.title, style: TextStyle(
-          fontSize: 28, fontWeight: FontWeight.w800, color: isDark ? EdenColors.textPrimaryDark : EdenColors.textPrimaryLight, letterSpacing: -0.5)),
+          fontSize: 30, fontWeight: FontWeight.w800, color: isDark ? EdenColors.textPrimaryDark : EdenColors.textPrimaryLight, letterSpacing: -0.5)),
         const SizedBox(height: 8),
         Text(data.subtitle, style: TextStyle(
-          fontSize: 15, color: isDark ? EdenColors.textSecondaryDark : EdenColors.textSecondaryLight, letterSpacing: 0.5)),
+          fontSize: 17, color: isDark ? EdenColors.textSecondaryDark : EdenColors.textSecondaryLight, letterSpacing: 0.5)),
         const SizedBox(height: 32),
 
         // 기능 목록 카드
@@ -279,11 +279,11 @@ class _TutorialPage extends StatelessWidget {
             const SizedBox(width: 14),
             Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Text(f.label, style: TextStyle(
-                fontSize: 14, fontWeight: FontWeight.w700,
+                fontSize: 16, fontWeight: FontWeight.w700,
                 color: isDark ? EdenColors.textPrimaryDark : EdenColors.textPrimaryLight)),
               const SizedBox(height: 3),
               Text(f.description, style: TextStyle(
-                fontSize: 12, color: isDark ? EdenColors.textSecondaryDark : EdenColors.textSecondaryLight, height: 1.4)),
+                fontSize: 14, color: isDark ? EdenColors.textSecondaryDark : EdenColors.textSecondaryLight, height: 1.4)),
             ])),
           ]),
         )),

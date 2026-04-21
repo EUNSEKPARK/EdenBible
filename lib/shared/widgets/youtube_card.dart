@@ -60,7 +60,7 @@ class YouTubeCard extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
               child: Text(video.title,
-                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: isDark ? EdenColors.textPrimaryDark : EdenColors.textPrimaryLight, height: 1.3),
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: isDark ? EdenColors.textPrimaryDark : EdenColors.textPrimaryLight, height: 1.3),
                 maxLines: 2, overflow: TextOverflow.ellipsis),
             ),
           ],
@@ -123,7 +123,7 @@ class YouTubeCarousel extends StatelessWidget {
       Row(children: [
         Icon(Icons.play_circle_outline_rounded, size: 18, color: EdenColors.accent),
         const SizedBox(width: 8),
-        Text(title, style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: isDark ? EdenColors.accentLight : EdenColors.accent, letterSpacing: 2)),
+        Text(title, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: isDark ? EdenColors.accentLight : EdenColors.accent, letterSpacing: 2)),
       ]),
       const SizedBox(height: 14),
       SizedBox(

@@ -30,7 +30,7 @@ class _SettingsViewState extends State<SettingsView> {
       builder: (ctx) => SafeArea(child: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(mainAxisSize: MainAxisSize.min, children: [
-          const Text('프로필 사진', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700)),
+          const Text('프로필 사진', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700)),
           const SizedBox(height: 20),
           ListTile(leading: const Icon(Icons.camera_alt_rounded), title: const Text('카메라'), onTap: () => Navigator.pop(ctx, ImageSource.camera)),
           ListTile(leading: const Icon(Icons.photo_library_rounded), title: const Text('갤러리'), onTap: () => Navigator.pop(ctx, ImageSource.gallery)),
@@ -73,7 +73,7 @@ class _SettingsViewState extends State<SettingsView> {
       builder: (ctx) => SafeArea(child: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(mainAxisSize: MainAxisSize.min, children: [
-          const Text('화면 테마', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700)),
+          const Text('화면 테마', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700)),
           const SizedBox(height: 20),
           _ThemeOption(icon: Icons.light_mode_rounded, label: '라이트', isSelected: _settings.themeMode == ThemeMode.light,
             onTap: () { _settings.setThemeMode(ThemeMode.light); Navigator.pop(ctx); }),
@@ -94,20 +94,20 @@ class _SettingsViewState extends State<SettingsView> {
         return StatefulBuilder(builder: (ctx, setLocal) => SafeArea(child: Padding(
           padding: const EdgeInsets.all(24),
           child: Column(mainAxisSize: MainAxisSize.min, children: [
-            const Text('하루 읽기 목표', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700)),
+            const Text('하루 읽기 목표', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700)),
             const SizedBox(height: 8),
-            Text('매일 몇 장씩 읽을까요?', style: TextStyle(fontSize: 13, color: EdenColors.textTertiaryLight)),
+            Text('매일 몇 장씩 읽을까요?', style: TextStyle(fontSize: 15, color: EdenColors.textTertiaryLight)),
             const SizedBox(height: 24),
             Row(mainAxisAlignment: MainAxisAlignment.center, children: [
               IconButton(onPressed: () { if (selected > 1) setLocal(() => selected--); }, icon: const Icon(Icons.remove_circle_outline, size: 32)),
               const SizedBox(width: 20),
-              Text('$selected장', style: TextStyle(fontSize: 36, fontWeight: FontWeight.w800, color: EdenColors.primary)),
+              Text('$selected장', style: TextStyle(fontSize: 38, fontWeight: FontWeight.w800, color: EdenColors.primary)),
               const SizedBox(width: 20),
               IconButton(onPressed: () { if (selected < 20) setLocal(() => selected++); }, icon: const Icon(Icons.add_circle_outline, size: 32)),
             ]),
             const SizedBox(height: 8),
             Text(selected <= 3 ? '천천히, 꾸준히!' : selected <= 7 ? '좋은 습관이 될 거예요!' : '도전적인 목표! 화이팅!',
-              style: TextStyle(fontSize: 13, color: EdenColors.accent)),
+              style: TextStyle(fontSize: 15, color: EdenColors.accent)),
             const SizedBox(height: 24),
             SizedBox(width: double.infinity, child: ElevatedButton(
               onPressed: () { _settings.setDailyGoalChapters(selected); Navigator.pop(ctx); },
@@ -170,22 +170,22 @@ class _SettingsViewState extends State<SettingsView> {
                 GestureDetector(
                   onTap: _editNickname,
                   child: Row(children: [
-                    Flexible(child: Text(displayName, style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w700), overflow: TextOverflow.ellipsis)),
+                    Flexible(child: Text(displayName, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w700), overflow: TextOverflow.ellipsis)),
                     const SizedBox(width: 6),
                     Icon(Icons.edit_rounded, size: 16, color: EdenColors.secondary),
                   ]),
                 ),
                 const SizedBox(height: 4),
-                Text('에덴 성경책과 함께하는 중', style: TextStyle(fontSize: 12, color: EdenColors.textTertiaryLight)),
+                Text('에덴 성경책과 함께하는 중', style: TextStyle(fontSize: 14, color: EdenColors.textTertiaryLight)),
               ])),
             ]),
             const SizedBox(height: 20),
             Container(padding: const EdgeInsets.all(12), decoration: BoxDecoration(color: isDark ? EdenColors.surfaceDark : Colors.white, borderRadius: BorderRadius.circular(14)),
               child: Column(children: [
                 Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                  Text('통독 진행률', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w800, color: EdenColors.primary, letterSpacing: 2)),
+                  Text('통독 진행률', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w800, color: EdenColors.primary, letterSpacing: 2)),
                   Text('${(_settings.readingProgress * 100).toInt()}% (${_settings.readChaptersCount}/1,189장)',
-                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: EdenColors.secondary)),
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: EdenColors.secondary)),
                 ]),
                 const SizedBox(height: 8),
                 ClipRRect(borderRadius: BorderRadius.circular(4), child: LinearProgressIndicator(value: _settings.readingProgress, minHeight: 6,
@@ -195,9 +195,9 @@ class _SettingsViewState extends State<SettingsView> {
             Container(padding: const EdgeInsets.all(12), decoration: BoxDecoration(color: isDark ? EdenColors.surfaceDark : Colors.white, borderRadius: BorderRadius.circular(14)),
               child: Column(children: [
                 Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                  Text('오늘 목표', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w800, color: EdenColors.accent, letterSpacing: 2)),
+                  Text('오늘 목표', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w800, color: EdenColors.accent, letterSpacing: 2)),
                   Text('${_settings.todayReadChapters} / ${_settings.dailyGoalChapters}장',
-                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: _settings.todayReadChapters >= _settings.dailyGoalChapters ? EdenColors.accent : EdenColors.secondary)),
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: _settings.todayReadChapters >= _settings.dailyGoalChapters ? EdenColors.accent : EdenColors.secondary)),
                 ]),
                 const SizedBox(height: 8),
                 ClipRRect(borderRadius: BorderRadius.circular(4), child: LinearProgressIndicator(value: goalProgress, minHeight: 6,
@@ -228,17 +228,17 @@ class _SettingsViewState extends State<SettingsView> {
 
         Container(padding: const EdgeInsets.all(18), decoration: BoxDecoration(color: isDark ? EdenColors.surfaceVariantDark : const Color(0xFFF5F3EE), borderRadius: BorderRadius.circular(16)),
           child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Row(children: [Icon(Icons.format_size, color: EdenColors.secondary), const SizedBox(width: 14), const Text('글자 크기', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500)), const Spacer(), Text('${_settings.fontSize.toInt()}pt', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: EdenColors.primary))]),
+            Row(children: [Icon(Icons.format_size, color: EdenColors.secondary), const SizedBox(width: 14), const Text('글자 크기', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)), const Spacer(), Text('${_settings.fontSize.toInt()}pt', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: EdenColors.primary))]),
             const SizedBox(height: 10),
-            Slider(value: _settings.fontSize, min: 14, max: 32, divisions: 18, activeColor: EdenColors.primary, inactiveColor: EdenColors.secondary.withValues(alpha: 0.2), onChanged: (v) => _settings.setFontSize(v)),
+            Slider(value: _settings.fontSize, min: 14, max: 48, divisions: 34, activeColor: EdenColors.primary, inactiveColor: EdenColors.secondary.withValues(alpha: 0.2), onChanged: (v) => _settings.setFontSize(v)),
           ])),
         const SizedBox(height: 10),
 
         Container(padding: const EdgeInsets.all(18), decoration: BoxDecoration(color: isDark ? EdenColors.surfaceVariantDark : const Color(0xFFF5F3EE), borderRadius: BorderRadius.circular(16)),
           child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Row(children: [Icon(Icons.format_line_spacing_rounded, color: EdenColors.secondary), const SizedBox(width: 14), const Text('줄 간격', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500)), const Spacer(),
+            Row(children: [Icon(Icons.format_line_spacing_rounded, color: EdenColors.secondary), const SizedBox(width: 14), const Text('줄 간격', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)), const Spacer(),
               Text(_settings.lineHeight <= 1.5 ? '좁게' : _settings.lineHeight <= 1.9 ? '보통' : _settings.lineHeight <= 2.2 ? '넓게' : '아주 넓게',
-                style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: EdenColors.primary))]),
+                style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: EdenColors.primary))]),
             const SizedBox(height: 10),
             Slider(value: _settings.lineHeight, min: 1.4, max: 2.6, divisions: 6, activeColor: EdenColors.primary, inactiveColor: EdenColors.secondary.withValues(alpha: 0.2), onChanged: (v) => _settings.setLineHeight(v)),
           ])),
@@ -296,8 +296,8 @@ class _SettingsViewState extends State<SettingsView> {
       child: Row(children: [
         Icon(icon, color: EdenColors.secondary), const SizedBox(width: 14),
         Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text(label, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500), overflow: TextOverflow.ellipsis),
-          if (subtitle != null) Text(subtitle, style: TextStyle(fontSize: 12, color: EdenColors.textTertiaryLight), overflow: TextOverflow.ellipsis),
+          Text(label, style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w500), overflow: TextOverflow.ellipsis),
+          if (subtitle != null) Text(subtitle, style: TextStyle(fontSize: 14, color: EdenColors.textTertiaryLight), overflow: TextOverflow.ellipsis),
         ])),
         trailing,
       ]),
@@ -309,7 +309,7 @@ class _SectionTitle extends StatelessWidget {
   final String label;
   const _SectionTitle({required this.label});
   @override
-  Widget build(BuildContext context) => Text(label, style: TextStyle(fontSize: 11, fontWeight: FontWeight.w800, color: EdenColors.secondary, letterSpacing: 3));
+  Widget build(BuildContext context) => Text(label, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w800, color: EdenColors.secondary, letterSpacing: 3));
 }
 
 class _ThemeOption extends StatelessWidget {
@@ -335,9 +335,9 @@ class _StatBadge extends StatelessWidget {
       child: Column(children: [
         Icon(icon, size: 16, color: color),
         const SizedBox(height: 4),
-        Text(value, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w800, color: isDark ? EdenColors.textPrimaryDark : EdenColors.textPrimaryLight)),
+        Text(value, style: TextStyle(fontSize: 15, fontWeight: FontWeight.w800, color: isDark ? EdenColors.textPrimaryDark : EdenColors.textPrimaryLight)),
         const SizedBox(height: 2),
-        Text(label, style: TextStyle(fontSize: 8, color: EdenColors.textTertiaryLight, letterSpacing: 0.5)),
+        Text(label, style: TextStyle(fontSize: 10, color: EdenColors.textTertiaryLight, letterSpacing: 0.5)),
       ]),
     ));
   }

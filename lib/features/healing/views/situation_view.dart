@@ -26,7 +26,7 @@ class SituationView extends StatelessWidget {
         title: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(category.emoji, style: const TextStyle(fontSize: 20)),
+            Text(category.emoji, style: const TextStyle(fontSize: 22)),
             const SizedBox(width: 8),
             Text(category.label),
           ],
@@ -52,7 +52,7 @@ class SituationView extends StatelessWidget {
                   Text(
                     '조금 더 알려주세요',
                     style: TextStyle(
-                      fontSize: 20,
+                      fontSize: 22,
                       fontWeight: FontWeight.w700,
                       color: isDark ? EdenColors.textPrimaryDark : EdenColors.textPrimaryLight,
                     ),
@@ -60,7 +60,7 @@ class SituationView extends StatelessWidget {
                   const SizedBox(height: 6),
                   Text(
                     '어떤 상황인지 선택하면\n당신에게 딱 맞는 말씀을 찾아드릴게요',
-                    style: TextStyle(fontSize: 14, color: EdenColors.textTertiaryLight, height: 1.5),
+                    style: TextStyle(fontSize: 16, color: EdenColors.textTertiaryLight, height: 1.5),
                   ),
                 ],
               ),
@@ -175,7 +175,7 @@ class _SituationTile extends StatelessWidget {
               child: Text(
                 situation.label,
                 style: TextStyle(
-                  fontSize: 16,
+                  fontSize: 18,
                   fontWeight: FontWeight.w600,
                   color: isDark ? EdenColors.textPrimaryDark : EdenColors.textPrimaryLight,
                 ),

@@ -42,7 +42,7 @@ class HomeView extends StatelessWidget {
                 child: Row(mainAxisSize: MainAxisSize.min, children: [
                   Icon(Icons.local_fire_department_rounded, size: 20, color: EdenColors.accent),
                   const SizedBox(width: 8),
-                  Text('연속 ${settings.streakDays}일 읽기 중', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: isDark ? EdenColors.accentLight : EdenColors.primaryDark)),
+                  Text('연속 ${settings.streakDays}일 읽기 중', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: isDark ? EdenColors.accentLight : EdenColors.primaryDark)),
                 ]),
               ),
             );
@@ -77,11 +77,11 @@ class _YouTubeSections extends StatelessWidget {
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Row(children: [
           Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text(section.title, style: TextStyle(fontSize: 17, fontWeight: FontWeight.w700, color: isDark ? EdenColors.textPrimaryDark : EdenColors.textPrimaryLight)),
+            Text(section.title, style: TextStyle(fontSize: 19, fontWeight: FontWeight.w700, color: isDark ? EdenColors.textPrimaryDark : EdenColors.textPrimaryLight)),
             const SizedBox(height: 2),
-            Text(section.subtitle, style: TextStyle(fontSize: 11, color: EdenColors.textTertiaryLight)),
+            Text(section.subtitle, style: TextStyle(fontSize: 13, color: EdenColors.textTertiaryLight)),
           ])),
-          Text('${section.videos.length}편', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: EdenColors.secondary)),
+          Text('${section.videos.length}편', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: EdenColors.secondary)),
         ]),
         const SizedBox(height: 12),
         SizedBox(height: 168, child: ListView.builder(scrollDirection: Axis.horizontal, clipBehavior: Clip.none, itemCount: section.videos.length,
@@ -119,14 +119,14 @@ class _HealingQuickEntry extends StatelessWidget {
         borderRadius: BorderRadius.circular(22), border: Border.all(color: EdenColors.accent.withValues(alpha: 0.15))),
       child: Row(children: [
         Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text('지금 마음이 어떠세요?', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w700, color: isDark ? EdenColors.textPrimaryDark : EdenColors.textPrimaryLight)),
+          Text('지금 마음이 어떠세요?', style: TextStyle(fontSize: 19, fontWeight: FontWeight.w700, color: isDark ? EdenColors.textPrimaryDark : EdenColors.textPrimaryLight)),
           const SizedBox(height: 6),
-          Text('탭 한 번이면 당신을 위한 말씀을 찾아드려요', style: TextStyle(fontSize: 12, color: EdenColors.textTertiaryLight, height: 1.4)),
+          Text('탭 한 번이면 당신을 위한 말씀을 찾아드려요', style: TextStyle(fontSize: 14, color: EdenColors.textTertiaryLight, height: 1.4)),
           const SizedBox(height: 12),
           Row(children: preview.map((cat) => Container(
             margin: const EdgeInsets.only(right: 6), padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
             decoration: BoxDecoration(color: (isDark ? Colors.white : Colors.black).withValues(alpha: 0.06), borderRadius: BorderRadius.circular(20)),
-            child: Text('${cat.emoji} ${cat.label}', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: isDark ? EdenColors.textSecondaryDark : EdenColors.textSecondaryLight)),
+            child: Text('${cat.emoji} ${cat.label}', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: isDark ? EdenColors.textSecondaryDark : EdenColors.textSecondaryLight)),
           )).toList()),
         ])),
         const SizedBox(width: 12),
@@ -154,9 +154,9 @@ class _SleepModeEntry extends StatelessWidget {
             child: Icon(Icons.nightlight_round, size: 20, color: Colors.amber.withValues(alpha: 0.8))),
           const SizedBox(width: 14),
           Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text('수면 묵상', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: Colors.white.withValues(alpha: 0.9))),
+            Text('수면 묵상', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w700, color: Colors.white.withValues(alpha: 0.9))),
             const SizedBox(height: 2),
-            Text('잔잔한 말씀과 함께 잠들기', style: TextStyle(fontSize: 12, color: Colors.white.withValues(alpha: 0.5))),
+            Text('잔잔한 말씀과 함께 잠들기', style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: 0.5))),
           ])),
           Icon(Icons.arrow_forward_ios_rounded, size: 14, color: Colors.white.withValues(alpha: 0.3)),
         ])));
@@ -186,16 +186,16 @@ class _VerseOfDayCard extends StatelessWidget {
           Container(decoration: BoxDecoration(gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [EdenColors.primary.withValues(alpha: 0.2), EdenColors.primary.withValues(alpha: 0.85)]))),
           Padding(padding: const EdgeInsets.all(28), child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.end, children: [
             Row(children: [Container(width: 32, height: 1, color: Colors.white.withValues(alpha: 0.6)), const SizedBox(width: 12),
-              Text('오늘의 말씀', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: Colors.white.withValues(alpha: 0.8), letterSpacing: 3))]),
+              Text('오늘의 말씀', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Colors.white.withValues(alpha: 0.8), letterSpacing: 3))]),
             const SizedBox(height: 16),
-            Text('"$verseText"', style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w700, color: Colors.white, height: 1.5, letterSpacing: -0.5), maxLines: 5, overflow: TextOverflow.ellipsis),
+            Text('"$verseText"', style: const TextStyle(fontSize: 26, fontWeight: FontWeight.w700, color: Colors.white, height: 1.5, letterSpacing: -0.5), maxLines: 5, overflow: TextOverflow.ellipsis),
             const SizedBox(height: 16),
             Row(children: [
-              Text('$verseRef • 개역한글', style: TextStyle(fontSize: 13, color: EdenColors.accentLight, fontWeight: FontWeight.w500, letterSpacing: 1.5)),
+              Text('$verseRef • 개역한글', style: TextStyle(fontSize: 15, color: EdenColors.accentLight, fontWeight: FontWeight.w500, letterSpacing: 1.5)),
               const Spacer(),
               Container(padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8), decoration: BoxDecoration(color: Colors.white.withValues(alpha: 0.15), borderRadius: BorderRadius.circular(20)),
                 child: Row(mainAxisSize: MainAxisSize.min, children: [
-                  Text('읽으러 가기', style: TextStyle(fontSize: 12, color: Colors.white.withValues(alpha: 0.8), fontWeight: FontWeight.w600)),
+                  Text('읽으러 가기', style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: 0.8), fontWeight: FontWeight.w600)),
                   const SizedBox(width: 4), Icon(Icons.arrow_forward_rounded, size: 14, color: Colors.white.withValues(alpha: 0.8)),
                 ])),
             ]),
@@ -232,7 +232,7 @@ class _MenuCard extends StatelessWidget {
           Container(width: 52, height: 52, decoration: BoxDecoration(color: (isDark ? EdenColors.surfaceDark : Colors.white).withValues(alpha: 0.9), borderRadius: BorderRadius.circular(16)),
             child: Icon(icon, size: 26, color: color)),
           const SizedBox(height: 10),
-          Text(label, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: isDark ? EdenColors.textSecondaryDark : EdenColors.textSecondaryLight)),
+          Text(label, style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: isDark ? EdenColors.textSecondaryDark : EdenColors.textSecondaryLight)),
         ]),
       ])));
   }
@@ -263,9 +263,9 @@ class _ProgressSection extends StatelessWidget {
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                 Text('읽기 여정', style: theme.textTheme.headlineSmall), const SizedBox(height: 4),
                 Text(settings.hasReadingPlan ? settings.planLabel : '통독 플랜',
-                  style: TextStyle(fontSize: 11, color: EdenColors.textTertiaryLight, letterSpacing: 2, fontWeight: FontWeight.w600)),
+                  style: TextStyle(fontSize: 13, color: EdenColors.textTertiaryLight, letterSpacing: 2, fontWeight: FontWeight.w600)),
               ]),
-              Text('$progressPercent%', style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700, fontStyle: FontStyle.italic, color: EdenColors.primary)),
+              Text('$progressPercent%', style: TextStyle(fontSize: 26, fontWeight: FontWeight.w700, fontStyle: FontStyle.italic, color: EdenColors.primary)),
             ]),
             const SizedBox(height: 20),
             ClipRRect(borderRadius: BorderRadius.circular(6), child: LinearProgressIndicator(value: progress, minHeight: 10, backgroundColor: isDark ? EdenColors.surfaceVariantDark : const Color(0xFFF0EEE8), valueColor: AlwaysStoppedAnimation(EdenColors.primary))),
@@ -282,7 +282,7 @@ class _ProgressSection extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14))),
                 child: Row(mainAxisSize: MainAxisSize.min, children: [
                   Icon(Icons.checklist_rounded, size: 18, color: EdenColors.primary), const SizedBox(width: 6),
-                  Text('통독표', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: EdenColors.primary)),
+                  Text('통독표', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: EdenColors.primary)),
                 ]),
               ),
             ]),
@@ -300,14 +300,14 @@ class _ProgressSection extends StatelessWidget {
             Padding(padding: const EdgeInsets.all(24), child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Row(children: [
                 Icon(Icons.history_rounded, size: 16, color: EdenColors.primaryDark), const SizedBox(width: 8),
-                Text('최근 읽은 말씀', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: EdenColors.primaryDark, letterSpacing: 2)),
+                Text('최근 읽은 말씀', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: EdenColors.primaryDark, letterSpacing: 2)),
                 const Spacer(),
                 Icon(Icons.arrow_forward_ios_rounded, size: 12, color: EdenColors.primaryDark.withValues(alpha: 0.4)),
               ]),
               const SizedBox(height: 14),
-              Text(lastBook != null ? '${lastBook.nameKo} $lastChapter장' : '창세기 1장', style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700, color: EdenColors.primaryDark)),
+              Text(lastBook != null ? '${lastBook.nameKo} $lastChapter장' : '창세기 1장', style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700, color: EdenColors.primaryDark)),
               const SizedBox(height: 8),
-              Text(lastVerse != null ? '"${lastVerse.krv}"' : '"태초에 하나님이 천지를 창조하시니라"', style: TextStyle(fontSize: 14, color: EdenColors.primaryDark.withValues(alpha: 0.7), height: 1.6), maxLines: 2, overflow: TextOverflow.ellipsis),
+              Text(lastVerse != null ? '"${lastVerse.krv}"' : '"태초에 하나님이 천지를 창조하시니라"', style: TextStyle(fontSize: 16, color: EdenColors.primaryDark.withValues(alpha: 0.7), height: 1.6), maxLines: 2, overflow: TextOverflow.ellipsis),
             ])),
           ])),
       ),

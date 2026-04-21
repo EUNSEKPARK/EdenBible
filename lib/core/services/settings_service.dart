@@ -10,7 +10,7 @@ class SettingsService extends ChangeNotifier {
   SharedPreferences? _prefs;
 
   ThemeMode _themeMode = ThemeMode.system;
-  double _fontSize = 20.0;
+  double _fontSize = 22.0;
   double _lineHeight = 1.8;
   String _translation = 'krv';
   String _dailyVerseTime = '07:30';
@@ -31,7 +31,7 @@ class SettingsService extends ChangeNotifier {
   void _loadSettings() {
     final themeModeStr = _prefs?.getString('themeMode') ?? 'system';
     _themeMode = {'light': ThemeMode.light, 'dark': ThemeMode.dark, 'system': ThemeMode.system}[themeModeStr] ?? ThemeMode.system;
-    _fontSize = _prefs?.getDouble('fontSize') ?? 20.0;
+    _fontSize = _prefs?.getDouble('fontSize') ?? 22.0;
     _lineHeight = _prefs?.getDouble('lineHeight') ?? 1.8;
     _translation = _prefs?.getString('translation') ?? 'krv';
     _dailyVerseTime = _prefs?.getString('dailyVerseTime') ?? '07:30';
@@ -51,7 +51,7 @@ class SettingsService extends ChangeNotifier {
     await _prefs?.setString('themeMode', str); notifyListeners();
   }
 
-  Future<void> setFontSize(double size) async { _fontSize = size.clamp(14.0, 32.0); await _prefs?.setDouble('fontSize', _fontSize); notifyListeners(); }
+  Future<void> setFontSize(double size) async { _fontSize = size.clamp(14.0, 48.0); await _prefs?.setDouble('fontSize', _fontSize); notifyListeners(); }
   Future<void> setLineHeight(double h) async { _lineHeight = h.clamp(1.4, 2.6); await _prefs?.setDouble('lineHeight', _lineHeight); notifyListeners(); }
   Future<void> setTranslation(String t) async { _translation = t; await _prefs?.setString('translation', t); notifyListeners(); }
   Future<void> setDailyVerseTime(String time) async { _dailyVerseTime = time; await _prefs?.setString('dailyVerseTime', time); notifyListeners(); }

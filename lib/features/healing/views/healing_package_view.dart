@@ -68,7 +68,7 @@ class _HealingPackageViewState extends State<HealingPackageView> {
         backgroundColor: isDark ? EdenColors.backgroundDark : EdenColors.backgroundLight,
         elevation: 0,
         leading: IconButton(icon: const Icon(Icons.arrow_back_ios_new_rounded, size: 20), onPressed: () => Navigator.pop(context)),
-        title: Text('${widget.categoryEmoji} ${widget.situation.label}', style: const TextStyle(fontSize: 16)),
+        title: Text('${widget.categoryEmoji} ${widget.situation.label}', style: const TextStyle(fontSize: 18)),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -127,10 +127,10 @@ class _ComfortCard extends StatelessWidget {
           Container(width: 32, height: 32, decoration: BoxDecoration(color: EdenColors.primary.withValues(alpha: 0.15), borderRadius: BorderRadius.circular(10)),
             child: Icon(Icons.auto_awesome, size: 16, color: EdenColors.primary)),
           const SizedBox(width: 10),
-          Text('에덴이 드리는 위로', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: EdenColors.primary, letterSpacing: 1)),
+          Text('에덴이 드리는 위로', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: EdenColors.primary, letterSpacing: 1)),
         ]),
         const SizedBox(height: 18),
-        Text(message, style: TextStyle(fontSize: 16, height: 1.7, color: isDark ? EdenColors.textPrimaryDark : EdenColors.textPrimaryLight)),
+        Text(message, style: TextStyle(fontSize: 18, height: 1.7, color: isDark ? EdenColors.textPrimaryDark : EdenColors.textPrimaryLight)),
       ]),
     );
   }
@@ -148,11 +148,11 @@ class _VerseCard extends StatelessWidget {
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Row(children: [
           Icon(Icons.menu_book_rounded, size: 14, color: EdenColors.primary), const SizedBox(width: 6),
-          Text(verse.ref, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: EdenColors.primary)),
+          Text(verse.ref, style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: EdenColors.primary)),
         ]),
         const SizedBox(height: 12),
         Text(verseText.isNotEmpty ? '"$verseText"' : '"말씀을 불러오는 중..."',
-          style: TextStyle(fontSize: 17, fontStyle: FontStyle.italic, height: 1.7, color: (isDark ? EdenColors.textPrimaryDark : EdenColors.textPrimaryLight).withValues(alpha: 0.85))),
+          style: TextStyle(fontSize: 19, fontStyle: FontStyle.italic, height: 1.7, color: (isDark ? EdenColors.textPrimaryDark : EdenColors.textPrimaryLight).withValues(alpha: 0.85))),
         const SizedBox(height: 14),
         Row(children: [
           _ActionChip(icon: Icons.copy_rounded, label: '복사', onTap: () {
@@ -179,7 +179,7 @@ class _PrayerCard extends StatelessWidget {
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         _SectionLabel(icon: Icons.favorite_rounded, label: '함께 기도해요', color: EdenColors.accent, isDark: isDark),
         const SizedBox(height: 14),
-        Text(prayer, style: TextStyle(fontSize: 15, fontStyle: FontStyle.italic, height: 1.7, color: isDark ? EdenColors.textSecondaryDark : EdenColors.textSecondaryLight)),
+        Text(prayer, style: TextStyle(fontSize: 17, fontStyle: FontStyle.italic, height: 1.7, color: isDark ? EdenColors.textSecondaryDark : EdenColors.textSecondaryLight)),
       ]),
     );
   }
@@ -191,7 +191,7 @@ class _SectionLabel extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Row(children: [
     Icon(icon, size: 16, color: color), const SizedBox(width: 8),
-    Text(label, style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: color, letterSpacing: 2)),
+    Text(label, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: color, letterSpacing: 2)),
   ]);
 }
 
@@ -204,7 +204,7 @@ class _ActionChip extends StatelessWidget {
     decoration: BoxDecoration(color: EdenColors.primary.withValues(alpha: 0.08), borderRadius: BorderRadius.circular(20)),
     child: Row(mainAxisSize: MainAxisSize.min, children: [
       Icon(icon, size: 16, color: EdenColors.primary), const SizedBox(width: 6),
-      Text(label, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: EdenColors.primary)),
+      Text(label, style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: EdenColors.primary)),
     ]),
   ));
 }

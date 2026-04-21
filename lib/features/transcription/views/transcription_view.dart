@@ -111,8 +111,8 @@ class _TranscriptionViewState extends State<TranscriptionView> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('${_currentVerse + 1} / ${_verses.length}절', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: EdenColors.secondary)),
-              Text('${(progress * 100).toInt()}%', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: EdenColors.primary)),
+              Text('${_currentVerse + 1} / ${_verses.length}절', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: EdenColors.secondary)),
+              Text('${(progress * 100).toInt()}%', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: EdenColors.primary)),
             ],
           ),
         ),
@@ -151,10 +151,10 @@ class _TranscriptionViewState extends State<TranscriptionView> {
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                       decoration: BoxDecoration(color: EdenColors.primary.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(8)),
-                      child: Text('${verse.verse}절', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: EdenColors.primary)),
+                      child: Text('${verse.verse}절', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: EdenColors.primary)),
                     ),
                     const Spacer(),
-                    Text(verse.shortRef, style: TextStyle(fontSize: 11, color: EdenColors.textTertiaryLight)),
+                    Text(verse.shortRef, style: TextStyle(fontSize: 13, color: EdenColors.textTertiaryLight)),
                   ],
                 ),
                 const SizedBox(height: 16),
@@ -188,7 +188,7 @@ class _TranscriptionViewState extends State<TranscriptionView> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('위 말씀을 그대로 적어보세요', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: EdenColors.secondary, letterSpacing: 1)),
+                Text('위 말씀을 그대로 적어보세요', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: EdenColors.secondary, letterSpacing: 1)),
                 const SizedBox(height: 12),
                 Expanded(
                   child: TextField(
@@ -222,7 +222,7 @@ class _TranscriptionViewState extends State<TranscriptionView> {
               ),
               child: Text(
                 _currentVerse < _verses.length - 1 ? '다음 절로 →' : '필사 완료',
-                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
               ),
             ),
           ),
@@ -243,9 +243,9 @@ class _TranscriptionViewState extends State<TranscriptionView> {
           children: [
             Icon(Icons.check_circle_rounded, size: 80, color: EdenColors.primary),
             const SizedBox(height: 24),
-            const Text('필사 완료!', style: TextStyle(fontSize: 28, fontWeight: FontWeight.w700)),
+            const Text('필사 완료!', style: TextStyle(fontSize: 30, fontWeight: FontWeight.w700)),
             const SizedBox(height: 8),
-            Text('${book.nameKo} $_chapter장을 모두 필사했습니다', style: TextStyle(fontSize: 15, color: EdenColors.textSecondaryLight)),
+            Text('${book.nameKo} $_chapter장을 모두 필사했습니다', style: TextStyle(fontSize: 17, color: EdenColors.textSecondaryLight)),
             const SizedBox(height: 32),
 
             // 통계
@@ -297,9 +297,9 @@ class _TranscriptionViewState extends State<TranscriptionView> {
             children: [
               Container(width: 40, height: 4, decoration: BoxDecoration(color: Colors.grey.shade300, borderRadius: BorderRadius.circular(2))),
               const SizedBox(height: 16),
-              const Text('필사할 장 선택', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700)),
+              const Text('필사할 장 선택', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700)),
               const SizedBox(height: 8),
-              Text('추천: 시편, 잠언, 전도서', style: TextStyle(fontSize: 13, color: EdenColors.textSecondaryLight)),
+              Text('추천: 시편, 잠언, 전도서', style: TextStyle(fontSize: 15, color: EdenColors.textSecondaryLight)),
               const SizedBox(height: 16),
               Expanded(
                 child: ListView(
@@ -341,9 +341,9 @@ class _StatItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text(value, style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700, color: EdenColors.primary)),
+        Text(value, style: TextStyle(fontSize: 26, fontWeight: FontWeight.w700, color: EdenColors.primary)),
         const SizedBox(height: 4),
-        Text(label, style: TextStyle(fontSize: 11, color: EdenColors.textTertiaryLight, letterSpacing: 1)),
+        Text(label, style: TextStyle(fontSize: 13, color: EdenColors.textTertiaryLight, letterSpacing: 1)),
       ],
     );
   }
@@ -358,7 +358,7 @@ class _ChapterOption extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       leading: Icon(Icons.edit_note_rounded, color: EdenColors.primary),
-      title: Text(title, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500)),
+      title: Text(title, style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
       trailing: Icon(Icons.chevron_right, color: EdenColors.textTertiaryLight),
       onTap: onTap,
     );

@@ -53,7 +53,7 @@ class ShareVerseCard extends StatelessWidget {
                 Text(
                   '에덴',
                   style: TextStyle(
-                    fontSize: 11,
+                    fontSize: 13,
                     fontWeight: FontWeight.w600,
                     color: Colors.white.withValues(alpha: 0.7),
                     letterSpacing: 3,
@@ -67,7 +67,7 @@ class ShareVerseCard extends StatelessWidget {
             Text(
               '"$verseText"',
               style: const TextStyle(
-                fontSize: 22,
+                fontSize: 24,
                 fontWeight: FontWeight.w600,
                 color: Colors.white,
                 height: 1.6,
@@ -80,7 +80,7 @@ class ShareVerseCard extends StatelessWidget {
             Text(
               verseRef,
               style: TextStyle(
-                fontSize: 13,
+                fontSize: 15,
                 color: EdenColors.accentLight,
                 fontWeight: FontWeight.w500,
                 letterSpacing: 1.5,
@@ -100,7 +100,7 @@ class ShareVerseCard extends StatelessWidget {
                 child: Text(
                   message!,
                   style: TextStyle(
-                    fontSize: 13,
+                    fontSize: 15,
                     color: Colors.white.withValues(alpha: 0.85),
                     height: 1.5,
                     fontStyle: FontStyle.italic,
@@ -120,7 +120,7 @@ class ShareVerseCard extends StatelessWidget {
                 const SizedBox(width: 4),
                 Text(
                   '에덴 - AI 성경책',
-                  style: TextStyle(fontSize: 10, color: Colors.white.withValues(alpha: 0.4), letterSpacing: 1),
+                  style: TextStyle(fontSize: 12, color: Colors.white.withValues(alpha: 0.4), letterSpacing: 1),
                 ),
               ],
             ),
@@ -248,7 +248,7 @@ class _ShareIconTile extends StatelessWidget {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
-                    fontSize: 12,
+                    fontSize: 14,
                     fontWeight: FontWeight.w600,
                     color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.85),
                   ),
@@ -286,7 +286,7 @@ void showShareCardSheet(BuildContext context, {
           children: [
             Container(width: 40, height: 4, decoration: BoxDecoration(color: Colors.grey.shade300, borderRadius: BorderRadius.circular(2))),
             const SizedBox(height: 20),
-            const Text('공유 카드 미리보기', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),
+            const Text('공유 카드 미리보기', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700)),
             const SizedBox(height: 20),
 
             // 카드 미리보기
@@ -304,7 +304,7 @@ void showShareCardSheet(BuildContext context, {
             Text(
               '이미지 공유',
               style: TextStyle(
-                fontSize: 13,
+                fontSize: 15,
                 fontWeight: FontWeight.w600,
                 color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.65),
               ),
@@ -342,7 +342,7 @@ void showShareCardSheet(BuildContext context, {
               '「다른 앱」에서 인스타그램·메시지 등 시스템 공유 목록이 열립니다.',
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: 11,
+                fontSize: 13,
                 height: 1.35,
                 color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.45),
               ),

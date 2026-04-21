@@ -73,7 +73,7 @@ class _CounselViewState extends State<CounselView> {
           child: Row(children: _suggestions.map((q) => Padding(
             padding: const EdgeInsets.only(right: 8),
             child: ActionChip(
-              label: Text(q, style: TextStyle(fontSize: 13, color: isDark ? EdenColors.textPrimaryDark : EdenColors.textPrimaryLight)),
+              label: Text(q, style: TextStyle(fontSize: 15, color: isDark ? EdenColors.textPrimaryDark : EdenColors.textPrimaryLight)),
               backgroundColor: isDark ? EdenColors.surfaceVariantDark : const Color(0xFFF5F3EE),
               side: BorderSide.none,
               onPressed: () => _sendMessage(q),
@@ -102,7 +102,7 @@ class _CounselViewState extends State<CounselView> {
             child: TextField(
               controller: _controller,
               decoration: const InputDecoration(hintText: '메시지를 입력하세요...', border: InputBorder.none, contentPadding: EdgeInsets.symmetric(vertical: 12)),
-              style: const TextStyle(fontSize: 15),
+              style: const TextStyle(fontSize: 17),
               onSubmitted: _sendMessage,
               textInputAction: TextInputAction.send,
             ),
@@ -145,7 +145,7 @@ class _UserBubble extends StatelessWidget {
   Widget build(BuildContext context) => Align(alignment: Alignment.centerRight, child: Container(
     margin: const EdgeInsets.only(bottom: 16, left: 60), padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
     decoration: const BoxDecoration(color: EdenColors.primary, borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20), bottomLeft: Radius.circular(20), bottomRight: Radius.circular(4))),
-    child: Text(message.text, style: const TextStyle(fontSize: 15, color: Colors.white, height: 1.5)),
+    child: Text(message.text, style: const TextStyle(fontSize: 17, color: Colors.white, height: 1.5)),
   ));
 }
 
@@ -160,7 +160,7 @@ class _AiBubble extends StatelessWidget {
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Padding(padding: const EdgeInsets.only(bottom: 6, left: 4), child: Row(children: [
           Icon(Icons.auto_awesome, size: 14, color: EdenColors.accent), const SizedBox(width: 6),
-          Text('에덴', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: EdenColors.accent, letterSpacing: 1)),
+          Text('에덴', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: EdenColors.accent, letterSpacing: 1)),
         ])),
         Container(
           padding: const EdgeInsets.all(18),
@@ -168,23 +168,23 @@ class _AiBubble extends StatelessWidget {
             color: isDark ? EdenColors.surfaceVariantDark : const Color(0xFFF5F3EE),
             borderRadius: const BorderRadius.only(topLeft: Radius.circular(4), topRight: Radius.circular(20), bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20))),
           child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text(message.text, style: TextStyle(fontSize: 15, color: isDark ? EdenColors.textPrimaryDark : EdenColors.textPrimaryLight, height: 1.6)),
+            Text(message.text, style: TextStyle(fontSize: 17, color: isDark ? EdenColors.textPrimaryDark : EdenColors.textPrimaryLight, height: 1.6)),
             ...message.verses.map((v) => Container(
               width: double.infinity, margin: const EdgeInsets.only(top: 14), padding: const EdgeInsets.all(14),
               decoration: BoxDecoration(color: EdenColors.primary.withValues(alpha: 0.08), borderRadius: BorderRadius.circular(14), border: Border.all(color: EdenColors.primary.withValues(alpha: 0.15))),
               child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Row(children: [Icon(Icons.menu_book_rounded, size: 14, color: EdenColors.primary), const SizedBox(width: 6), Text(v['ref'] ?? '', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: EdenColors.primary))]),
+                Row(children: [Icon(Icons.menu_book_rounded, size: 14, color: EdenColors.primary), const SizedBox(width: 6), Text(v['ref'] ?? '', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: EdenColors.primary))]),
                 const SizedBox(height: 8),
-                Text(v['text'] ?? '', style: TextStyle(fontSize: 14, fontStyle: FontStyle.italic, color: (isDark ? EdenColors.textPrimaryDark : EdenColors.textPrimaryLight).withValues(alpha: 0.8), height: 1.6)),
+                Text(v['text'] ?? '', style: TextStyle(fontSize: 16, fontStyle: FontStyle.italic, color: (isDark ? EdenColors.textPrimaryDark : EdenColors.textPrimaryLight).withValues(alpha: 0.8), height: 1.6)),
               ]),
             )),
             if (message.prayerGuide != null) ...[
               const SizedBox(height: 14),
               Container(width: double.infinity, padding: const EdgeInsets.all(14), decoration: BoxDecoration(color: EdenColors.accent.withValues(alpha: 0.08), borderRadius: BorderRadius.circular(14)),
                 child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  Text('함께 기도해요', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: EdenColors.accent, letterSpacing: 1)),
+                  Text('함께 기도해요', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: EdenColors.accent, letterSpacing: 1)),
                   const SizedBox(height: 6),
-                  Text(message.prayerGuide!, style: TextStyle(fontSize: 13, fontStyle: FontStyle.italic, height: 1.6, color: isDark ? EdenColors.textSecondaryDark : EdenColors.textSecondaryLight)),
+                  Text(message.prayerGuide!, style: TextStyle(fontSize: 15, fontStyle: FontStyle.italic, height: 1.6, color: isDark ? EdenColors.textSecondaryDark : EdenColors.textSecondaryLight)),
                 ])),
             ],
           ]),

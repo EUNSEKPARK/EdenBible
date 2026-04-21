@@ -50,7 +50,7 @@ class _SearchViewState extends State<SearchView> {
               Icon(Icons.search, size: 20, color: EdenColors.textTertiaryLight), const SizedBox(width: 8),
               Expanded(child: TextField(controller: _controller, focusNode: _focusNode,
                 decoration: const InputDecoration(hintText: '성경 구절 검색...', border: InputBorder.none, contentPadding: EdgeInsets.zero, isDense: true),
-                style: const TextStyle(fontSize: 15), onSubmitted: _search, textInputAction: TextInputAction.search)),
+                style: const TextStyle(fontSize: 17), onSubmitted: _search, textInputAction: TextInputAction.search)),
               if (_controller.text.isNotEmpty)
                 GestureDetector(onTap: () { _controller.clear(); setState(() { _results = []; _lastQuery = ''; }); },
                   child: Icon(Icons.close_rounded, size: 18, color: EdenColors.textTertiaryLight)),
@@ -65,24 +65,24 @@ class _SearchViewState extends State<SearchView> {
 
   Widget _buildSuggestions(bool isDark) {
     return SingleChildScrollView(padding: const EdgeInsets.all(20), child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Text('인기 검색어', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: EdenColors.secondary, letterSpacing: 2)),
+      Text('인기 검색어', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: EdenColors.secondary, letterSpacing: 2)),
       const SizedBox(height: 14),
       Wrap(spacing: 8, runSpacing: 8, children: _popularSearches.map((keyword) => GestureDetector(
         onTap: () { _controller.text = keyword; _search(keyword); },
         child: Container(padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
           decoration: BoxDecoration(color: isDark ? EdenColors.surfaceVariantDark : const Color(0xFFF5F3EE), borderRadius: BorderRadius.circular(20)),
-          child: Text(keyword, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: isDark ? EdenColors.textPrimaryDark : EdenColors.textPrimaryLight))))).toList()),
+          child: Text(keyword, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: isDark ? EdenColors.textPrimaryDark : EdenColors.textPrimaryLight))))).toList()),
       const SizedBox(height: 32),
-      Text('검색 팁', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: EdenColors.secondary, letterSpacing: 2)),
+      Text('검색 팁', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: EdenColors.secondary, letterSpacing: 2)),
       const SizedBox(height: 10),
-      Text('키워드를 입력하면 개역한글 전체에서 검색합니다.\n결과를 탭하면 해당 장으로 이동합니다.', style: TextStyle(fontSize: 14, color: EdenColors.textSecondaryLight, height: 1.6)),
+      Text('키워드를 입력하면 개역한글 전체에서 검색합니다.\n결과를 탭하면 해당 장으로 이동합니다.', style: TextStyle(fontSize: 16, color: EdenColors.textSecondaryLight, height: 1.6)),
     ]));
   }
 
   Widget _buildResults(bool isDark) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Padding(padding: const EdgeInsets.fromLTRB(20, 8, 20, 12),
-        child: Text('${_results.length}개 구절 발견', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: EdenColors.secondary))),
+        child: Text('${_results.length}개 구절 발견', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: EdenColors.secondary))),
       Expanded(child: ListView.separated(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         itemCount: _results.length,
@@ -109,11 +109,11 @@ class _SearchResultTile extends StatelessWidget {
       child: Padding(padding: const EdgeInsets.symmetric(vertical: 14), child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Row(children: [
           Icon(Icons.menu_book_rounded, size: 14, color: EdenColors.primary), const SizedBox(width: 6),
-          Text(verse.refKo, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: EdenColors.primary)),
+          Text(verse.refKo, style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: EdenColors.primary)),
           const Spacer(),
           Container(padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
             decoration: BoxDecoration(color: EdenColors.primary.withValues(alpha: 0.08), borderRadius: BorderRadius.circular(8)),
-            child: Text(verse.category, style: TextStyle(fontSize: 10, color: EdenColors.primary, fontWeight: FontWeight.w600))),
+            child: Text(verse.category, style: TextStyle(fontSize: 12, color: EdenColors.primary, fontWeight: FontWeight.w600))),
           const SizedBox(width: 4),
           Icon(Icons.arrow_forward_ios_rounded, size: 12, color: EdenColors.textTertiaryLight),
         ]),
@@ -129,7 +129,7 @@ class _HighlightedText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (query.isEmpty) return Text(text, style: TextStyle(fontSize: 14, height: 1.6, color: isDark ? EdenColors.textPrimaryDark : EdenColors.textPrimaryLight));
+    if (query.isEmpty) return Text(text, style: TextStyle(fontSize: 16, height: 1.6, color: isDark ? EdenColors.textPrimaryDark : EdenColors.textPrimaryLight));
     final spans = <TextSpan>[];
     final lowerText = text.toLowerCase();
     final lowerQuery = query.toLowerCase();
@@ -142,6 +142,6 @@ class _HighlightedText extends StatelessWidget {
         style: TextStyle(color: EdenColors.primary, fontWeight: FontWeight.w700, backgroundColor: EdenColors.primary.withValues(alpha: 0.1))));
       start = index + query.length;
     }
-    return RichText(text: TextSpan(style: TextStyle(fontSize: 14, height: 1.6, color: isDark ? EdenColors.textPrimaryDark : EdenColors.textPrimaryLight), children: spans));
+    return RichText(text: TextSpan(style: TextStyle(fontSize: 16, height: 1.6, color: isDark ? EdenColors.textPrimaryDark : EdenColors.textPrimaryLight), children: spans));
   }
 }

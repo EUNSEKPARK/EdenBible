@@ -32,7 +32,7 @@ class _ReadingPlanViewState extends State<ReadingPlanView> {
         backgroundColor: isDark ? EdenColors.backgroundDark : EdenColors.backgroundLight,
         elevation: 0, centerTitle: true,
         leading: IconButton(icon: const Icon(Icons.arrow_back_ios_new_rounded, size: 20), onPressed: () => Navigator.pop(context)),
-        title: const Text('읽기 플랜', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w700)),
+        title: const Text('읽기 플랜', style: TextStyle(fontSize: 19, fontWeight: FontWeight.w700)),
         actions: _settings.hasReadingPlan ? [
           IconButton(icon: Icon(Icons.restart_alt_rounded, size: 22, color: EdenColors.textTertiaryLight), onPressed: _showCancelDialog, tooltip: '플랜 변경'),
         ] : null,
@@ -73,9 +73,9 @@ class _PlanSelector extends StatelessWidget {
       const SizedBox(height: 20),
       Icon(Icons.auto_stories_rounded, size: 64, color: EdenColors.primary.withValues(alpha: 0.3)),
       const SizedBox(height: 20),
-      Text('성경 통독 플랜', style: TextStyle(fontSize: 24, fontWeight: FontWeight.w800, color: isDark ? EdenColors.textPrimaryDark : EdenColors.textPrimaryLight)),
+      Text('성경 통독 플랜', style: TextStyle(fontSize: 26, fontWeight: FontWeight.w800, color: isDark ? EdenColors.textPrimaryDark : EdenColors.textPrimaryLight)),
       const SizedBox(height: 8),
-      Text('66권 1,189장을 체계적으로 읽어보세요', style: TextStyle(fontSize: 14, color: EdenColors.textTertiaryLight)),
+      Text('66권 1,189장을 체계적으로 읽어보세요', style: TextStyle(fontSize: 16, color: EdenColors.textTertiaryLight)),
       const SizedBox(height: 36),
       _PlanOptionCard(emoji: '🏃', title: '3개월 통독', subtitle: '하루 약 13장 · 빠르게 한 바퀴', description: '집중적으로 성경 전체를 빠르게 읽고 싶은 분', color: const Color(0xFFE74C3C), isDark: isDark, onTap: () => onSelect('3month')),
       const SizedBox(height: 14),
@@ -100,11 +100,11 @@ class _PlanOptionCard extends StatelessWidget {
         border: Border.all(color: color.withValues(alpha: 0.2)),
         boxShadow: [BoxShadow(color: color.withValues(alpha: 0.06), blurRadius: 12, offset: const Offset(0, 4))]),
       child: Row(children: [
-        Text(emoji, style: const TextStyle(fontSize: 36)), const SizedBox(width: 18),
+        Text(emoji, style: const TextStyle(fontSize: 38)), const SizedBox(width: 18),
         Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text(title, style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: isDark ? EdenColors.textPrimaryDark : EdenColors.textPrimaryLight)),
-          const SizedBox(height: 4), Text(subtitle, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: color)),
-          const SizedBox(height: 4), Text(description, style: TextStyle(fontSize: 11, color: EdenColors.textTertiaryLight)),
+          Text(title, style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700, color: isDark ? EdenColors.textPrimaryDark : EdenColors.textPrimaryLight)),
+          const SizedBox(height: 4), Text(subtitle, style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: color)),
+          const SizedBox(height: 4), Text(description, style: TextStyle(fontSize: 13, color: EdenColors.textTertiaryLight)),
         ])),
         Icon(Icons.arrow_forward_ios_rounded, size: 16, color: color.withValues(alpha: 0.5)),
       ]),
@@ -132,20 +132,20 @@ class _PlanDashboard extends StatelessWidget {
           Row(children: [
             Container(padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
               decoration: BoxDecoration(color: Colors.white.withValues(alpha: 0.2), borderRadius: BorderRadius.circular(12)),
-              child: Text(settings.planLabel, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: Colors.white))),
+              child: Text(settings.planLabel, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: Colors.white))),
             const Spacer(),
-            Text('D+${settings.planElapsedDays}', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Colors.white.withValues(alpha: 0.7))),
+            Text('D+${settings.planElapsedDays}', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Colors.white.withValues(alpha: 0.7))),
           ]),
           const SizedBox(height: 20),
           Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
-            Text('$percent', style: const TextStyle(fontSize: 52, fontWeight: FontWeight.w800, color: Colors.white, height: 1)),
+            Text('$percent', style: const TextStyle(fontSize: 54, fontWeight: FontWeight.w800, color: Colors.white, height: 1)),
             const SizedBox(width: 4),
-            Padding(padding: const EdgeInsets.only(bottom: 8), child: Text('%', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600, color: Colors.white.withValues(alpha: 0.7)))),
+            Padding(padding: const EdgeInsets.only(bottom: 8), child: Text('%', style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600, color: Colors.white.withValues(alpha: 0.7)))),
             const Spacer(),
             Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
-              Text('$readCount / $totalCount장', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Colors.white.withValues(alpha: 0.9))),
+              Text('$readCount / $totalCount장', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.white.withValues(alpha: 0.9))),
               const SizedBox(height: 2),
-              Text('남은 일수 ${settings.planRemainingDays}일', style: TextStyle(fontSize: 11, color: Colors.white.withValues(alpha: 0.6))),
+              Text('남은 일수 ${settings.planRemainingDays}일', style: TextStyle(fontSize: 13, color: Colors.white.withValues(alpha: 0.6))),
             ]),
           ]),
           const SizedBox(height: 16),
@@ -164,7 +164,7 @@ class _PlanDashboard extends StatelessWidget {
       ]))),
 
       SliverToBoxAdapter(child: Padding(padding: const EdgeInsets.fromLTRB(20, 28, 20, 12),
-        child: Text('구약 (39권)', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w800, color: EdenColors.secondary, letterSpacing: 2)))),
+        child: Text('구약 (39권)', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w800, color: EdenColors.secondary, letterSpacing: 2)))),
 
       SliverPadding(padding: const EdgeInsets.symmetric(horizontal: 20),
         sliver: SliverList(delegate: SliverChildBuilderDelegate((context, index) {
@@ -174,7 +174,7 @@ class _PlanDashboard extends StatelessWidget {
         }, childCount: 39))),
 
       SliverToBoxAdapter(child: Padding(padding: const EdgeInsets.fromLTRB(20, 28, 20, 12),
-        child: Text('신약 (27권)', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w800, color: EdenColors.accent, letterSpacing: 2)))),
+        child: Text('신약 (27권)', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w800, color: EdenColors.accent, letterSpacing: 2)))),
 
       SliverPadding(padding: const EdgeInsets.symmetric(horizontal: 20),
         sliver: SliverList(delegate: SliverChildBuilderDelegate((context, index) {
@@ -197,9 +197,9 @@ class _MiniStat extends StatelessWidget {
       decoration: BoxDecoration(color: isDark ? EdenColors.surfaceVariantDark : const Color(0xFFF5F3EE), borderRadius: BorderRadius.circular(16)),
       child: Column(children: [
         Icon(icon, size: 20, color: color), const SizedBox(height: 6),
-        Text(value, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800, color: isDark ? EdenColors.textPrimaryDark : EdenColors.textPrimaryLight)),
+        Text(value, style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800, color: isDark ? EdenColors.textPrimaryDark : EdenColors.textPrimaryLight)),
         const SizedBox(height: 2),
-        Text(label, style: TextStyle(fontSize: 9, color: EdenColors.textTertiaryLight, letterSpacing: 0.5)),
+        Text(label, style: TextStyle(fontSize: 11, color: EdenColors.textTertiaryLight, letterSpacing: 0.5)),
       ])));
   }
 }
@@ -246,10 +246,10 @@ class _BookCheckRowState extends State<_BookCheckRow> {
               child: _allRead ? const Icon(Icons.check_rounded, size: 16, color: Colors.white) : null),
             const SizedBox(width: 12),
             Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text(book.nameKo, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600,
+              Text(book.nameKo, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600,
                 color: _allRead ? EdenColors.primary : (widget.isDark ? EdenColors.textPrimaryDark : EdenColors.textPrimaryLight))),
               const SizedBox(height: 2),
-              Text('$readCount / ${book.chapterCount}장', style: TextStyle(fontSize: 11, color: EdenColors.textTertiaryLight)),
+              Text('$readCount / ${book.chapterCount}장', style: TextStyle(fontSize: 13, color: EdenColors.textTertiaryLight)),
             ])),
             SizedBox(width: 60, child: ClipRRect(borderRadius: BorderRadius.circular(3), child: LinearProgressIndicator(value: progress, minHeight: 5,
               backgroundColor: (widget.isDark ? Colors.white : Colors.black).withValues(alpha: 0.06),
@@ -283,7 +283,7 @@ class _BookCheckRowState extends State<_BookCheckRow> {
                   color: isRead ? EdenColors.primary.withValues(alpha: 0.15) : (widget.isDark ? EdenColors.surfaceDark : const Color(0xFFF5F3EE)),
                   borderRadius: BorderRadius.circular(8),
                   border: isRead ? Border.all(color: EdenColors.primary.withValues(alpha: 0.3)) : null),
-                child: Center(child: Text('$ch', style: TextStyle(fontSize: 12,
+                child: Center(child: Text('$ch', style: TextStyle(fontSize: 14,
                   fontWeight: isRead ? FontWeight.w700 : FontWeight.w400,
                   color: isRead ? EdenColors.primary : EdenColors.textTertiaryLight)))),
             );

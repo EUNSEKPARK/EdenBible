@@ -66,7 +66,7 @@ class _NavItem extends StatelessWidget {
           children: [
             Icon(isActive ? filledIcon : icon, size: 26, color: isActive ? EdenColors.primary : EdenColors.secondary.withValues(alpha: 0.7)),
             const SizedBox(height: 4),
-            Text(label, style: TextStyle(fontSize: 11, fontWeight: isActive ? FontWeight.w700 : FontWeight.w400, color: isActive ? EdenColors.primary : EdenColors.secondary.withValues(alpha: 0.7))),
+            Text(label, style: TextStyle(fontSize: 13, fontWeight: isActive ? FontWeight.w700 : FontWeight.w400, color: isActive ? EdenColors.primary : EdenColors.secondary.withValues(alpha: 0.7))),
           ],
         ),
       ),
