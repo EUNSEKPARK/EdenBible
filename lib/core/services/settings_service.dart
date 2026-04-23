@@ -24,8 +24,14 @@ class SettingsService extends ChangeNotifier {
   List<String> get bookmarks => List.unmodifiable(_bookmarks);
 
   Future<void> init() async {
-    _prefs = await SharedPreferences.getInstance();
-    _loadSettings();
+    try {
+      _prefs = await SharedPreferences.getInstance();
+      _loadSettings();
+    } catch (e, stack) {
+      // SharedPreferences 초기화 실패 시 기본값으로 동작 (앱 크래시 방지)
+      debugPrint('SettingsService 초기화 실패: $e\n$stack');
+      _prefs = null;
+    }
   }
 
   void _loadSettings() {

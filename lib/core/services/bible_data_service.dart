@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import '../models/bible_verse.dart';
 
@@ -18,34 +19,42 @@ class BibleDataService {
   Future<void> loadBibleData() async {
     if (_loaded) return;
 
-    final indexJson = await rootBundle.loadString('assets/data/books_index.json');
-    final indexData = json.decode(indexJson) as Map<String, dynamic>;
-    _books = (indexData['books'] as List)
-        .map((b) => BibleBook.fromJson(b as Map<String, dynamic>))
-        .toList();
+    try {
+      final indexJson = await rootBundle.loadString('assets/data/books_index.json');
+      final indexData = json.decode(indexJson) as Map<String, dynamic>;
+      _books = (indexData['books'] as List)
+          .map((b) => BibleBook.fromJson(b as Map<String, dynamic>))
+          .toList();
 
-    final bibleJson = await rootBundle.loadString('assets/data/bible_full.json');
-    final bibleData = json.decode(bibleJson) as Map<String, dynamic>;
-    final booksData = bibleData['books'] as List;
+      final bibleJson = await rootBundle.loadString('assets/data/bible_full.json');
+      final bibleData = json.decode(bibleJson) as Map<String, dynamic>;
+      final booksData = bibleData['books'] as List;
 
-    for (final book in booksData) {
-      final bookId = book['id'] as int;
-      final chapters = <List<Map<String, dynamic>>>[];
+      for (final book in booksData) {
+        final bookId = book['id'] as int;
+        final chapters = <List<Map<String, dynamic>>>[];
 
-      for (final chapter in (book['chapters'] as List)) {
-        final verses = <Map<String, dynamic>>[];
-        for (final verse in (chapter['verses'] as List)) {
-          final v = Map<String, dynamic>.from(verse as Map);
-          if (v['krv'] is String) v['krv'] = _cleanText(v['krv'] as String);
-          if (v['kjv'] is String) v['kjv'] = _cleanText(v['kjv'] as String);
-          verses.add(v);
+        for (final chapter in (book['chapters'] as List)) {
+          final verses = <Map<String, dynamic>>[];
+          for (final verse in (chapter['verses'] as List)) {
+            final v = Map<String, dynamic>.from(verse as Map);
+            if (v['krv'] is String) v['krv'] = _cleanText(v['krv'] as String);
+            if (v['kjv'] is String) v['kjv'] = _cleanText(v['kjv'] as String);
+            verses.add(v);
+          }
+          chapters.add(verses);
         }
-        chapters.add(verses);
+        _chapters[bookId] = chapters;
       }
-      _chapters[bookId] = chapters;
-    }
 
-    _loaded = true;
+      _loaded = true;
+    } catch (e, stack) {
+      debugPrint('성경 데이터 로드 실패: $e\n$stack');
+      _books = [];
+      _chapters = {};
+      _loaded = false;
+      rethrow;
+    }
   }
 
   String _cleanText(String text) {

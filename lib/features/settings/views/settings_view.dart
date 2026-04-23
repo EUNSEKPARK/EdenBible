@@ -41,13 +41,24 @@ class _SettingsViewState extends State<SettingsView> {
       )),
     );
     if (source == null) return;
-    final picked = await picker.pickImage(source: source, maxWidth: 512, maxHeight: 512, imageQuality: 80);
-    if (picked == null) return;
-    final dir = await getApplicationDocumentsDirectory();
-    final ext = picked.path.split('.').last;
-    final savePath = '${dir.path}/profile_image.$ext';
-    await File(picked.path).copy(savePath);
-    await _settings.setProfileImagePath(savePath);
+    try {
+      final picked = await picker.pickImage(source: source, maxWidth: 512, maxHeight: 512, imageQuality: 80);
+      if (picked == null) return;
+      final dir = await getApplicationDocumentsDirectory();
+      final ext = picked.path.split('.').last;
+      final savePath = '${dir.path}/profile_image.$ext';
+      await File(picked.path).copy(savePath);
+      await _settings.setProfileImagePath(savePath);
+    } catch (e) {
+      debugPrint('프로필 사진 저장 실패: $e');
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('사진을 저장할 수 없습니다. 권한을 확인해 주세요.'),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+    }
   }
 
   void _editNickname() {
@@ -228,19 +239,49 @@ class _SettingsViewState extends State<SettingsView> {
 
         Container(padding: const EdgeInsets.all(18), decoration: BoxDecoration(color: isDark ? EdenColors.surfaceVariantDark : const Color(0xFFF5F3EE), borderRadius: BorderRadius.circular(16)),
           child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Row(children: [Icon(Icons.format_size, color: EdenColors.secondary), const SizedBox(width: 14), const Text('글자 크기', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)), const Spacer(), Text('${_settings.fontSize.toInt()}pt', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: EdenColors.primary))]),
+            Row(children: [
+              Icon(Icons.format_size, color: EdenColors.secondary),
+              const SizedBox(width: 14),
+              const Text('글자 크기', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
+              const Spacer(),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                decoration: BoxDecoration(color: EdenColors.primary.withValues(alpha: 0.12), borderRadius: BorderRadius.circular(10)),
+                child: Text('${_settings.fontSize.toInt()}pt',
+                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: EdenColors.primary)),
+              ),
+            ]),
             const SizedBox(height: 10),
             Slider(value: _settings.fontSize, min: 14, max: 48, divisions: 34, activeColor: EdenColors.primary, inactiveColor: EdenColors.secondary.withValues(alpha: 0.2), onChanged: (v) => _settings.setFontSize(v)),
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+              Text('작게 (14)', style: TextStyle(fontSize: 12, color: EdenColors.textTertiaryLight)),
+              Text('크게 (48)', style: TextStyle(fontSize: 12, color: EdenColors.textTertiaryLight)),
+            ]),
           ])),
         const SizedBox(height: 10),
 
         Container(padding: const EdgeInsets.all(18), decoration: BoxDecoration(color: isDark ? EdenColors.surfaceVariantDark : const Color(0xFFF5F3EE), borderRadius: BorderRadius.circular(16)),
           child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Row(children: [Icon(Icons.format_line_spacing_rounded, color: EdenColors.secondary), const SizedBox(width: 14), const Text('줄 간격', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)), const Spacer(),
-              Text(_settings.lineHeight <= 1.5 ? '좁게' : _settings.lineHeight <= 1.9 ? '보통' : _settings.lineHeight <= 2.2 ? '넓게' : '아주 넓게',
-                style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: EdenColors.primary))]),
+            Row(children: [
+              Icon(Icons.format_line_spacing_rounded, color: EdenColors.secondary),
+              const SizedBox(width: 14),
+              const Text('줄 간격', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
+              const Spacer(),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                decoration: BoxDecoration(color: EdenColors.primary.withValues(alpha: 0.12), borderRadius: BorderRadius.circular(10)),
+                child: Text(
+                  '${_settings.lineHeight <= 1.5 ? '좁게' : _settings.lineHeight <= 1.9 ? '보통' : _settings.lineHeight <= 2.2 ? '넓게' : '아주 넓게'} (${_settings.lineHeight.toStringAsFixed(1)})',
+                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: EdenColors.primary),
+                ),
+              ),
+            ]),
             const SizedBox(height: 10),
             Slider(value: _settings.lineHeight, min: 1.4, max: 2.6, divisions: 6, activeColor: EdenColors.primary, inactiveColor: EdenColors.secondary.withValues(alpha: 0.2), onChanged: (v) => _settings.setLineHeight(v)),
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+              Text('좁게 (1.4)', style: TextStyle(fontSize: 12, color: EdenColors.textTertiaryLight)),
+              Text('아주 넓게 (2.6)', style: TextStyle(fontSize: 12, color: EdenColors.textTertiaryLight)),
+            ]),
           ])),
         const SizedBox(height: 10),
 
@@ -283,7 +324,7 @@ class _SettingsViewState extends State<SettingsView> {
           child: _tile(isDark: isDark, icon: Icons.help_outline_rounded, label: '사용법 튜토리얼', subtitle: '앱 사용 설명을 다시 볼 수 있어요', trailing: Icon(Icons.chevron_right, color: EdenColors.textTertiaryLight))),
         const SizedBox(height: 10),
 
-        _tile(isDark: isDark, icon: Icons.info_outline, label: '버전', subtitle: '1.0.0 (Build 1)', trailing: const SizedBox()),
+        _tile(isDark: isDark, icon: Icons.info_outline, label: '버전', subtitle: '1.0.4 (Build 5)', trailing: const SizedBox()),
         const SizedBox(height: 10),
         _tile(isDark: isDark, icon: Icons.menu_book_outlined, label: '성경 데이터', subtitle: '개역한글 27,121절 + KJV 31,102절', trailing: const SizedBox()),
         const SizedBox(height: 100),

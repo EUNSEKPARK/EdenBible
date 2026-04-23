@@ -48,6 +48,16 @@ class _ProjectEdenAppState extends State<ProjectEdenApp> {
       theme: EdenTheme.light(),
       darkTheme: EdenTheme.dark(),
       themeMode: widget.settings.themeMode,
+      builder: (context, child) {
+        // 기기 접근성 폰트 배율을 1.0~1.3 범위로 제한
+        // (앱 자체에서 글자 크기 조절이 가능하므로 과도한 배율로 레이아웃 붕괴 방지)
+        final mq = MediaQuery.of(context);
+        final clamped = mq.textScaler.clamp(minScaleFactor: 1.0, maxScaleFactor: 1.3);
+        return MediaQuery(
+          data: mq.copyWith(textScaler: clamped),
+          child: child!,
+        );
+      },
       home: const EdenSplash(),
     );
   }
